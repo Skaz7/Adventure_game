@@ -1,2 +1,0 @@
-To jest pierwszy plik dodany do repozytorium
-Git nie jest trudny.
