@@ -1,300 +1,46 @@
-Aardvark
-Wilk ziemny
-Słoń afrykański
-Łuskowiec afrykański
-Aligator
-Alpaka
-Mrówkojad
-Antylopa
+Wilk
+Słoń
 Małpa
-Koń Arabski
-Pancernik
-Stawonogi
-Słoń azjatycki
 Pawian
 Borsuk
-Bandicoot
-Bransoletka Tygrys
+Tygrys
 Nietoperz
-Brodaty smok
-Bóbr
-Wieloryb bieługi
-Tygrys bengalski
-Owca rogata
-Koziołek Bill
+Smok
 Ptak
 Bizon
 Czarny niedźwiedź
-Nosorożec czarnonogi
-Czarna Małpa Wyjec
-Czarny nosorożec
-Żarłacz czarnopłetwy
-Żarłacz błękitny
-Płetwal błękitny
+Nosorożec
 Dzik
-Ryś amerykański
-Bonobo
-Delfin butlonosy
-Wieloryb butlonosy
+Ryś
 Brązowy niedźwiedź
 Bawół
 Byk
-Żaba byka
-Jaszczurka Kajmana
-Wielbłąd
-Małpka kapucynka
-Kapibara
-Karibu
+Jaszczur
 Kot
 Byk
 Gepard
 Szympans
-Szynszyla
-Wiewiórka
-Delfin zwyczajny
-Foka pospolita
-Koral
 Puma
-Krowa
 Kojot
-Krokodyl
-Skorupiak
-Dart żaba
-Jeleń
-Degus
-Dingo
 Pies
-Rekin
-Delfin
-Osioł
-Mysz
-Koszatka
-Koń pociągowy
-Dziobak kaczodzioba
-Dugong
-Ciemny rekin
-Słoń
-Słoń morski
 Łoś
-Gronostaj
-Ryś euroazjatycki
-Fretka
-Ryba
-Florydzka Pantera
-Latający lis
 Lis
-Krokodyl słodkowodny
-Żaba
-Futrzasta foka
-Legwan lądowy z Galapagos
-Rekin z Galapagos
-Żółw Galapagos
-Gazela
-Gekon
-Gigantyczny Mrówkojad
-Panda wielka
-Gibon
-Żyrafa
-Koza
-Suseł
+Panda
 Goryl
-Szary Lis
-Szary pielęgniarz rekin
-Szary rekin rafowy
-Szary wieloryb
-Wielki biały rekin
-Zielona Żaba
-Zielony Żółw Morski
 Niedźwiedź grizzly
-Świstak
-Świnka morska
-Wombat włochaty
-Rekin młot
-Morświn
-Foka pospolita
-Zając
-Hawajska foka mnicha
-Jeż
-Hipopotam
-Rekin rogaty
-Koń
-Wyjce Małpy
-Humbak
 Hiena
-Góralek
-Legwan
-Iguanodon
-Impala
-Owad
 Szakal
 Jaguar
-Meduza
-Kangur
-Niedźwiedź Kermode
-Orka
-Koala
-Waran z Komodo
-Kookaburra
-Lama
-Owieczka
-Lancelet
-Żółw morski skórzasty
-Leming
-Rekin cytrynowy
-Lemur
 Lampart
-Gekon tygrysi
-Lampart morski
-Rekin lamparta
 Lew
-Lama
-Żółwie karłowate
-Ryś
-Mako rekin
-Krowa morska
-Płaszczka
-Modliszka
-Salamandra marmurkowa
-Świstak
-Torbacz
-Surykatka
-Rekin megagębowy
-Wieloryb z melonem
-Miniaturowy Osioł
-Norka
-Płetwal karłowaty
-Kret
-Salamandra kretowata
-Mięczak
-Mangusta
-Małpa
-Łoś
-Lew górski
-Mysz
-Muł
-Wół piżmowy
-Piżmak
 Jednorożec
-Łodzik
-Traszka
-Wieloryb północny
-Rekin wąsaty
-Nutria
-Nyala
-Ocelot
-Ośmiornica
-Okapi
-Opos
 Orangutan
-Orka
-Wydra
-Wół
-Panda
 Pantera
-Świnia
-Wieloryb
-Kuna leśna
-Dziobak
-Niedźwiedź polarny
-Jeżozwierz
-Morświn
-Opos
-Świnia brzuchata
-Potto
-Piesek preriowy
-Małpa
-Dziki koń
 Puma
-Hipopotam karłowaty
-Wieloryb karłowaty
-Kaszalot karłowaty
-Kuoka
-Niełasy
-Królik
-Szop pracz
 Szczur
-Promień
-Czerwony lis
-Czerwony Kangur
-Czerwona panda
-Rzekotka Rzekotka
-Rekin rafowy
-Renifer
-Nosorożec
-Prawy wieloryb
-Delfin Risso
-Delfin rzeczny
-Salamandra
-Rekin piaskowy
-Rekin Młotowaty
-Lew morski
-Żółw morski
-Foka
-Wieloryb Sei
-Rekin
-Owca
-Mako Rekin krótkopłetwy
-Tygrys syberyjski
-Jedwabisty rekin
-Skink
-Skunks
-Smukły Loris
-Leniwiec
 Wąż
-Snieżny Lis
-Zając Śnieżny
-Pantera śnieżna
-Śnieżna Małpa
-Somalijski dzik
-Niedźwiedź
-Kaszalot
-Pająk Małpa
-Kolenia Rekin
-Delfin cętkowany
-Wiewiórka
-Gwiazdonosy Kret
-Gwiezdny lew morski
-Delfin pręgowany
-Niedźwiedź słoneczny
-Takin
-Długouszka
-Tapir
 Diabeł tasmański
-Tygrys tasmański
-Żółw wodny
-Rekin kosogona
-Tygrys
-Salamandra Tygrysia
-Żarłacz tygrysi
-Topi
-Żółw
-Żaba nadrzewna
-Uakari
 Nietoperz wampir
-Świstak z wyspy Vancouver
-Koczkodan Małpa
-Wigoń
-Szlem
-Walabia
-Mors
 Guziec
-Wodny bawół
-Łasica
-Rekin wielorybi
-Wieloryb
-Nosorożec biały
-Sarna z bialym ogonem
-Delfin białonosy
-Żarłacz białopłetwy
-Żbik
-Gnu
-Rekin Wobbegong
 Wilk
 Rosomak
-Wombat
-Świstak amerykański
-Jak
-Świstak żółtobrzuchy
-Zebra
-Zebu
-Zorilla

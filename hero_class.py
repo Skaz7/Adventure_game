@@ -1,9 +1,9 @@
 class Hero:
-    def __init__(self, Hname, Hhealth, Hattack, Hdefence, Hranged, Hmagic, Hluck):
+    def __init__(self, Hname, Hhealth, Hattack, Hdefense, Hranged, Hmagic, Hluck):
         self.name = Hname
         self.health = Hhealth
         self.attack = Hattack
-        self.defence = Hdefence
+        self.defense = Hdefense
         self.ranged = Hranged
         self.magic = Hmagic
         self.luck = Hluck
