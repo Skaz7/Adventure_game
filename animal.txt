@@ -8,11 +8,11 @@ Nietoperz
 Smok
 Ptak
 Bizon
-Czarny niedźwiedź
+Czarny Niedźwiedź
 Nosorożec
 Dzik
 Ryś
-Brązowy niedźwiedź
+Brązowy Niedźwiedź
 Bawół
 Byk
 Jaszczur
@@ -27,7 +27,7 @@ Pies
 Lis
 Panda
 Goryl
-Niedźwiedź grizzly
+Niedźwiedź Grizzly
 Hiena
 Szakal
 Jaguar
@@ -39,8 +39,8 @@ Pantera
 Puma
 Szczur
 Wąż
-Diabeł tasmański
-Nietoperz wampir
+Diabeł Ttasmański
+Nietoperz Wampir
 Guziec
 Wilk
 Rosomak

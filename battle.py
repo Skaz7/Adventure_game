@@ -1,9 +1,13 @@
 import time
-from temp import clear_screen
+from main import *
+from create_characters import *
 
 clear_screen()
-hero_name = input('\nPodaj swoje imię: ')
-print(f'\n\nWitaj, {hero_name.title()}\n\n')
-time.sleep(1)
-print(f'\n\nRozpoczyna się walka z Goblinem!')
-time.sleep(1)
+print('''\n                     ###########################
+                     #  ROZPOCZYNA SIĘ WALKA!  #
+                     ###########################\n\n'''
+)
+
+draw_enemy()
+
+print(Ename)
