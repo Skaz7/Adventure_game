@@ -1,6 +1,3 @@
-import random
-import math
-
 class Enemy:
     def __init__(self, Ename, Ehealth, Eattack, Edefense, Emagicdefense, Echance):
         self.name = Ename

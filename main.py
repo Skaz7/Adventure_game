@@ -1,28 +1,61 @@
-import random
 import os
 import time
-from enemy_class import Enemy
-from hero_class import Hero
+from create_characters import create_player_character, create_enemy
 
 def clear_screen():
     os.system('cls')
 
-enemy_max_health = 500
-enemy_actual_health = 500
-enemy_health_bar = '=' * int(enemy_actual_health / 10)
 
-print(f"\nEnemy's health:\n [{enemy_health_bar}", " " * int((enemy_max_health - enemy_actual_health)/10), "]", sep="")
+def battle():
+    while enemy.getHealth() > 0:
+        clear_screen()
+        print('''\n                     #####################
+                     #    TRWA WALKA!    #
+                     #####################\n\n'''
+    )
+        print(f'\nBohater - {player.getName()}:')
+        print(f'\n{"Zdrowie:":16} {player.getHealth()}')
+        print(f'{"Atak:":16} {player.getAttack()}')
+        print(f'{"Obrona:":16} {player.getDefense()}')
+        print(f'{"Atak dystansowy:":16} {player.getRanged()}')
+        print(f'{"Magia:":16} {player.getMagic()}')
+        print(f'{"Szczęście:":16} {player.getLuck()}\n\n')
+        print(f'\n\nPrzeciwnik - {enemy.getName()}')
+        print(f'\n{"Zdrowie":17} {enemy.getHealth()}')
+        print(f'{"Atak":17} {enemy.getAttack()}')
+        print(f'{"Obrona":17} {enemy.getDefense()}')
+        print(f'{"Obrona magiczna:":17} {enemy.getMagicdefense()}')
+        print(f'{"Szansa trafienia:":17} {enemy.getChance()}\n\n')
+        print(f'\nMożliwe akcje:')
+        print(f'\t1 - atak fizyczny')
+        print(f'\t2 - atak dystansowy')
+        print(f'\t3 - atak magiczny')
+        print(f'\t4 - obrona')
+        print(f'\t5 - ucieczka')
+        print(f'\nCo robisz?')
+        
+        battle_action = input('> ')
 
+        if battle_action == '1':
+            dmg = player.getAttack() - enemy.getDefense() 
+            print(f'\n Zadałeś przeciwnikowi {dmg} obrażeń.')
+            enemy.setHealth(enemy.getHealth() - dmg)
+            time.sleep(1)
+        elif battle_action == '2':
+            pass
+        elif battle_action == '3':
+            pass
+        elif battle_action == '4':
+            pass
+        elif battle_action == '5':
+            quit()
+        else:
+            print('Wybierz opcję z zakresu 1 - 5!')
+    print('\n\n\t\t\t\tZWYCIĘSTWO !!!')
 
-hero_max_health = 400
-hero_actual_health = random.randint(200, hero_max_health)
-hero_health_bar = '=' * int(hero_actual_health / 10)
+clear_screen()
 
-if hero_actual_health < hero_max_health * 0.3:
-    health_bar_color = '\033[0;31m'
-elif hero_actual_health >= hero_max_health * 0.3 and hero_actual_health < hero_max_health * 0.7:
-    health_bar_color = '\033[0;33m'
-elif hero_actual_health >= hero_max_health * 0.7:
-    health_bar_color = '\033[0;32m'
+player = create_player_character()
+enemy = create_enemy()
 
-# print(f"Hero's health:\n {health_bar_color}[{hero_health_bar}", " " * int((hero_max_health - hero_actual_health)/10), "]", sep="")
+battle()

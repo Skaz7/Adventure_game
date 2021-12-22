@@ -37,4 +37,3 @@ class Hero:
         self.magic = newMagic
     def setLuck(self,newLuck):
         self.luck = newLuck
-    

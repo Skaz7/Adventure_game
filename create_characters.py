@@ -1,13 +1,12 @@
 from hero_class import Hero
 from enemy_class import Enemy
-from main import clear_screen
 import random
-import os
+
 
 # Create player character
 def create_player_character():
     Hname = input('\nPodaj swoje imię: ').title()
-
+    
     Hhealth = 400
     Hattack = random.randint(10,20)
     Hdefense = random.randint(10,20)
@@ -15,14 +14,7 @@ def create_player_character():
     Hmagic = random.randint(10,20)
     Hluck = random.randint(10,20)
 
-    player = Hero(Hname, Hhealth, Hattack, Hdefense, Hranged, Hmagic, Hluck)
-    print(f'\nBohater - {player.getName()}:')
-    print(f'\n{"Zdrowie:":16} {player.getHealth()}')
-    print(f'{"Atak:":16} {player.getAttack()}')
-    print(f'{"Obrona:":16} {player.getDefense()}')
-    print(f'{"Atak dystansowy:":16} {player.getRanged()}')
-    print(f'{"Magia:":16} {player.getMagic()}')
-    print(f'{"Szczęście:":16} {player.getLuck()}\n\n')
+    return Hero(Hname, Hhealth, Hattack, Hdefense, Hranged, Hmagic, Hluck)
 
 
 # Create enemy character
@@ -36,22 +28,13 @@ def create_enemy():
         lines2 = animal_file.readlines()
         animal = lines2[random.randint(0, len(lines2)-1)][:-1]
 
-    health = random.randint(200,250)
+    health = random.randint(30,50)
     attack = random.randint(5,10)
     defense = random.randint(5,10)
     magicdefense = random.randint(5,10)
     chance = random.randint(50,100)
 
     return Enemy(adjective + ' ' + animal, health, attack, defense, magicdefense, chance)
-
-enemy = create_enemy()
-
-print(f'\n\nPrzeciwnik - {enemy.getName()}')
-print(f'\n{"Zdrowie":17} {enemy.getHealth()}')
-print(f'{"Atak":17} {enemy.getAttack()}')
-print(f'{"Obrona":17} {enemy.getDefense()}')
-print(f'{"Obrona magiczna:":17} {enemy.getMagicdefense()}')
-print(f'{"Szansa trafienia:":17} {enemy.getChance()}\n\n')
 
 
 # Create health bars for battle
