@@ -7,7 +7,3 @@ print('''\n                     ###########################
                      #  ROZPOCZYNA SIĘ WALKA!  #
                      ###########################\n\n'''
 )
-
-draw_enemy()
-
-print(Ename)

@@ -2,12 +2,13 @@ import random
 import math
 
 class Enemy:
-    def __init__(self, Ename, Ehealth, Eattack, Edefense, Emagicdefense):
+    def __init__(self, Ename, Ehealth, Eattack, Edefense, Emagicdefense, Echance):
         self.name = Ename
         self.health = Ehealth
         self.attack = Eattack
         self.defense = Edefense
         self.magicdefense = Emagicdefense
+        self.chance = Echance
 
 
     # getters for enemy class
@@ -25,6 +26,9 @@ class Enemy:
     
     def getMagicdefense(self):
         return self.magicdefense
+    
+    def getChance(self):
+        return self.chance
 
     
     # setters for enemy class
@@ -42,3 +46,6 @@ class Enemy:
     
     def setMagicdefense(self, newMagicdefense):
         self.magicdefense = newMagicdefense
+
+    def setChance(self, newChance):
+        self.chance = newChance
