@@ -1,12 +1,12 @@
 class Hero:
-    def __init__(self, Hname, Hhealth, Hattack, Hdefense, Hranged, Hmagic, Hluck):
+    def __init__(self, Hname, Hhealth, Hattack, Hdefense, Hmagic, Hluck, Hmoney):
         self.name = Hname
         self.health = Hhealth
         self.attack = Hattack
         self.defense = Hdefense
-        self.ranged = Hranged
         self.magic = Hmagic
         self.luck = Hluck
+        self.money = Hmoney
     
     # getters - for returning actual hero stats
     def getName(self):
@@ -17,12 +17,12 @@ class Hero:
         return self.attack
     def getDefense(self):
         return self.defense
-    def getRanged(self):
-        return self.ranged
     def getMagic(self):
         return self.magic
     def getLuck(self):
         return self.luck
+    def getMoney(self):
+        return self.money
     
     # setters - used to change the variable (for example health)
     def setHealth(self, newHealth):
@@ -31,9 +31,9 @@ class Hero:
         self.attack = newAttack
     def setDefense(self, newDefense):
         self.defense = newDefense
-    def setRanged(self, newRanged):
-        self.ranged = newRanged
     def setMagic(self, newMagic):
         self.magic = newMagic
     def setLuck(self,newLuck):
         self.luck = newLuck
+    def setMoney(self,newMoney):
+        self.money = newMoney

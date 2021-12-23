@@ -7,14 +7,14 @@ import random
 def create_player_character():
     Hname = input('\nPodaj swoje imię: ').title()
     
-    Hhealth = 400
+    Hhealth = 200
     Hattack = random.randint(10,20)
     Hdefense = random.randint(10,20)
-    Hranged = random.randint(10,20)
     Hmagic = random.randint(10,20)
     Hluck = random.randint(10,20)
+    Hmoney = random.randint(10,20)
 
-    return Hero(Hname, Hhealth, Hattack, Hdefense, Hranged, Hmagic, Hluck)
+    return Hero(Hname, Hhealth, Hattack, Hdefense, Hmagic, Hluck, Hmoney)
 
 
 # Create enemy character
@@ -28,11 +28,11 @@ def create_enemy():
         lines2 = animal_file.readlines()
         animal = lines2[random.randint(0, len(lines2)-1)][:-1]
 
-    health = random.randint(30,50)
+    health = random.randint(100, 150)
     attack = random.randint(5,10)
     defense = random.randint(5,10)
     magicdefense = random.randint(5,10)
-    chance = random.randint(50,100)
+    chance = random.randint(10,20)
 
     return Enemy(adjective + ' ' + animal, health, attack, defense, magicdefense, chance)
 

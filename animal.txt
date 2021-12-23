@@ -1,6 +1,5 @@
 Wilk
 Słoń
-Małpa
 Pawian
 Borsuk
 Tygrys
@@ -16,27 +15,21 @@ Brązowy Niedźwiedź
 Bawół
 Byk
 Jaszczur
-Kot
 Byk
 Gepard
 Szympans
-Puma
 Kojot
 Pies
 Łoś
 Lis
-Panda
 Goryl
 Niedźwiedź Grizzly
-Hiena
 Szakal
 Jaguar
 Lampart
 Lew
 Jednorożec
 Orangutan
-Pantera
-Puma
 Szczur
 Wąż
 Diabeł Ttasmański
