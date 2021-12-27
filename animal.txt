@@ -5,7 +5,6 @@ Borsuk
 Tygrys
 Nietoperz
 Smok
-Ptak
 Bizon
 Czarny Niedźwiedź
 Nosorożec

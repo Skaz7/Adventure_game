@@ -5,6 +5,11 @@ import random
 
 # Create player character
 def create_player_character():
+    '''
+    Creates player character with statistics based on random values between 10 and 20.
+    Player name is based on input by user.
+    '''
+
     Hname = input('\nPodaj swoje imię: ').title()
     
     Hhealth = 200
@@ -13,12 +18,19 @@ def create_player_character():
     Hmagic = random.randint(10,20)
     Hluck = random.randint(10,20)
     Hmoney = random.randint(10,20)
+    Hitems = [['Knife'], ['Life potion', 'Mana potion']]
+    Hexperience = 0
+    Hlevel = 1
 
-    return Hero(Hname, Hhealth, Hattack, Hdefense, Hmagic, Hluck, Hmoney)
+    return Hero(Hname, Hhealth, Hattack, Hdefense, Hmagic, Hluck, Hmoney, Hitems, Hexperience, Hlevel)
 
 
 # Create enemy character
 def create_enemy():
+    '''
+    Creates enemy character, with statistics based on random values between 5 and 10.
+    Enemy name is created from adjective and animal name both taken randomly from two files.
+    '''
     
     with open('D:\\Users\\sebas\\OneDrive\\Repositories\\Adventure_game\\adjective.txt', 'r', encoding='utf-8') as adj_file:
         lines = adj_file.readlines()
@@ -35,24 +47,3 @@ def create_enemy():
     chance = random.randint(10,20)
 
     return Enemy(adjective + ' ' + animal, health, attack, defense, magicdefense, chance)
-
-
-# Create health bars for battle
-def health_bars():
-    enemy_max_health = 500
-    enemy_actual_health = 500
-    enemy_health_bar = '=' * int(enemy_actual_health / 10)
-
-    print(f"\nEnemy's health:\n [{enemy_health_bar}", " " * int((enemy_max_health - enemy_actual_health)/10), "]", sep="")
-
-
-    hero_max_health = 400
-    hero_actual_health = random.randint(200, hero_max_health)
-    hero_health_bar = '=' * int(hero_actual_health / 10)
-
-    if hero_actual_health < hero_max_health * 0.3:
-        health_bar_color = '\033[0;31m'
-    elif hero_actual_health >= hero_max_health * 0.3 and hero_actual_health < hero_max_health * 0.7:
-        health_bar_color = '\033[0;33m'
-    elif hero_actual_health >= hero_max_health * 0.7:
-        health_bar_color = '\033[0;32m'
