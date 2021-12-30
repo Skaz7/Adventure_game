@@ -1,28 +1,46 @@
+# v0.1.0 Working battle system, implementing leveling up
+# TODO: finish leveling up - add experience for beating enemies, then level up after gain enougch experience
+# TODO: use of items
+# TODO: magic attack couses no enemy death. Enemy health goes below 0 instead.
+# ? asdf asdf 
+
+
+
 import os
 import random
 import time
 import json
+from images import *
 from create_characters import create_player_character, create_enemy
+
+levels = [200, 450, 750, 1250]
 
 def clear_screen():
     os.system('cls')
 
 
 def import_items_from_file():
+    '''
+    Reads items from json file in format {'weapons': {'type': parameters}, 'consumables': {'type': parameters}}
+    '''
     with open('D:\\Users\\sebas\\OneDrive\\Repositories\\Adventure_game\\items.json', 'r') as file:
         global items
         items = json.load(file)
 
 
 def roll_20_dice():
-    return random.randint(0,20)
+    # imitates 20-side dice roll
+    return random.randint(1,20) 
+
+
+def roll_6_dice():
+    #imitates 6-side dice roll
+    return random.randint(1,6)
 
 
 def victory():
         clear_screen()
-        print('\n\n\n\n\n\t\t\t\t********************')
-        print('\t\t\t\t*  ZWYCIĘSTWO !!!  *')
-        print('\t\t\t\t********************\n\n\n\n')
+        image_victory() # reads victory image in ascii format
         time.sleep(2)
 
         print(f'{player.getName()}, czy chcesz grać dalej? (T/N)')
@@ -45,20 +63,27 @@ def victory():
 
 
 def attack():
+    '''
+    Chance for hit an enemy is based on hero and enemy luck, and 20-side dice roll.
+    If hero hits an enemy, he gets experience points equal to hit chance and 6-side dice roll.
+    When hero experience exceeds levels set in a given list, he gets a new level.
+    '''
     player_hit_chance = (roll_20_dice() + player.getLuck()) - (roll_20_dice() + enemy.getChance())
 
     if player_hit_chance > 0:
 
         print(f'\nUdało Ci się zadać cios.') 
         enemy_damage = roll_20_dice() + player.getAttack() - enemy.getDefense()
+        player.setExperience(player.getExperience() + (player_hit_chance + roll_6_dice()) * 10 * player.getLevel() * 0.5)
 
+        # Damage can't be lower than 0
         if enemy_damage < 0:
             enemy_damage == 0
 
         else:
             pass
         print(f'\n Przeciwnik odniósł {enemy_damage} obrażeń.')
-        enemy.setHealth(enemy.getHealth() - enemy_damage)
+        enemy.setHealth(int(enemy.getHealth() - enemy_damage))
         time.sleep(1)
 
     else:
@@ -66,6 +91,11 @@ def attack():
         time.sleep(1)
 
     if enemy.getHealth() <= 0:
+        # hero gets 10% extra experience for defeating an enemy
+        player.setExperience(int(player.getExperience() * 1.1))
+        for i in range(len(levels)):
+            if player.getExperience() > levels[i]:
+                player.level_up()
         victory()
 
     else:
@@ -130,6 +160,9 @@ def run():
         return
 
 
+
+
+
 def battle():
 
     global enemy
@@ -140,9 +173,12 @@ def battle():
     while True:
         clear_screen()
 
-        print('''\n\t\t\t\t\t#####################
-        \t\t\t\t#    TRWA WALKA!    #
-        \t\t\t\t#####################\n''')
+        image_battle()
+        time.sleep(1)
+
+        clear_screen()
+        print('\n\t\t\t\tTRWA WALKA!')
+        print('\t\t\t\t===========')
 
         player_health_bar = '=' * int(player.getHealth() / 2)
 
@@ -156,15 +192,17 @@ def battle():
             player_health_bar_color = '\033[0;32m'
 
         print(f'\nBohater - {player.getName()}')
-        print('-' * (10 + len(player.getName())))       
+        print('-' * (10 + len(player.getName()))) 
+        print(f'{"Poziom:":16} {player.getLevel()}')  
+        print(f'{"Doświadczenie:":16} {player.getExperience()}')    
         print(f'{"Zdrowie:":16} {player.getHealth()} {player_health_bar_color} [{player_health_bar}',
             ' ' * int((player_max_health - player.getHealth())/2), ']', '\033[0m', sep='')
         print(f'{"Atak:":16} {player.getAttack()}')
         print(f'{"Obrona:":16} {player.getDefense()}')
         print(f'{"Magia:":16} {player.getMagic()}')
         print(f'{"Szczęście:":16} {player.getLuck()}')
-        print(f'{"Pieniądze:":16} {player.getMoney()}\n')
-
+        print(f'{"Pieniądze:":16} {player.getMoney()}')
+        print(f'{"Przedmioty:":16} {player.getItems()}\n')
 
         print(f'\nPrzeciwnik - {enemy.getName()}')
         print('-' * (13 + len(enemy.getName())))
@@ -217,22 +255,26 @@ def battle():
 def welcome():
     clear_screen()
 
-    print('\033[0m', '\n\n\t\t\t\tWitaj w nowej przygodzie!')
-    print('\n\t\t\t\tZacznij od stworzenia swojego bohatera.')
-    print('\n\t\t\t\tPo podaniu imienia statystyki zostaną przydzielone automatycznie.')
+    print('\033[0m', '\n\nWitaj w nowej przygodzie!')
+    print('\nZacznij od stworzenia swojego bohatera.')
+    print('\nPo podaniu imienia statystyki zostaną przydzielone automatycznie.')
 
     global player
     import_items_from_file()
     player = create_player_character()
-    for i in range(0, len(player.getItems())):
-        if player.getItems()[i][0] in items['weapons']:
-            print('JEST')
-            print(player.getItems()[i][0])
-            time.sleep(3)
-        else:
-            print('NIE MA')
-            print(player.getItems()[i][0])
-            time.sleep(3)
+
+    # # checking if item is in player inventory
+    # for i in range(0, len(player.getItems())):
+    #     if player.getItems()[i][0] in items['weapons']:
+    #         print('JEST')
+    #         print(player.getItems()[i][0])
+    #         time.sleep(3)
+    #     else:
+    #         print('NIE MA')
+    #         print(player.getItems()[i][0])
+    #         time.sleep(3)
+
+
 welcome()
 battle()
 

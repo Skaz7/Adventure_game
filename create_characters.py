@@ -18,11 +18,12 @@ def create_player_character():
     Hmagic = random.randint(10,20)
     Hluck = random.randint(10,20)
     Hmoney = random.randint(10,20)
-    Hitems = [['Knife'], ['Life potion', 'Mana potion']]
+    Hitems = ['Knife', 'Life potion', 'Mana potion']
+    Hstate = []
     Hexperience = 0
     Hlevel = 1
 
-    return Hero(Hname, Hhealth, Hattack, Hdefense, Hmagic, Hluck, Hmoney, Hitems, Hexperience, Hlevel)
+    return Hero(Hname, Hhealth, Hattack, Hdefense, Hmagic, Hluck, Hmoney, Hitems, Hstate, Hexperience, Hlevel)
 
 
 # Create enemy character

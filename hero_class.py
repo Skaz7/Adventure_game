@@ -1,5 +1,5 @@
 class Hero:
-    def __init__(self, Hname, Hhealth, Hattack, Hdefense, Hmagic, Hluck, Hmoney, Hitems, Hexperience, Hlevel):
+    def __init__(self, Hname, Hhealth, Hattack, Hdefense, Hmagic, Hluck, Hmoney, Hitems, Hstate, Hexperience, Hlevel):
         self.name = Hname
         self.health = Hhealth
         self.attack = Hattack
@@ -8,8 +8,9 @@ class Hero:
         self.luck = Hluck
         self.money = Hmoney
         self.items = Hitems
+        self.state = Hstate
         self.experience = Hexperience
-        self.lever = Hlevel
+        self.level = Hlevel
     
     # getters - for returning actual hero stats
     def getName(self):
@@ -28,6 +29,8 @@ class Hero:
         return self.money
     def getItems(self):
         return self.items
+    def getState(self):
+        return self.state
     def getExperience(self):
         return self.experience
     def getLevel(self):
@@ -48,7 +51,21 @@ class Hero:
         self.money = newMoney
     def setItems(self, newItems):
         self.items = newItems
+    def setState(self,newState):
+        self.state = newState
     def setExperience(self, newExperience):
         self.experience = newExperience
     def setLevel(self,newLevel):
         self.level = newLevel
+
+    def bleed(self):
+        self.health = self.health - 5
+
+    # when hero experience points exceends level given in level list the stats increases
+    def level_up(self):
+        self.level = self.level + 1
+        self.health = int(self.health * 1.1)
+        self.attack = int(self.attack * 1.1)
+        self.defense = int(self.defense * 1.1)
+        self.magic = int(self.magic * 1.1)
+        self.state = []
