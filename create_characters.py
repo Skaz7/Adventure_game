@@ -18,7 +18,11 @@ def create_player_character():
     Hmagic = random.randint(10,20)
     Hluck = random.randint(10,20)
     Hmoney = random.randint(10,20)
-    Hitems = ['Knife', 'Life potion', 'Mana potion']
+    Hitems = {'weapons': {'Knife': {'Damage': 10, 'Durability': 5, 'Defense': 0, 'Cost': 25}, 
+                          'Axe': {'Damage': 20, 'Durability': 15, 'Defense': 0, 'Cost': 50},
+                          'Shield': { 'Damage': 0, 'Durability': 7, 'Defense': 10, 'Cost': 35}}, 
+              'consumables': {'Life Potion': {'HP': 40, 'MP': 0, 'Cost': 10},
+                              'Mana Potion': {'HP': 0, 'MP': 10, 'Cost': 10}}}
     Hstate = []
     Hexperience = 0
     Hlevel = 1

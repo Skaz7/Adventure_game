@@ -1,8 +1,13 @@
-# v0.1.0 Working battle system, implementing leveling up
+# v0.1.1
+#       - working battle system, implementing leveling up
+#       - working item show in battle.
+#       - working early stage of using items
 # TODO: finish leveling up - add experience for beating enemies, then level up after gain enougch experience
-# TODO: use of items
+# TODO: use of items, add item stats to player stats - in progress
 # TODO: magic attack couses no enemy death. Enemy health goes below 0 instead.
-# ? asdf asdf 
+# TODO: add potion duration time using start_time and stop_time
+# TODO: doctrings and other comments
+# # ?  
 
 
 
@@ -12,6 +17,7 @@ import time
 import json
 from images import *
 from create_characters import create_player_character, create_enemy
+
 
 levels = [200, 450, 750, 1250]
 
@@ -133,11 +139,67 @@ def magic_attack():
     time.sleep(1)
 
 
-def use_item(item):
+def use_item():
     clear_screen()
-    print('\n\nPosiadane przez Ciebie przedmioty:')
 
-    pass
+    print('\nZ jakiego typu przedmiotu chcesz skorzystać?\n')
+    print('1 - Broń / Zbroja.')
+    print('2 - Mikstura, jedzenie.')
+    print('3 - Przedmiot magiczny.\n')
+    print('0 - Powrót')
+
+    choice = input('\n> ')
+
+    def choose_item_type(item_type):
+        clear_screen()
+
+        print(f'\n\nPosiadane przez Ciebie przedmioty typu {item_type}:')
+        
+        for k, v in player.getItems()[item_type].items():
+            print(f'\n{k.capitalize()} : ')
+            print('-' * (len(k) + 5))
+
+            for x, y in v.items():
+                print(f'\t{x:10} -', y)
+
+        item_list = list(player.getItems().get(item_type))
+
+        print(f'\nCzego chcesz użyć w tej turze?\n')
+
+        for i in enumerate(item_list, start=1):
+            print(*i)
+
+        choice = int(input('\n> '))
+        
+        if choice < 1 or choice > len(item_list):
+            print('\nWybrałeś nieprawidłową opcję, powtórz.')
+            return
+        else:
+            choosed_item = item_list[choice - 1]
+
+            if item_type == 'weapons':
+                player.setAttack(player.getAttack() + items[item_type][choosed_item]['Damage'])
+                player.setDefense(player.getDefense() + items[item_type][choosed_item]['Defense'])
+
+            elif item_type == 'consumables':
+                player.setHealth(player.getHealth() + items[item_type][choosed_item]['HP'])
+                player.setMagic(player.getMagic() + items[item_type][choosed_item]['MP'])
+
+    if choice == '1':
+        choose_item_type('weapons')
+
+        input()
+
+    elif choice == '2':
+        choose_item_type('consumables')
+
+        input()
+
+    elif choice == '3':
+        pass
+
+    elif choice == '0':
+        return
 
 
 def defense():
@@ -158,9 +220,6 @@ def run():
         print('\nNie udało Ci się uciec, przeciwnik był sprytniejszy i walka trwa dalej.')
         time.sleep(2)
         return
-
-
-
 
 
 def battle():
@@ -202,7 +261,7 @@ def battle():
         print(f'{"Magia:":16} {player.getMagic()}')
         print(f'{"Szczęście:":16} {player.getLuck()}')
         print(f'{"Pieniądze:":16} {player.getMoney()}')
-        print(f'{"Przedmioty:":16} {player.getItems()}\n')
+        # print(f'{"Przedmioty:":16} {player.getItems()}\n')
 
         print(f'\nPrzeciwnik - {enemy.getName()}')
         print('-' * (13 + len(enemy.getName())))
@@ -243,7 +302,7 @@ def battle():
         elif battle_action == '2':
             magic_attack()
         elif battle_action == '3':
-            pass
+            use_item()
         elif battle_action == '4':
             defense()
         elif battle_action == '5':
@@ -262,18 +321,7 @@ def welcome():
     global player
     import_items_from_file()
     player = create_player_character()
-
-    # # checking if item is in player inventory
-    # for i in range(0, len(player.getItems())):
-    #     if player.getItems()[i][0] in items['weapons']:
-    #         print('JEST')
-    #         print(player.getItems()[i][0])
-    #         time.sleep(3)
-    #     else:
-    #         print('NIE MA')
-    #         print(player.getItems()[i][0])
-    #         time.sleep(3)
-
+    
 
 welcome()
 battle()
