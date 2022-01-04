@@ -8,9 +8,9 @@
         "Armor": { "Damage": 0, "Durability": 10, "Defense": 15, "Cost": 50 }
     },
     "consumables": {
-        "Life potion": { "HP": 40, "MP": 0, "Cost": 10 },
-        "Big life potion": { "HP": 80, "MP": 0, "Cost": 20 },
-        "Mana potion": { "HP": 0, "MP": 10, "Cost": 10 },
-        "Big mana potion": { "HP": 0, "MP": 20, "Cost": 20 }
+        "Life Potion": { "HP": 40, "MP": 0, "Cost": 10 },
+        "Big Life Potion": { "HP": 80, "MP": 0, "Cost": 20 },
+        "Mana Potion": { "HP": 0, "MP": 10, "Cost": 10 },
+        "Big Mana Potion": { "HP": 0, "MP": 20, "Cost": 20 }
     }
 }

@@ -1,12 +1,15 @@
-# v0.1.1
+# v0.1.2
 #       - working battle system, implementing leveling up
 #       - working item show in battle.
 #       - working early stage of using items
-# TODO: finish leveling up - add experience for beating enemies, then level up after gain enougch experience
-# TODO: use of items, add item stats to player stats - in progress
-# TODO: magic attack couses no enemy death. Enemy health goes below 0 instead.
-# TODO: add potion duration time using start_time and stop_time
-# TODO: doctrings and other comments
+#       - fixed magic attack, now enemy dies after its health reaches 0
+#       - use of item works, weapons are destroyed after its durability reaches 0, consumables are destroyed after use
+#         stats are updated after item use
+#       - 
+# TODO: 
+# TODO: stats after using item should be increased for one turn only instead of whole battle
+# TODO: 
+# TODO: doctrings and other comments - in progress
 # # ?  
 
 
@@ -46,6 +49,7 @@ def roll_6_dice():
 
 def victory():
         clear_screen()
+
         image_victory() # reads victory image in ascii format
         time.sleep(2)
 
@@ -60,6 +64,7 @@ def victory():
             print('\t\t\t\t********************')
             print('\t\t\t\t*  DO ZOBACZENIA!  *')
             print('\t\t\t\t********************\n\n\n')
+            time.sleep(2)
             quit()
 
         else:
@@ -90,26 +95,29 @@ def attack():
             pass
         print(f'\n Przeciwnik odniósł {enemy_damage} obrażeń.')
         enemy.setHealth(int(enemy.getHealth() - enemy_damage))
-        time.sleep(1)
+        time.sleep(0.5)
 
     else:
         print('\nNie udało Ci się zadać ciosu, przeciwnik był sprytniejszy.')
-        time.sleep(1)
+        time.sleep(0.5)
 
     if enemy.getHealth() <= 0:
         # hero gets 10% extra experience for defeating an enemy
         player.setExperience(int(player.getExperience() * 1.1))
+
         for i in range(len(levels)):
             if player.getExperience() > levels[i]:
                 player.level_up()
+        
+        time.sleep(1)
         victory()
 
     else:
         print(f'\nCzas na ruch przeciwnika.')
-        time.sleep(1)
+        time.sleep(0.5)
 
         print(f'{enemy.getName()} atakuje!')
-        time.sleep(1)
+        time.sleep(0.5)
 
         enemy_hit_chance = (roll_20_dice() + enemy.getChance()) - (roll_20_dice() + player.getLuck())
 
@@ -118,25 +126,83 @@ def attack():
             player_damage = roll_20_dice() + enemy.getAttack() - player.getDefense()
 
             if player_damage < 0:
-                time.sleep(1)
+                time.sleep(0.5)
                 print(f'{enemy.getName()} nie zadał Ci obrażeń...')
 
             else:   
-                time.sleep(1)
+                time.sleep(0.5)
                 print(f'{enemy.getName()} zadał Ci {player_damage} obrażeń...')
                 player.setHealth(player.getHealth() - player_damage)
-                time.sleep(2)
+                time.sleep(1)
         else:
             print(f'{enemy.getName()} nie zdołał Cię dosięgnąć.')
-            time.sleep(2)
+            time.sleep(1)
 
 
 def magic_attack():
-    enemy_damage = roll_20_dice() + player.getMagic() - enemy.getMagicdefense() 
+    '''
+    Chance for hit an enemy is based on hero and enemy luck, and 20-side dice roll.
+    If hero hits an enemy, he gets experience points equal to hit chance and 6-side dice roll.
+    When hero experience exceeds levels set in a given list, he gets a new level.
+    '''
+    player_hit_chance = (roll_20_dice() + player.getLuck()) - (roll_20_dice() + enemy.getChance())
 
-    print(f'\n Zadałeś przeciwnikowi {enemy_damage} obrażeń.')
-    enemy.setHealth(enemy.getHealth() - enemy_damage)
-    time.sleep(1)
+    if player_hit_chance > 0:
+
+        print(f'\nUdało Ci się zadać obrażenia magiczne.') 
+        enemy_damage = roll_20_dice() + player.getMagic() - enemy.getDefense()
+        player.setExperience(player.getExperience() + (player_hit_chance + roll_6_dice()) * 10 * player.getLevel() * 0.5)
+
+        # Damage can't be lower than 0
+        if enemy_damage < 0:
+            enemy_damage == 0
+
+        else:
+            pass
+        print(f'\n Przeciwnik odniósł {enemy_damage} obrażeń.')
+        enemy.setHealth(int(enemy.getHealth() - enemy_damage))
+        time.sleep(0.5)
+
+    else:
+        print('\nTwoja magia zawiodła, nie zadałeś przeciwnikowi obrażeń.')
+        time.sleep(0.5)
+
+    if enemy.getHealth() <= 0:
+        # hero gets 10% extra experience for defeating an enemy
+        player.setExperience(int(player.getExperience() * 1.1))
+
+        for i in range(len(levels)):
+            if player.getExperience() > levels[i]:
+                player.level_up()
+        
+        time.sleep(1)
+        victory()
+
+    else:
+        print(f'\nCzas na ruch przeciwnika.')
+        time.sleep(0.5)
+
+        print(f'{enemy.getName()} atakuje!')
+        time.sleep(0.5)
+
+        enemy_hit_chance = (roll_20_dice() + enemy.getChance()) - (roll_20_dice() + player.getLuck())
+
+        if enemy_hit_chance > 0:
+            print('Jego cios Cię dosięgnął.')
+            player_damage = roll_20_dice() + enemy.getAttack() - player.getDefense()
+
+            if player_damage < 0:
+                time.sleep(0.5)
+                print(f'{enemy.getName()} nie zadał Ci obrażeń...')
+
+            else:   
+                time.sleep(0.5)
+                print(f'{enemy.getName()} zadał Ci {player_damage} obrażeń...')
+                player.setHealth(player.getHealth() - player_damage)
+                time.sleep(1)
+        else:
+            print(f'{enemy.getName()} nie zdołał Cię dosięgnąć.')
+            time.sleep(1)
 
 
 def use_item():
@@ -162,6 +228,7 @@ def use_item():
             for x, y in v.items():
                 print(f'\t{x:10} -', y)
 
+        # create item list from dictionary keys
         item_list = list(player.getItems().get(item_type))
 
         print(f'\nCzego chcesz użyć w tej turze?\n')
@@ -181,19 +248,39 @@ def use_item():
                 player.setAttack(player.getAttack() + items[item_type][choosed_item]['Damage'])
                 player.setDefense(player.getDefense() + items[item_type][choosed_item]['Defense'])
 
+                # durability of item is decreased after each use
+                player.getItems()[item_type][choosed_item]['Durability'] -= 1
+
+                # if item durability reaches 0, item is destroyed and removed from inventory
+                if player.getItems()[item_type][choosed_item]['Durability'] < 1:
+                    del player.getItems()[item_type][choosed_item]
+                else:
+                    pass
+
             elif item_type == 'consumables':
-                player.setHealth(player.getHealth() + items[item_type][choosed_item]['HP'])
+
+                # if actual health plus potion HP exceeds max health level, potion effect is reduced
+                if player.getHealth() + items[item_type][choosed_item]['HP'] > player_max_health:
+                    player.setHealth(player_max_health)
+
+                else:
+                    player.setHealth(player.getHealth() + items[item_type][choosed_item]['HP'])
+
                 player.setMagic(player.getMagic() + items[item_type][choosed_item]['MP'])
+
+                # consumable item is destroyed after use, and removed from inventory
+                del player.getItems()[item_type][choosed_item]
+        
+        print(f'\nUżyłeś przedmiotu {choosed_item}')
+        time.sleep(2)
 
     if choice == '1':
         choose_item_type('weapons')
 
-        input()
 
     elif choice == '2':
         choose_item_type('consumables')
 
-        input()
 
     elif choice == '3':
         pass
@@ -224,20 +311,24 @@ def run():
 
 def battle():
 
-    global enemy
+    global enemy, player_max_health
     enemy = create_enemy()
     enemy_max_health = enemy.getHealth()
     player_max_health = player.getHealth()
+    turn_counter = 0
 
     while True:
         clear_screen()
 
-        image_battle()
-        time.sleep(1)
+        # image_battle()
+        # time.sleep(1)
+
+        turn_counter += 1
 
         clear_screen()
         print('\n\t\t\t\tTRWA WALKA!')
         print('\t\t\t\t===========')
+        print(f'\n\t\t\t\tTura {turn_counter}')
 
         player_health_bar = '=' * int(player.getHealth() / 2)
 
