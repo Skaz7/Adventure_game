@@ -1,4 +1,6 @@
-class Hero:
+import unittest
+
+class Hero(unittest.TestCase):
     def __init__(self, Hname, Hhealth, Hattack, Hdefense, Hmagic, Hluck, Hmoney, Hitems, Hstate, Hexperience, Hlevel):
         self.name = Hname
         self.health = Hhealth
