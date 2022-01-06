@@ -1,6 +1,7 @@
-from hero_class import Hero
-from enemy_class import Enemy
 import random
+
+from enemy_class import Enemy
+from hero_class import Hero
 
 
 # Create player character
