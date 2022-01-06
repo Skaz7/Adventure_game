@@ -3,10 +3,9 @@ import logging
 import os
 import random
 import time
-import unittest
 
-from Adventure_game.create_characters import create_enemy, create_player_character
-from Adventure_game.images import *
+from create_characters import create_enemy, create_player_character
+from images import *
 
 # make log file for testing with level set to de
 logging.basicConfig(filename="test.log", level=logging.DEBUG)
@@ -23,7 +22,7 @@ def import_items_from_file():
     Reads items from json file in format {'weapons': {'type': parameters}, 'consumables': {'type': parameters}}
     """
     with open(
-        "D:\\Users\\sebas\\OneDrive\\Repositories\\Adventure_game\\items.json", "r"
+        "D:\\Users\\sebas\\OneDrive\\Repositories\\Adventure_game\\Adventure_game\\items.json", "r"
     ) as file:
         global items
         items = json.load(file)

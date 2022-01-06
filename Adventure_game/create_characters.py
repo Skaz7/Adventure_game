@@ -1,5 +1,5 @@
-from Adventure_game.hero_class import Hero
-from Adventure_game.enemy_class import Enemy
+from hero_class import Hero
+from enemy_class import Enemy
 import random
 
 
@@ -56,7 +56,7 @@ def create_enemy():
     """
 
     with open(
-        "D:\\Users\\sebas\\OneDrive\\Repositories\\Adventure_game\\adjective.txt",
+        "D:\\Users\\sebas\\OneDrive\\Repositories\\Adventure_game\\Adventure_game\\adjective.txt",
         "r",
         encoding="utf-8",
     ) as adj_file:
@@ -64,7 +64,7 @@ def create_enemy():
         adjective = lines[random.randint(0, len(lines) - 1)][:-1]
 
     with open(
-        "D:\\Users\\sebas\\OneDrive\\Repositories\\Adventure_game\\animal.txt",
+        "D:\\Users\\sebas\\OneDrive\\Repositories\\Adventure_game\\Adventure_game\\animal.txt",
         "r",
         encoding="utf-8",
     ) as animal_file:
