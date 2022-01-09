@@ -1,5 +1,5 @@
 import os
-import copy
+import random
 
 items = {'weapons':
              {'Knife': {'Damage': 10, 'Durability': 5, 'Defense': 0, 'Cost': 25},
@@ -17,34 +17,27 @@ items = {'weapons':
 
 new_items = {'weapons': {}, 'consumables': {}}
 
+
+def roll_20_dice():
+    # imitates 20-side dice roll
+    return random.randint(1, 20)
+
+
 os.system('cls')
 
-additional_attack = 0
+for item_type, item in items.items():
 
-print('\nJaki przedmiot chcesz dodać do ekwipunku?')
-choice = input('> ')
+    for k, v in item.items():
 
-if choice not in items['weapons'] and choice not in items ['consumables']:
-    print('\nTaki przedmiot nie jest dostępny')
+        print(k, v)
 
-else:
-    if choice in items['weapons']:
-        new_items['weapons'][choice] = {}
-        new_items['weapons'][choice].update(items['weapons'][choice])
-        additional_attack += new_items['weapons'][choice]['Damage']
+        loot_chance = (roll_20_dice() - int(v['Cost'] / 5)) - (roll_20_dice() * 2)
 
-    elif choice in items['consumables']:
-        new_items['consumables'][choice] = items['consumables'][choice]
-        new_items['consumables'][choice].update(items['consumables'][choice])
+        if loot_chance > 0:
 
+            print(f'Sukces! Różnica wynosiła {loot_chance}')
 
+        else:
 
-
-print()
-print(new_items)
-print()
-print(items['weapons'])
-print()
-for key in items['weapons'].keys():
-    print(key)
-print()
+            print(f'Porażka... Różnica wysoniła {loot_chance}')
+        print()

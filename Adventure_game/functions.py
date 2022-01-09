@@ -2,15 +2,20 @@ import os
 import random
 import time
 
-from create_characters import *
 from images import *
-from variables import *
-
-player = create_player_character()
+from constants import *
 
 
 def clear_screen():
     os.system("cls")
+
+
+def start_game():
+    clear_screen()
+    print("To jest nowa gra.")
+    print("Zacznij od stworzenia swojej postaci\n\n")
+    global player
+    player = create_player_character()
 
 
 def roll_20_dice():
@@ -171,6 +176,13 @@ def magic_attack():
 
 
 def use_item():
+    """
+    Function for using items from Hero's inventory.
+    First you have to choose item type from: weapons/armor, consumables/mixtures, magical items
+    Then you choose specific item from given type
+    In case of consumables, its destroyed after use and removed from inventory
+    In case of weapons and armor, its durability is decreased each turn of battle, and item is destroyed afters its durability reaches 0
+    """
     clear_screen()
 
     print("\nZ jakiego typu przedmiotu chcesz skorzystać?\n")
@@ -184,8 +196,9 @@ def use_item():
     def choose_item_type(item_type):
         clear_screen()
 
-        print(f"\n\nPosiadane przez Ciebie przedmioty typu {item_type}:")
+        print(f"\n\nPosiadane przez Ciebie przedmioty typu {item_type.capitalize()}:")
 
+        # list of every item in Hero's inventory
         for k, v in player.getItems()[item_type].items():
             print(f"\n{k.capitalize()} : ")
             print("-" * (len(k) + 5))
@@ -201,54 +214,67 @@ def use_item():
         for i in enumerate(item_list, start=1):
             print(*i)
 
-        choice = int(input("\n> "))
+        try:
+            choice = int(input("\n> "))
 
-        if choice < 1 or choice > len(item_list):
-            print("\nWybrałeś nieprawidłową opcję, powtórz.")
-            return
-        else:
-            choosed_item = item_list[choice - 1]
+            if choice < 0 or choice > len(item_list):
+                print("\nWybrałeś nieprawidłową opcję, powtórz.")
+                return
 
-            if item_type == "weapons":
-                player.setAttack(
-                    player.getAttack() + items[item_type][choosed_item]["Damage"]
-                )
-                player.setDefense(
-                    player.getDefense() + items[item_type][choosed_item]["Defense"]
-                )
+            elif choice == 0:
+                return
 
-                # durability of item is decreased after each use
-                player.getItems()[item_type][choosed_item]["Durability"] -= 1
+            else:
+                choosed_item = item_list[choice - 1]
 
-                # if item durability reaches 0, item is destroyed and removed from inventory
-                if player.getItems()[item_type][choosed_item]["Durability"] < 1:
-                    del player.getItems()[item_type][choosed_item]
-                else:
-                    pass
-
-            elif item_type == "consumables":
-
-                # if actual health plus potion HP exceeds max health level, potion effect is reduced
-                if (
-                    player.getHealth() + items[item_type][choosed_item]["HP"]
-                    > player_max_health
-                ):
-                    player.setHealth(player_max_health)
-
-                else:
-                    player.setHealth(
-                        player.getHealth() + items[item_type][choosed_item]["HP"]
+                if item_type == "weapons":
+                    player.setAttack(
+                        player.getAttack() + items[item_type][choosed_item]["Damage"]
+                    )
+                    player.setDefense(
+                        player.getDefense() + items[item_type][choosed_item]["Defense"]
                     )
 
-                player.setMagic(
-                    player.getMagic() + items[item_type][choosed_item]["MP"]
-                )
+                    # durability of item is decreased after each use
+                    player.getItems()[item_type][choosed_item]["Durability"] -= 1
 
-                # consumable item is destroyed after use, and removed from inventory
-                del player.getItems()[item_type][choosed_item]
+                    # if item durability reaches 0, item is destroyed and removed from inventory
+                    if player.getItems()[item_type][choosed_item]["Durability"] < 1:
+                        del player.getItems()[item_type][choosed_item]
+                    else:
+                        pass
 
-        print(f"\nUżyłeś przedmiotu {choosed_item}")
-        time.sleep(2)
+                elif item_type == "consumables":
+
+                    # if actual health plus potion HP exceeds max health level, potion effect is reduced
+                    if (
+                        player.getHealth() + items[item_type][choosed_item]["HP"]
+                        > player_max_health
+                    ):
+                        player.setHealth(player_max_health)
+
+                    else:
+                        player.setHealth(
+                            player.getHealth() + items[item_type][choosed_item]["HP"]
+                        )
+
+                    player.setMagic(
+                        player.getMagic() + items[item_type][choosed_item]["MP"]
+                    )
+
+                    # consumable item is destroyed after use, and removed from inventory
+                    del player.getItems()[item_type][choosed_item]
+
+            use_item_text = (
+                f"Użyłeś przedmiotu {choosed_item}, Twoje statystyki wzrastają."
+            )
+            print(f"\n\n\t\t\t", "-" * (len(use_item_text) + 6))
+            print(f"\t\t\t |  {use_item_text}  |")
+            print(f"\t\t\t", "-" * (len(use_item_text) + 6))
+            time.sleep(1)
+
+        except ValueError:
+            return
 
     if choice == "1":
         choose_item_type("weapons")
@@ -259,7 +285,10 @@ def use_item():
     elif choice == "3":
         pass
 
-    elif choice == "0":
+    elif choice == "0" or choice == "":
+        return
+
+    else:
         return
 
 
@@ -296,14 +325,10 @@ def battle():
     turn_counter = 0
 
     while True:
+
         clear_screen()
-
-        # image_battle()
-        # time.sleep(1)
-
         turn_counter += 1
 
-        clear_screen()
         print("\n\t\t\t\tTRWA WALKA!")
         print("\t\t\t\t===========")
         print(f"\n\t\t\t\tTura {turn_counter}")
@@ -392,24 +417,56 @@ def battle():
 def victory():
     clear_screen()
 
-    image_victory()  # reads victory image in ascii format
-    time.sleep(2)
+    print("\n\nOdniosłeś wspaniałe zwycięstwo!")
+    print("\nStoisz nad zwłokami swojego przeciwnika i zastanawiasz się co dalej...")
+    print("\nPostanawiasz:")
+    print("\n\t1 - Przeszukać zwłoki przeciwnika.")
+    print("\t2 - Zostawić go w spokoju i ruszyć dalej.")
+    print("\t3 - Odwiedzić sklep.")
 
-    print(f"{player.getName()}, czy chcesz grać dalej? (T/N)")
-
-    choice = input("> ").lower()
-
-    if choice == "t":
-        battle()
-
-    elif choice == "n":
-        print("\t\t\t\t********************")
-        print("\t\t\t\t*  DO ZOBACZENIA!  *")
-        print("\t\t\t\t********************\n\n\n")
-        time.sleep(2)
-        quit()
-
+    choice = input("\n> ")
+    if choice == "1":
+        body_search()
+    elif choice == "2":
+        pass
+    elif choice == "3":
+        pass
     else:
-        print("\t\t\t\t\n\nMusisz wybrać T lub N")
-        time.sleep(1)
+        print("\nWybierz jedną z opcji 1-3 !")
         victory()
+
+
+def body_search():
+
+    money = roll_6_dice()
+    player.setMoney(player.getMoney() + money)
+    print(f"\nZnalazłeś {money} sztuk złota.")
+    print("\nCiekawe, czy znajdzesz jeszcze jakieś przedmioty...")
+    time.sleep(1)
+
+    for item_type, item in items.items():
+
+        for k, v in item.items():
+
+            loot_chance = (roll_20_dice() - int(v["Cost"] / 5)) - (roll_20_dice() * 2)
+
+            if loot_chance > 0:
+
+                print(f"Świetnie! Udało Ci się coś znaleźć!")
+                time.sleep(3)
+                if k in player.getItems()[item_type]:
+                    print(
+                        f"\nNiestety, ale {k} posiadasz już w ekwipunku, nie możesz nieść kolejnego."
+                    )
+                    print("Łup zostaje na swoim miejscu.\n")
+                    time.sleep(3)
+
+                else:
+                    player.getItems()[item_type][k] = v
+                    print(f"Przedmiot {k.capitalize()} został dodany do ekwipunku.")
+                    time.sleep(3)
+            else:
+                pass
+
+    time.sleep(5)
+    battle()

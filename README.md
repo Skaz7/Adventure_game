@@ -1,3 +1,12 @@
+### Adventure Game v0.1.5.1
+
+#### What works?:
+- started working on shop function
+
+> TODO: stats after using item should be increased for one turn only instead of whole battle
+> TODO: doctrings and other comments - *in progress*
+
+
 
 ### Adventure Game v0.1.5
 
