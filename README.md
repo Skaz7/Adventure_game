@@ -1,4 +1,8 @@
-### Adventure Game v0.1.5.1
+### Adventure Game v0.1.7
+- working on shop function, still has error when importing modules
+
+
+### Adventure Game v0.1.6
 
 #### What works?:
 - started working on shop function

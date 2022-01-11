@@ -4,59 +4,69 @@
             "Damage": 10,
             "Durability": 5,
             "Defense": 0,
-            "Cost": 25
+            "Price": 25
         },
         "Sword": {
             "Damage": 15,
             "Durability": 10,
             "Defense": 0,
-            "Cost": 35
+            "Price": 35
         },
         "Axe": {
             "Damage": 20,
             "Durability": 15,
             "Defense": 0,
-            "Cost": 50
+            "Price": 50
         },
         "Spear": {
             "Damage": 15,
             "Durability": 7,
             "Defense": 7,
-            "Cost": 40
+            "Price": 40
         },
         "Shield": {
             "Damage": 0,
             "Durability": 7,
             "Defense": 10,
-            "Cost": 35
+            "Price": 35
         },
         "Armor": {
             "Damage": 0,
             "Durability": 10,
             "Defense": 15,
-            "Cost": 50
+            "Price": 50
         }
     },
     "consumables": {
         "Life Potion": {
             "HP": 40,
             "MP": 0,
-            "Cost": 10
+            "Price": 10
         },
         "Big Life Potion": {
             "HP": 80,
             "MP": 0,
-            "Cost": 20
+            "Price": 20
         },
         "Mana Potion": {
             "HP": 0,
             "MP": 10,
-            "Cost": 10
+            "Price": 10
         },
         "Big Mana Potion": {
             "HP": 0,
             "MP": 20,
-            "Cost": 20
+            "Price": 20
+        }
+    },
+    "other": {
+        "Luck talisman": {
+            "Luck": 10,
+            "Price": 30
+        },
+        "Immune amulet": {
+            "Clear State": 1,
+            "Price": 20
         }
     }
 }

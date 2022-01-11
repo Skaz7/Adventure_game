@@ -18,7 +18,7 @@ def create_player_character():
     Hdefense = random.randint(10, 20)
     Hmagic = random.randint(10, 20)
     Hluck = random.randint(10, 20)
-    Hmoney = random.randint(10, 20)
+    Hmoney = random.randint(20, 40)
     Hitems = {
         "weapons": {
             "Knife": {"Damage": 10, "Durability": 1, "Defense": 0, "Cost": 25},

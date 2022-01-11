@@ -1,6 +1,7 @@
 import os
 import random
 import time
+from shop import shop
 
 from images import *
 from constants import *
@@ -12,10 +13,25 @@ def clear_screen():
 
 def start_game():
     clear_screen()
+
     print("To jest nowa gra.")
     print("Zacznij od stworzenia swojej postaci\n\n")
+
     global player
     player = create_player_character()
+
+    print("\nCo chcesz zrobić?")
+    print('\n1. Walka')
+    print('2. Sklep')
+
+    choice = input('> ')
+
+    if choice == '1':
+        battle()
+    elif choice == '2':
+        shop()
+    else:
+        quit()
 
 
 def roll_20_dice():
