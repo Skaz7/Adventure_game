@@ -1,5 +1,4 @@
-from functions import start_game, battle
-
+from functions import start_game
 
 def main():
     start_game()

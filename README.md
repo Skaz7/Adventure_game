@@ -1,3 +1,12 @@
+### Adventure Game v0.1.75
+- back to previous modules structure because of errors during modules import
+### What works?:
+- battle functions
+- search body after victory
+### What doesn't work?:
+- error in shop after buying item
+
+
 ### Adventure Game v0.1.7
 - working on shop function, still has error when importing modules
 
