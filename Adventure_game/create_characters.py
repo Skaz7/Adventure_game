@@ -29,6 +29,9 @@ def create_player_character():
             "Life Potion": {"HP": 40, "MP": 0, "Cost": 10},
             "Mana Potion": {"HP": 0, "MP": 10, "Cost": 10},
         },
+        "other": {
+
+        }
     }
     Hstate = []
     Hexperience = 0

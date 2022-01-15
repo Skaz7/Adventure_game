@@ -57,14 +57,23 @@
             "HP": 0,
             "MP": 20,
             "Price": 20
+        },
+        "Cure Poison": {
+            "Cure Poison": 1,
+            "Price": 20
+        },
+        "Cure Burn": {
+            "Cure Burn": 1,
+            "Price": 20
         }
+
     },
     "other": {
-        "Luck talisman": {
-            "Luck": 10,
+        "Four Leaf Clover": {
+            "Luck": 2,
             "Price": 30
         },
-        "Immune amulet": {
+        "Immune Amulet": {
             "Clear State": 1,
             "Price": 20
         }

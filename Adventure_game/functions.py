@@ -29,16 +29,22 @@ def start_game():
 
     global player
     player = create_player_character()
+    decision_path()
+
+
+def decision_path():
+
+    clear_screen()
 
     print("\nCo chcesz zrobić?")
-    print('\n1. Walka')
-    print('2. Sklep')
+    print("\n1. Walka")
+    print("2. Sklep")
 
-    choice = input('> ')
+    choice = input("> ")
 
-    if choice == '1':
+    if choice == "1":
         battle()
-    elif choice == '2':
+    elif choice == "2":
         shop()
     else:
         quit()
@@ -204,7 +210,7 @@ def use_item():
     print("\nZ jakiego typu przedmiotu chcesz skorzystać?\n")
     print("1 - Broń / Zbroja.")
     print("2 - Mikstura, jedzenie.")
-    print("3 - Przedmiot magiczny.\n")
+    print("3 - Inny.\n")
     print("0 - Powrót")
 
     choice = input("\n> ")
@@ -245,10 +251,12 @@ def use_item():
 
                 if item_type == "weapons":
                     player.setAttack(
-                        player.getAttack() + items[item_type][choosed_item]["Damage"]
+                        player.getAttack()
+                        + all_items[item_type][choosed_item]["Damage"]
                     )
                     player.setDefense(
-                        player.getDefense() + items[item_type][choosed_item]["Defense"]
+                        player.getDefense()
+                        + all_items[item_type][choosed_item]["Defense"]
                     )
 
                     # durability of item is decreased after each use
@@ -264,22 +272,36 @@ def use_item():
 
                     # if actual health plus potion HP exceeds max health level, potion effect is reduced
                     if (
-                        player.getHealth() + items[item_type][choosed_item]["HP"]
+                        player.getHealth() + all_items[item_type][choosed_item]["HP"]
                         > player_max_health
                     ):
                         player.setHealth(player_max_health)
 
                     else:
                         player.setHealth(
-                            player.getHealth() + items[item_type][choosed_item]["HP"]
+                            player.getHealth()
+                            + all_items[item_type][choosed_item]["HP"]
                         )
 
                     player.setMagic(
-                        player.getMagic() + items[item_type][choosed_item]["MP"]
+                        player.getMagic() + all_items[item_type][choosed_item]["MP"]
                     )
 
                     # consumable item is destroyed after use, and removed from inventory
                     del player.getItems()[item_type][choosed_item]
+
+                elif item_type == 'other':
+
+                    if 'Luck' in player.getItems()[item_type][choosed_item].keys():
+                        player.setLuck(player.getLuck() + player.getItems()[item_type][choosed_item]['Luck'])
+
+                    elif 'Clear State' in player.getItems()[item_type][choosed_item].keys():
+                        player.setState([])
+
+                    # elif '' in player.getItems()[item_type][choosed_item].keys():
+
+                    else:
+                        pass
 
             use_item_text = (
                 f"Użyłeś przedmiotu {choosed_item}, Twoje statystyki wzrastają."
@@ -299,7 +321,7 @@ def use_item():
         choose_item_type("consumables")
 
     elif choice == "3":
-        pass
+        choose_item_type('other')
 
     elif choice == "0" or choice == "":
         return
@@ -322,7 +344,7 @@ def run():
             "\nUdało Ci się uciec z miejsca potyczki, przeciwnik nie może Cię dogonić."
         )
         time.sleep(2)
-        battle()
+        decision_path()
 
     else:
         print(
@@ -460,7 +482,7 @@ def body_search():
     print("\nCiekawe, czy znajdzesz jeszcze jakieś przedmioty...")
     time.sleep(1)
 
-    for item_type, item in items.items():
+    for item_type, item in all_items.items():
 
         for k, v in item.items():
 
@@ -489,74 +511,82 @@ def body_search():
 
 
 def shop():
+    def buy_item(item_type):
+        clear_screen()
+
+        items_list = []
+
+        print("\nWybrałeś broń, oto przedmioty z tej kategorii dostępne w sprzedaży:\n")
+
+        for number, (item, stats) in enumerate(all_items[item_type].items(), start=1):
+            print(f"{number}. Przedmiot: {item}")
+            print("-" * (len(f"Przedmiot: {item}") + 3))
+            items_list.append(item)
+
+            for i, j in stats.items():
+                print(f"\t\t{i:11}: {j}")
+
+        choice = int(input("\nJaki przedmiot chcesz kupić?   > ")) - 1
+
+        item_to_buy = items_list[choice]
+
+        for item_type, item in all_items.items():
+
+            for k, v in item.items():
+
+                if k == item_to_buy:
+
+                    new_item_dict = {k: v}
+                    print(new_item_dict)
+                    player.getItems()[item_type].update(new_item_dict)
+
+                else:
+                    pass
+
+        shop()
+
     clear_screen()
 
     print("\n\n\t\t\t\t\t\t", "-" * 20)
     print("\t\t\t\t\t\t|  Witaj w sklepie!  |")
-    print("\t\t\t\t\t\t", "-" * 20)
-    print()
+    print("\t\t\t\t\t\t", "-" * 20,"\n")
+    print("Posiadasz następujące przedmioty:")
+
+    for item_type, item in player.getItems().items():
+
+        for name, parameters in item.items():
+            print(name)
 
     print("\n\n\nLista przedmiotów na sprzedaż:")
 
-    for i, item_type in enumerate(items, start=1):
+    for i, item_type in enumerate(all_items, start=1):
         print(f"\n{i}. {item_type.capitalize()} :")
         print(f"{'-' * (len(item_type)+6)} ")
-        for k in items[item_type].keys():
+
+        for k in all_items[item_type].keys():
             print("\t", k.capitalize())
+
     print("\n\n")
 
-    print("\nWybierz kategorię przedmiotu, który chcesz kupić (1/2/3):")
+    print("\nWybierz kategorię przedmiotu, który chcesz kupić (1/2/3)")
+    print("\n0 - Powrót\n")
+
     choice = input("\n> ")
 
     if choice == "1":
 
-        item_type = "weapons"
-        print("\nWybrałeś broń, oto przedmioty z tej kategorii dostępne w sprzedaży:\n")
-
-        for number, (item, stats) in enumerate(items[item_type].items(), start = 1):
-            print(f'{number}. Przedmiot: {item}')
-            print('-' * (len(f'Przedmiot: {item}') + 3))
-
-            for i,j  in stats.items():
-                print(f'\t\t{i:11}: {j}')
-            print()
-        input()
-        shop()
+        buy_item("weapons")
 
     elif choice == "2":
 
-        item_type = "consumables"
-        items_list = []
-        print("\nWybrałeś mikstury, oto przedmioty z tej kategorii dostępne w sprzedaży:\n")
-
-        for number, (item, stats) in enumerate(items[item_type].items(), start = 1):
-            print(f'{number}. Przedmiot: {item}')
-            print('-' * (len(f'Przedmiot: {item}') + 3))
-            items_list.append(item)
-
-            for i,j  in stats.items():
-                print(f'\t\t\t{i:6}: {j}')
-
-        print(items_list)
-        choice = int(input('\nJaki przedmiot chcesz kupić?   > ')) - 1
-        item_to_buy = items_list[choice]
-        print(item_to_buy)
-        items().update(items[item_type][item_to_buy])
-        input()
+        buy_item("consumables")
 
     elif choice == "3":
-        item_type = "other"
-        print("\nWybrałeś inne, oto przedmioty z tej kategorii dostępne w sprzedaży:\n")
 
-        for number, (item, stats) in enumerate(items[item_type].items(), start = 1):
-            print(f'{number}. Przedmiot: {item}')
-            print('-' * (len(f'Przedmiot {item}') + 3))
+        buy_item("other")
 
-            for i, j in stats.items():
-                print(f'\t\t\t{i:10}: {j}')
-
-        input()
-        shop()
+    elif choice == "0":
+        decision_path()
 
     else:
         print("\n\n\t\t\t\tWybrałeś nieprawidłową opcję!")

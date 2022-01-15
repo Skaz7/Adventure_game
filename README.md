@@ -1,17 +1,30 @@
-### Adventure Game v0.1.75
+### v0.1.8
+#### What works?:
+- fixed shop bug when bought item wasn't added to inventory
+
+#### What doesn't work?:
+- durability of weapon/armor isn't decreasing each turn, it decreases when item is picked from inventory
+
+> TODO: stats and effects after using new items from inventowy (poison, burn)
+> TODO: add states to states list in hero class
+> TODO: add items that gives immune for poison, fire, frost...
+
+
+
+### v0.1.75
 - back to previous modules structure because of errors during modules import
-### What works?:
+#### What works?:
 - battle functions
 - search body after victory
-### What doesn't work?:
+#### What doesn't work?:
 - error in shop after buying item
 
 
-### Adventure Game v0.1.7
+### v0.1.7
 - working on shop function, still has error when importing modules
 
 
-### Adventure Game v0.1.6
+### v0.1.6
 
 #### What works?:
 - started working on shop function
