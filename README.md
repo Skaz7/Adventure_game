@@ -1,3 +1,20 @@
+### v0.1.9
+
+- added module for exploring world
+
+#### What works?:
+- fixed shop bug when bought item wasn't added to inventory
+
+#### What doesn't work?:
+- durability of weapon/armor isn't decreasing each turn, it decreases when item is picked from inventory
+
+> TODO: stats and effects after using new items from inventowy (poison, burn)
+ TODO: add states to states list in hero class
+ TODO: add items that gives immune for poison, fire, frost...
+
+
+
+
 ### v0.1.8
 #### What works?:
 - fixed shop bug when bought item wasn't added to inventory
@@ -6,8 +23,8 @@
 - durability of weapon/armor isn't decreasing each turn, it decreases when item is picked from inventory
 
 > TODO: stats and effects after using new items from inventowy (poison, burn)
-> TODO: add states to states list in hero class
-> TODO: add items that gives immune for poison, fire, frost...
+ TODO: add states to states list in hero class
+ TODO: add items that gives immune for poison, fire, frost...
 
 
 
@@ -30,7 +47,7 @@
 - started working on shop function
 
 > TODO: stats after using item should be increased for one turn only instead of whole battle
-> TODO: doctrings and other comments - *in progress*
+ TODO: doctrings and other comments - *in progress*
 
 
 
@@ -47,5 +64,5 @@
 - works after forders structure rebuilt
 
 > TODO: stats after using item should be increased for one turn only instead of whole battle
-> TODO: doctrings and other comments - *in progress*
+ TODO: doctrings and other comments - *in progress*
 

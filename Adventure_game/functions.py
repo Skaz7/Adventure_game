@@ -11,6 +11,16 @@ def clear_screen():
     os.system("cls")
 
 
+def delay_short():
+    time.sleep(0.5)
+
+def delay_medium():
+    time.sleep(1.5)
+
+def delay_long():
+    time.sleep(3)
+
+
 def roll_20_dice():
     # imitates 20-side dice roll
     return random.randint(1, 20)
@@ -78,11 +88,11 @@ def attack():
         print(f"\n Przeciwnik odniósł {enemy_damage} obrażeń.")
 
         enemy.setHealth(int(enemy.getHealth() - enemy_damage))
-        time.sleep(0.5)
+        delay_short()
 
     else:
         print("\nNie udało Ci się zadać ciosu, przeciwnik był sprytniejszy.")
-        time.sleep(0.5)
+        delay_short()
 
     if enemy.getHealth() <= 0:
         # hero gets 10% extra experience for defeating an enemy
@@ -92,15 +102,15 @@ def attack():
             if player.getExperience() > levels[i]:
                 player.level_up()
 
-        time.sleep(1)
+        delay_medium()
         victory()
 
     else:
         print(f"\nCzas na ruch przeciwnika.")
-        time.sleep(0.5)
+        delay_short()
 
         print(f"{enemy.getName()} atakuje!")
-        time.sleep(0.5)
+        delay_short()
 
         enemy_hit_chance = (roll_20_dice() + enemy.getChance()) - (
             roll_20_dice() + player.getLuck()
@@ -111,17 +121,17 @@ def attack():
             player_damage = roll_20_dice() + enemy.getAttack() - player.getDefense()
 
             if player_damage < 0:
-                time.sleep(0.5)
+                delay_short()
                 print(f"{enemy.getName()} nie zadał Ci obrażeń...")
 
             else:
-                time.sleep(0.5)
+                delay_short()
                 print(f"{enemy.getName()} zadał Ci {player_damage} obrażeń...")
                 player.setHealth(player.getHealth() - player_damage)
-                time.sleep(1)
+                delay_medium()
         else:
             print(f"{enemy.getName()} nie zdołał Cię dosięgnąć.")
-            time.sleep(1)
+            delay_medium()
 
 
 def magic_attack():
@@ -151,11 +161,11 @@ def magic_attack():
             pass
         print(f"\n Przeciwnik odniósł {enemy_damage} obrażeń.")
         enemy.setHealth(int(enemy.getHealth() - enemy_damage))
-        time.sleep(0.5)
+        delay_short()
 
     else:
         print("\nTwoja magia zawiodła, nie zadałeś przeciwnikowi obrażeń.")
-        time.sleep(0.5)
+        delay_short()
 
     if enemy.getHealth() <= 0:
         # hero gets 10% extra experience for defeating an enemy
@@ -165,15 +175,15 @@ def magic_attack():
             if player.getExperience() > levels[i]:
                 player.level_up()
 
-        time.sleep(1)
+        delay_medium()
         victory()
 
     else:
         print(f"\nCzas na ruch przeciwnika.")
-        time.sleep(0.5)
+        delay_short()
 
         print(f"{enemy.getName()} atakuje!")
-        time.sleep(0.5)
+        delay_short()
 
         enemy_hit_chance = (roll_20_dice() + enemy.getChance()) - (
             roll_20_dice() + player.getLuck()
@@ -184,17 +194,17 @@ def magic_attack():
             player_damage = roll_20_dice() + enemy.getAttack() - player.getDefense()
 
             if player_damage < 0:
-                time.sleep(0.5)
+                delay_short()
                 print(f"{enemy.getName()} nie zadał Ci obrażeń...")
 
             else:
-                time.sleep(0.5)
+                delay_short()
                 print(f"{enemy.getName()} zadał Ci {player_damage} obrażeń...")
                 player.setHealth(player.getHealth() - player_damage)
-                time.sleep(1)
+                delay_medium()
         else:
             print(f"{enemy.getName()} nie zdołał Cię dosięgnąć.")
-            time.sleep(1)
+            delay_medium()
 
 
 def use_item():
@@ -309,7 +319,7 @@ def use_item():
             print(f"\n\n\t\t\t", "-" * (len(use_item_text) + 6))
             print(f"\t\t\t |  {use_item_text}  |")
             print(f"\t\t\t", "-" * (len(use_item_text) + 6))
-            time.sleep(1)
+            delay_medium()
 
         except ValueError:
             return
@@ -332,7 +342,7 @@ def use_item():
 
 def defense():
     print("Obrona nie jest opcją, musisz atakować!")
-    time.sleep(1)
+    delay_medium()
 
 
 def run():
@@ -343,14 +353,14 @@ def run():
         print(
             "\nUdało Ci się uciec z miejsca potyczki, przeciwnik nie może Cię dogonić."
         )
-        time.sleep(2)
+        delay_medium()
         decision_path()
 
     else:
         print(
             "\nNie udało Ci się uciec, przeciwnik był sprytniejszy i walka trwa dalej."
         )
-        time.sleep(2)
+        delay_medium()
         return
 
 
@@ -480,7 +490,7 @@ def body_search():
     player.setMoney(player.getMoney() + money)
     print(f"\nZnalazłeś {money} sztuk złota.")
     print("\nCiekawe, czy znajdzesz jeszcze jakieś przedmioty...")
-    time.sleep(1)
+    delay_medium()
 
     for item_type, item in all_items.items():
 
@@ -491,22 +501,22 @@ def body_search():
             if loot_chance > 0:
 
                 print(f"Świetnie! Udało Ci się coś znaleźć!")
-                time.sleep(3)
+                delay_long()
                 if k in player.getItems()[item_type]:
                     print(
                         f"\nNiestety, ale {k} posiadasz już w ekwipunku, nie możesz nieść kolejnego."
                     )
                     print("Łup zostaje na swoim miejscu.\n")
-                    time.sleep(3)
+                    delay_long()
 
                 else:
                     player.getItems()[item_type][k] = v
                     print(f"Przedmiot {k.capitalize()} został dodany do ekwipunku.")
-                    time.sleep(3)
+                    delay_long()
             else:
                 pass
 
-    time.sleep(5)
+    delay_long()
     battle()
 
 
@@ -590,7 +600,7 @@ def shop():
 
     else:
         print("\n\n\t\t\t\tWybrałeś nieprawidłową opcję!")
-        time.sleep(1)
+        delay_medium()
         return
 
     return
