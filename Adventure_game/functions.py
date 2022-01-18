@@ -14,8 +14,10 @@ def clear_screen():
 def delay_short():
     time.sleep(0.5)
 
+
 def delay_medium():
     time.sleep(1.5)
+
 
 def delay_long():
     time.sleep(3)
@@ -300,12 +302,18 @@ def use_item():
                     # consumable item is destroyed after use, and removed from inventory
                     del player.getItems()[item_type][choosed_item]
 
-                elif item_type == 'other':
+                elif item_type == "other":
 
-                    if 'Luck' in player.getItems()[item_type][choosed_item].keys():
-                        player.setLuck(player.getLuck() + player.getItems()[item_type][choosed_item]['Luck'])
+                    if "Luck" in player.getItems()[item_type][choosed_item].keys():
+                        player.setLuck(
+                            player.getLuck()
+                            + player.getItems()[item_type][choosed_item]["Luck"]
+                        )
 
-                    elif 'Clear State' in player.getItems()[item_type][choosed_item].keys():
+                    elif (
+                        "Clear State"
+                        in player.getItems()[item_type][choosed_item].keys()
+                    ):
                         player.setState([])
 
                     # elif '' in player.getItems()[item_type][choosed_item].keys():
@@ -331,7 +339,7 @@ def use_item():
         choose_item_type("consumables")
 
     elif choice == "3":
-        choose_item_type('other')
+        choose_item_type("other")
 
     elif choice == "0" or choice == "":
         return
@@ -539,19 +547,32 @@ def shop():
         choice = int(input("\nJaki przedmiot chcesz kupić?   > ")) - 1
 
         item_to_buy = items_list[choice]
+        cost_of_item_to_buy = all_items[item_type][item_to_buy]["Price"]
 
-        for item_type, item in all_items.items():
+        if cost_of_item_to_buy > player.getMoney():
 
-            for k, v in item.items():
+            print(
+                f"\nMasz za mało pieniedzy, brakuje Ci {cost_of_item_to_buy - player.getMoney()} sztuk złota!"
+            )
+            delay_medium()
 
-                if k == item_to_buy:
+        else:
 
-                    new_item_dict = {k: v}
-                    print(new_item_dict)
-                    player.getItems()[item_type].update(new_item_dict)
+            for item_type, item in all_items.items():
+                for k, v in item.items():
+                    if k == item_to_buy:
+                        new_item_dict = {k: v}
 
-                else:
-                    pass
+                        bought_message = f"\nKupiłeś przedmiot {item_to_buy}. Pozostało Ci {player.getMoney() - cost_of_item_to_buy} sztuk złota."
+                        
+                        print('-' * len(bought_message))
+                        print(bought_message)
+                        print('_' * len(bought_message))
+                        player.getItems()[item_type].update(new_item_dict)
+                        player.setMoney(player.getMoney() - cost_of_item_to_buy)
+                        delay_long()
+                    else:
+                        pass
 
         shop()
 
@@ -559,13 +580,15 @@ def shop():
 
     print("\n\n\t\t\t\t\t\t", "-" * 20)
     print("\t\t\t\t\t\t|  Witaj w sklepie!  |")
-    print("\t\t\t\t\t\t", "-" * 20,"\n")
+    print("\t\t\t\t\t\t", "-" * 20, "\n")
     print("Posiadasz następujące przedmioty:")
 
     for item_type, item in player.getItems().items():
 
         for name, parameters in item.items():
             print(name)
+
+    print(f"\nTwoja gotówka to {player.getMoney()} sztuk złota.")
 
     print("\n\n\nLista przedmiotów na sprzedaż:")
 

@@ -1,3 +1,12 @@
+### v0.2
+
+### What works?:
+- exploring regions
+
+> TODO: change description for each region, because it was copy/pasted
+        options in regions (search, fight, examine, etc...)
+
+
 ### v0.1.9
 
 - added module for exploring world
