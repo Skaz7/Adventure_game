@@ -424,10 +424,4 @@ def region_builder(region_name, region_description, next_regions):
     eval((f"{next_regions_list[input_message-1]}()".replace(" ", "_")))
 
 
-region_builder("town",
-    """This is small and peaceful town at a crossroads.
-    The citizens are poor, but you can see that they are good people.
-    You stand in the middle of townsquare.
-    On your left there is weapon shop
-    """,
-    ["north crossroads", "south crossroads", "west crossroads", "east crossroads"])
+town()

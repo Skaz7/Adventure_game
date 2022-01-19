@@ -9,3 +9,5 @@ with open(
 ) as file:
     global all_items
     all_items = json.load(file)
+
+player_temp_stat_boost = {"Damage": 0, "Defense": 0}

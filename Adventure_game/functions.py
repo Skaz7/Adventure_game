@@ -78,7 +78,7 @@ def attack():
         enemy_damage = roll_20_dice() + player.getAttack() - enemy.getDefense()
         player.setExperience(
             player.getExperience()
-            + (player_hit_chance + roll_6_dice()) * 10 * player.getLevel() * 0.5
+            + int((player_hit_chance + roll_6_dice()) * 5 * player.getLevel() * 0.5)
         )
 
         # Damage can't be lower than 0
@@ -95,6 +95,14 @@ def attack():
     else:
         print("\nNie udało Ci się zadać ciosu, przeciwnik był sprytniejszy.")
         delay_short()
+    
+    # player stats increased by used item are going back to previous level
+    player.setAttack(player.getAttack() - player_temp_stat_boost["Damage"])
+    player.setDefense(player.getDefense() - player_temp_stat_boost["Defense"])
+
+    # stats boost is reset
+    player_temp_stat_boost["Damage"] = 0
+    player_temp_stat_boost["Defense"] = 0
 
     if enemy.getHealth() <= 0:
         # hero gets 10% extra experience for defeating an enemy
@@ -242,7 +250,6 @@ def use_item():
 
         # create item list from dictionary keys
         item_list = list(player.getItems().get(item_type))
-
         print(f"\nCzego chcesz użyć w tej turze?\n")
 
         for i in enumerate(item_list, start=1):
@@ -261,27 +268,23 @@ def use_item():
             else:
                 choosed_item = item_list[choice - 1]
 
-                if item_type == "weapons":
+                if "Damage" in player.getItems()[item_type][choosed_item]:
                     player.setAttack(
                         player.getAttack()
-                        + all_items[item_type][choosed_item]["Damage"]
+                        + player.getItems()[item_type][choosed_item]["Damage"]
                     )
+
+                    player_temp_stat_boost["Damage"] = player.getItems()[item_type][choosed_item]["Damage"]
+
+                elif "Defense" in player.getItems()[item_type][choosed_item]:
                     player.setDefense(
                         player.getDefense()
-                        + all_items[item_type][choosed_item]["Defense"]
+                        + player.getItems()[item_type][choosed_item]["Defense"]
                     )
 
-                    # durability of item is decreased after each use
-                    player.getItems()[item_type][choosed_item]["Durability"] -= 1
+                    player_temp_stat_boost["Defense"] = player.getItems()[item_type][choosed_item]["Defense"]
 
-                    # if item durability reaches 0, item is destroyed and removed from inventory
-                    if player.getItems()[item_type][choosed_item]["Durability"] < 1:
-                        del player.getItems()[item_type][choosed_item]
-                    else:
-                        pass
-
-                elif item_type == "consumables":
-
+                elif "HP" in player.getItems()[item_type][choosed_item]:
                     # if actual health plus potion HP exceeds max health level, potion effect is reduced
                     if (
                         player.getHealth() + all_items[item_type][choosed_item]["HP"]
@@ -294,32 +297,22 @@ def use_item():
                             player.getHealth()
                             + all_items[item_type][choosed_item]["HP"]
                         )
-
+                elif "MP" in player.getItems()[item_type][choosed_item]:
                     player.setMagic(
                         player.getMagic() + all_items[item_type][choosed_item]["MP"]
                     )
 
-                    # consumable item is destroyed after use, and removed from inventory
-                    del player.getItems()[item_type][choosed_item]
+                elif "Luck" in player.getItems()[item_type][choosed_item].keys():
+                    player.setLuck(
+                        player.getLuck()
+                        + player.getItems()[item_type][choosed_item]["Luck"]
+                    )
 
-                elif item_type == "other":
+                elif "Clear State" in player.getItems()[item_type][choosed_item].keys():
+                    player.setState([])
 
-                    if "Luck" in player.getItems()[item_type][choosed_item].keys():
-                        player.setLuck(
-                            player.getLuck()
-                            + player.getItems()[item_type][choosed_item]["Luck"]
-                        )
-
-                    elif (
-                        "Clear State"
-                        in player.getItems()[item_type][choosed_item].keys()
-                    ):
-                        player.setState([])
-
-                    # elif '' in player.getItems()[item_type][choosed_item].keys():
-
-                    else:
-                        pass
+                else:
+                    pass
 
             use_item_text = (
                 f"Użyłeś przedmiotu {choosed_item}, Twoje statystyki wzrastają."
@@ -327,6 +320,19 @@ def use_item():
             print(f"\n\n\t\t\t", "-" * (len(use_item_text) + 6))
             print(f"\t\t\t |  {use_item_text}  |")
             print(f"\t\t\t", "-" * (len(use_item_text) + 6))
+
+            delay_short()
+
+            # durability of item is decreased after each use. Consumables are destroyed after one use
+            player.getItems()[item_type][choosed_item]["Durability"] -= 1
+
+            # if item durability reaches 0, item is destroyed and removed from inventory
+            if player.getItems()[item_type][choosed_item]["Durability"] < 1:
+                print(
+                    f"\n\t\t\t\t  Przedmiot {choosed_item} został zniszczony!\n"
+                )
+                del player.getItems()[item_type][choosed_item]            
+
             delay_medium()
 
         except ValueError:
@@ -537,12 +543,12 @@ def shop():
         print("\nWybrałeś broń, oto przedmioty z tej kategorii dostępne w sprzedaży:\n")
 
         for number, (item, stats) in enumerate(all_items[item_type].items(), start=1):
-            print(f"{number}. Przedmiot: {item}")
+            print(f"\n{number}. Przedmiot: {item}")
             print("-" * (len(f"Przedmiot: {item}") + 3))
             items_list.append(item)
 
             for i, j in stats.items():
-                print(f"\t\t{i:11}: {j}")
+                print(f"\t\t\t{i:11}: {j}")
 
         choice = int(input("\nJaki przedmiot chcesz kupić?   > ")) - 1
 
@@ -564,10 +570,10 @@ def shop():
                         new_item_dict = {k: v}
 
                         bought_message = f"\nKupiłeś przedmiot {item_to_buy}. Pozostało Ci {player.getMoney() - cost_of_item_to_buy} sztuk złota."
-                        
-                        print('-' * len(bought_message))
+
+                        print("-" * len(bought_message))
                         print(bought_message)
-                        print('_' * len(bought_message))
+                        print("_" * len(bought_message))
                         player.getItems()[item_type].update(new_item_dict)
                         player.setMoney(player.getMoney() - cost_of_item_to_buy)
                         delay_long()

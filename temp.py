@@ -448,3 +448,124 @@ print()
 print(has23([2, 5]))
 print(has23([4, 3]))
 print(has23([4, 5]))
+
+###################################################
+
+def squirrel_play(temp, is_summer):
+    if is_summer == True and 60 <= temp <= 100:
+        return True
+    elif is_summer == False and 60 <= temp <= 90:
+        return True
+    else:
+        return False
+
+print()
+print(squirrel_play(70, False))
+print(squirrel_play(95, False))
+print(squirrel_play(95, True))
+
+###################################################
+
+def caught_speeding(speed, is_birthday):
+    if is_birthday == False:
+        if speed <= 60:
+            return 0
+        elif 60 < speed <= 80:
+            return 1
+        else:
+            return 2
+    else:
+        if speed <= 65:
+            return 0
+        elif 65 < speed <= 85:
+            return 1
+        else:
+            return 2
+
+print()
+print(caught_speeding(60, False))
+print(caught_speeding(65, False))
+print(caught_speeding(65, True))
+
+###################################################
+
+def sorta_sum(a, b):
+    if 10 <= a + b <= 19:
+        return 20
+    else:
+        return a + b
+
+print()
+print(sorta_sum(3, 4))
+print(sorta_sum(9, 4))
+print(sorta_sum(10, 11))
+
+###################################################
+
+def alarm_clock(day, vacation):
+    if vacation == False:
+        if day == 0 or day == 6:
+            return '10:00'
+        else:
+            return '7:00'
+    else:
+        if day == 0 or day == 6:
+            return 'off'
+        else:
+            return "10:00"
+
+print()
+print(alarm_clock(1, False))
+print(alarm_clock(5, False))
+print(alarm_clock(0, False))
+
+###################################################
+
+def love6(a, b):
+    if a == 6 or b == 6:
+        return True
+    else:
+        if a + b == 6 or a - b == 6 or b - a == 6:
+            return True
+        else:
+            return False
+
+print()
+print(love6(6, 4))
+print(love6(4, 5))
+print(love6(1, 5))
+
+###################################################
+
+def in1to10(n, outside_mode):
+    if outside_mode == False:
+        if 1 <= n <= 10:
+            return True
+        else:
+            return False
+    else:
+        if 1 < n < 10:
+            return False
+        else:
+            return True
+
+print()
+print(in1to10(5, False))
+print(in1to10(11, False))
+print(in1to10(11, True))
+
+###################################################
+
+def near_ten(num):
+    if num % 10 <= 2 or num % 10 >= 8:
+        return True
+    else:
+        return False
+
+print()
+print(near_ten(12))
+print(near_ten(17))
+print(near_ten(19))
+
+###################################################
+
