@@ -569,3 +569,11 @@ print(near_ten(19))
 
 ###################################################
 
+def double_char(str):
+    for i in range(len(str)):
+        return str[i]*2
+
+print()
+print(double_char('The'))
+print(double_char('AAbb'))
+print(double_char('Hi-There'))

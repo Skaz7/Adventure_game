@@ -183,6 +183,7 @@ def magic_attack():
 
         for i in range(len(levels)):
             if player.getExperience() > levels[i]:
+                clear_screen()
                 player.level_up()
 
         delay_medium()
@@ -484,54 +485,66 @@ def victory():
     print("\nPostanawiasz:")
     print("\n\t1 - Przeszukać zwłoki przeciwnika.")
     print("\t2 - Zostawić go w spokoju i ruszyć dalej.")
-    print("\t3 - Odwiedzić sklep.")
 
     choice = input("\n> ")
+
     if choice == "1":
         body_search()
+
     elif choice == "2":
-        pass
-    elif choice == "3":
-        pass
+        decision_path()
+
     else:
-        print("\nWybierz jedną z opcji 1-3 !")
+        print("\nWybierz jedną z opcji 1-2 !")
+        delay_medium()
         victory()
 
 
 def body_search():
 
-    money = roll_6_dice()
-    player.setMoney(player.getMoney() + money)
-    print(f"\nZnalazłeś {money} sztuk złota.")
-    print("\nCiekawe, czy znajdzesz jeszcze jakieś przedmioty...")
-    delay_medium()
+    risk = roll_20_dice()
 
-    for item_type, item in all_items.items():
+    # when risk dice roll fails, player looses some HP
+    if risk < 5:
+        print('Uruchomiłeś pułapkę!')
+        delay_medium()
+        print(f'\nStraciłeś {20 - risk} punktów życia.')
+        player.setHealth(player.getHealth() - (20 - risk))
+    
+    else:
+        # player gets loot from enemy body
+        money = roll_6_dice() * 2
+        player.setMoney(player.getMoney() + money)
+        print(f"\nZnalazłeś {money} sztuk złota.")
+        print("\nCiekawe, czy znajdzesz jeszcze jakieś przedmioty...")
+        delay_medium()
 
-        for k, v in item.items():
+        for item_type, item in all_items.items():
 
-            loot_chance = (roll_20_dice() - int(v["Price"] / 5)) - (roll_20_dice() * 2)
+            for k, v in item.items():
 
-            if loot_chance > 0:
+                loot_chance = (roll_20_dice() - int(v["Price"] / 5)) - (roll_20_dice() * 2)
 
-                print(f"Świetnie! Udało Ci się coś znaleźć!")
-                delay_long()
-                if k in player.getItems()[item_type]:
-                    print(
-                        f"\nNiestety, ale {k} posiadasz już w ekwipunku, nie możesz nieść kolejnego."
-                    )
-                    print("Łup zostaje na swoim miejscu.\n")
+                if loot_chance > 0:
+
+                    print(f"Świetnie! Udało Ci się coś znaleźć!")
                     delay_long()
+                    if k in player.getItems()[item_type]:
+                        print(
+                            f"\nNiestety, ale {k} posiadasz już w ekwipunku, nie możesz nieść kolejnego."
+                        )
+                        print("Łup zostaje na swoim miejscu.\n")
+                        delay_long()
 
+                    else:
+                        player.getItems()[item_type][k] = v
+                        print(f"Przedmiot {k.capitalize()} został dodany do ekwipunku.")
+                        delay_long()
                 else:
-                    player.getItems()[item_type][k] = v
-                    print(f"Przedmiot {k.capitalize()} został dodany do ekwipunku.")
-                    delay_long()
-            else:
-                pass
+                    pass
 
-    delay_long()
-    battle()
+        delay_medium()
+        decision_path()
 
 
 def shop():

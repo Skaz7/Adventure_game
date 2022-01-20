@@ -64,8 +64,27 @@ class Hero:
     # when hero experience points exceends level given in level list the stats increases
     def level_up(self):
         self.level = self.level + 1
-        self.health = int(self.health * 1.1)
-        self.attack = int(self.attack * 1.1)
-        self.defense = int(self.defense * 1.1)
-        self.magic = int(self.magic * 1.1)
-        self.state = []
+        additional_points = 2
+
+        while additional_points > 0:
+            print(f'''{self.name}, awansowałeś na nowy poziom. Poziom Twojego zdrowia zwiększył się automatycznie.
+Dodatkowo otrzymujesz 2 punkty, dzięki którym możesz zwiększych swoje statystyki.
+
+Którą parametr chcesz rozwinąć?
+
+1. Atak      : {self.attack}
+2. Obrona    : {self.defense}
+3. Magia     : {self.magic}
+4. Szczęście : {self.luck}
+        ''')
+            choice = input(f'\nGdzie przyznasz punkt?  > ')
+            if choice == '1':
+                self.attack += 1
+            elif choice == '2':
+                self.defense += 1
+            elif choice == '3':
+                self.magic += 1
+            elif choice == '4':
+                self.luck += 1
+            self.state = []
+            additional_points -= 1
