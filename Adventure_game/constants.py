@@ -1,7 +1,7 @@
 import json
 from create_characters import *
 
-levels = [200, 450, 750, 1250]
+levels = [200, 450, 900, 1300, 1900, 4000, ]
 
 with open(
     "D:\\Users\\sebas\\OneDrive\\Repositories\\Adventure_game\\Adventure_game\\all_items.json",

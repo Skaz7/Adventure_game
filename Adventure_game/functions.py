@@ -95,7 +95,7 @@ def attack():
     else:
         print("\nNie udało Ci się zadać ciosu, przeciwnik był sprytniejszy.")
         delay_short()
-    
+
     # player stats increased by used item are going back to previous level
     player.setAttack(player.getAttack() - player_temp_stat_boost["Damage"])
     player.setDefense(player.getDefense() - player_temp_stat_boost["Defense"])
@@ -275,7 +275,9 @@ def use_item():
                         + player.getItems()[item_type][choosed_item]["Damage"]
                     )
 
-                    player_temp_stat_boost["Damage"] = player.getItems()[item_type][choosed_item]["Damage"]
+                    player_temp_stat_boost["Damage"] = player.getItems()[item_type][
+                        choosed_item
+                    ]["Damage"]
 
                 elif "Defense" in player.getItems()[item_type][choosed_item]:
                     player.setDefense(
@@ -283,7 +285,9 @@ def use_item():
                         + player.getItems()[item_type][choosed_item]["Defense"]
                     )
 
-                    player_temp_stat_boost["Defense"] = player.getItems()[item_type][choosed_item]["Defense"]
+                    player_temp_stat_boost["Defense"] = player.getItems()[item_type][
+                        choosed_item
+                    ]["Defense"]
 
                 elif "HP" in player.getItems()[item_type][choosed_item]:
                     # if actual health plus potion HP exceeds max health level, potion effect is reduced
@@ -329,10 +333,8 @@ def use_item():
 
             # if item durability reaches 0, item is destroyed and removed from inventory
             if player.getItems()[item_type][choosed_item]["Durability"] < 1:
-                print(
-                    f"\n\t\t\t\t  Przedmiot {choosed_item} został zniszczony!\n"
-                )
-                del player.getItems()[item_type][choosed_item]            
+                print(f"\n\t\t\t\t  Przedmiot {choosed_item} został zniszczony!\n")
+                del player.getItems()[item_type][choosed_item]
 
             delay_medium()
 
@@ -396,7 +398,7 @@ def battle():
         print("\t\t\t\t===========")
         print(f"\n\t\t\t\tTura {turn_counter}")
 
-        player_health_bar = "=" * int(player.getHealth() / 2)
+        player_health_bar = "=" * int(player.getHealth() * 60 / player_max_health)
 
         if player.getHealth() < player_max_health * 0.3:
             player_health_bar_color = "\033[0;31m"
@@ -409,26 +411,26 @@ def battle():
 
         print(f"\nBohater - {player.getName()}")
         print("-" * (10 + len(player.getName())))
-        print(f'{"Poziom:":16} {player.getLevel()}')
-        print(f'{"Doświadczenie:":16} {player.getExperience()}')
+        print(f'{"Poziom:":17} {player.getLevel()}')
+        print(f'{"Doświadczenie:":17} {player.getExperience()}')
         print(
-            f'{"Zdrowie:":16} {player.getHealth()} {player_health_bar_color} [{player_health_bar}',
-            " " * int((player_max_health - player.getHealth()) / 2),
+            f'{"Zdrowie:":17} {player.getHealth()} {player_health_bar_color} [{player_health_bar}',
+            " " * (60 - len(player_health_bar)),
             "]",
             "\033[0m",
             sep="",
         )
-        print(f'{"Atak:":16} {player.getAttack()}')
-        print(f'{"Obrona:":16} {player.getDefense()}')
-        print(f'{"Magia:":16} {player.getMagic()}')
-        print(f'{"Szczęście:":16} {player.getLuck()}')
-        print(f'{"Pieniądze:":16} {player.getMoney()}')
-        # print(f'{"Przedmioty:":16} {player.getItems()}\n')
+        print(f'{"Atak:":17} {player.getAttack()}')
+        print(f'{"Obrona:":17} {player.getDefense()}')
+        print(f'{"Magia:":17} {player.getMagic()}')
+        print(f'{"Szczęście:":17} {player.getLuck()}')
+        print(f'{"Pieniądze:":17} {player.getMoney()}')
+        # print(f'{"Przedmioty:":17} {player.getItems()}\n')
 
         print(f"\nPrzeciwnik - {enemy.getName()}")
         print("-" * (13 + len(enemy.getName())))
 
-        enemy_health_bar = "=" * int(enemy.getHealth() / 2)
+        enemy_health_bar = "=" * int(enemy.getHealth() * 60 / enemy_max_health)
 
         if enemy.getHealth() < enemy_max_health * 0.3:
             enemy_health_bar_color = "\033[0;31m"
@@ -441,7 +443,7 @@ def battle():
 
         print(
             f'{"Zdrowie":17} {enemy.getHealth()} {enemy_health_bar_color} [{enemy_health_bar}',
-            " " * int((enemy_max_health - enemy.getHealth()) / 2),
+            " " * (60 - len(enemy_health_bar)),
             "]",
             "\033[0m",
             sep="",
@@ -506,11 +508,11 @@ def body_search():
 
     # when risk dice roll fails, player looses some HP
     if risk < 5:
-        print('Uruchomiłeś pułapkę!')
+        print("Uruchomiłeś pułapkę!")
         delay_medium()
-        print(f'\nStraciłeś {20 - risk} punktów życia.')
+        print(f"\nStraciłeś {20 - risk} punktów życia.")
         player.setHealth(player.getHealth() - (20 - risk))
-    
+
     else:
         # player gets loot from enemy body
         money = roll_6_dice() * 2
@@ -523,7 +525,9 @@ def body_search():
 
             for k, v in item.items():
 
-                loot_chance = (roll_20_dice() - int(v["Price"] / 5)) - (roll_20_dice() * 2)
+                loot_chance = (roll_20_dice() - int(v["Price"] / 5)) - (
+                    roll_20_dice() * 2
+                )
 
                 if loot_chance > 0:
 
@@ -553,7 +557,9 @@ def shop():
 
         items_list = []
 
-        print("\nWybrałeś broń, oto przedmioty z tej kategorii dostępne w sprzedaży:\n")
+        print(
+            f"\nWybrałeś {item_type}, oto przedmioty z tej kategorii dostępne w sprzedaży:\n"
+        )
 
         for number, (item, stats) in enumerate(all_items[item_type].items(), start=1):
             print(f"\n{number}. Przedmiot: {item}")
@@ -563,35 +569,48 @@ def shop():
             for i, j in stats.items():
                 print(f"\t\t\t{i:11}: {j}")
 
-        choice = int(input("\nJaki przedmiot chcesz kupić?   > ")) - 1
+        try:
+            choice = int(input("\nJaki przedmiot chcesz kupić?   > ")) - 1
 
-        item_to_buy = items_list[choice]
-        cost_of_item_to_buy = all_items[item_type][item_to_buy]["Price"]
+            if choice == "":
+                return
 
-        if cost_of_item_to_buy > player.getMoney():
+            elif choice < 0 or choice > len(items_list) - 1:
+                print("\nWybrałeś nieprawidłową opcję, powtórz.")
+                delay_medium()
 
-            print(
-                f"\nMasz za mało pieniedzy, brakuje Ci {cost_of_item_to_buy - player.getMoney()} sztuk złota!"
-            )
+            else:
+                item_to_buy = items_list[choice]
+                cost_of_item_to_buy = all_items[item_type][item_to_buy]["Price"]
+
+                if cost_of_item_to_buy > player.getMoney():
+
+                    print(
+                        f"\nMasz za mało pieniedzy, brakuje Ci {cost_of_item_to_buy - player.getMoney()} sztuk złota!"
+                    )
+                    delay_medium()
+
+                else:
+
+                    for item_type, item in all_items.items():
+                        for k, v in item.items():
+                            if k == item_to_buy:
+                                new_item_dict = {k: v}
+
+                                bought_message = f"\nKupiłeś przedmiot {item_to_buy}. Pozostało Ci {player.getMoney() - cost_of_item_to_buy} sztuk złota."
+
+                                print("-" * len(bought_message))
+                                print(bought_message)
+                                print("_" * len(bought_message))
+                                player.getItems()[item_type].update(new_item_dict)
+                                player.setMoney(player.getMoney() - cost_of_item_to_buy)
+                                delay_long()
+
+                            else:
+                                pass
+        except ValueError:
+            print("\nWybrałeś nieprawidłową opcję, powtórz.")
             delay_medium()
-
-        else:
-
-            for item_type, item in all_items.items():
-                for k, v in item.items():
-                    if k == item_to_buy:
-                        new_item_dict = {k: v}
-
-                        bought_message = f"\nKupiłeś przedmiot {item_to_buy}. Pozostało Ci {player.getMoney() - cost_of_item_to_buy} sztuk złota."
-
-                        print("-" * len(bought_message))
-                        print(bought_message)
-                        print("_" * len(bought_message))
-                        player.getItems()[item_type].update(new_item_dict)
-                        player.setMoney(player.getMoney() - cost_of_item_to_buy)
-                        delay_long()
-                    else:
-                        pass
 
         shop()
 
@@ -637,7 +656,7 @@ def shop():
 
         buy_item("other")
 
-    elif choice == "0":
+    elif choice == "0" or choice == "":
         decision_path()
 
     else:

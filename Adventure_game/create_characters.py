@@ -19,7 +19,7 @@ def create_player_character():
     Hmagic = random.randint(10, 20)
     Hluck = random.randint(10, 20)
     Hmoney = random.randint(80, 120)
-    Hitems = {}
+    Hitems = {"weapons":{}, "consumables":{}, "other":{}}
     Hstate = []
     Hexperience = 0
     Hlevel = 1

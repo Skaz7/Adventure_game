@@ -1,8 +1,19 @@
+### v0.2.3
+- fixed player and enemy health bar length - now it's 60 '=' characters for both of them
+- fixed shop bug with list indexes errors
+
+> TODO: leveling up bug - player gets more additional points for the stats after reaching new experience levels (it should be always 2 points).
+> Change player_temp_stat_boost from global to local for better memory usage
+
+
+
 ### v0.2.2
 - fixed bug when player chooses not to search body of defeated enemy and is forced to fight dead enemy with negative value of *health*.
 - added 2 experience points after reaching *new level*. Points are distributed to player stats
 - player **inventory** is now empty at game start. Player gets more *money* and can buy selected *items* in **shop**.
 - added risk of activating a trap when search of dead enemy body fails
+
+> TODO: bug fix: when trying to use item from empty inventory causes dictionary error.
 
 
 
