@@ -108,9 +108,9 @@ def attack():
         # hero gets 10% extra experience for defeating an enemy
         player.setExperience(int(player.getExperience() * 1.1))
 
-        for i in range(len(levels)):
-            if player.getExperience() > levels[i]:
-                player.level_up()
+        if player.getExperience() > levels[0]:
+            player.level_up()
+            del levels[0]
 
         delay_medium()
         victory()
@@ -138,6 +138,8 @@ def attack():
                 delay_short()
                 print(f"{enemy.getName()} zadał Ci {player_damage} obrażeń...")
                 player.setHealth(player.getHealth() - player_damage)
+                if player.getHealth() <= 0:
+                    defeat()
                 delay_medium()
         else:
             print(f"{enemy.getName()} nie zdołał Cię dosięgnąć.")
@@ -425,7 +427,6 @@ def battle():
         print(f'{"Magia:":17} {player.getMagic()}')
         print(f'{"Szczęście:":17} {player.getLuck()}')
         print(f'{"Pieniądze:":17} {player.getMoney()}')
-        # print(f'{"Przedmioty:":17} {player.getItems()}\n')
 
         print(f"\nPrzeciwnik - {enemy.getName()}")
         print("-" * (13 + len(enemy.getName())))
@@ -501,6 +502,15 @@ def victory():
         delay_medium()
         victory()
 
+
+def defeat():
+    clear_screen()
+    delay_short()
+    print(f'\n\n{player.getName()}, poniosłeś porażkę w walce i umierasz...')
+    delay_short()
+    print('Twoje zwłoki zostają na pożarce sępom.\n\n\n\n')
+    delay_short()
+    quit()
 
 def body_search():
 
