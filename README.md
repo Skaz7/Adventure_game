@@ -1,3 +1,27 @@
+### v0.2.5
+
+#### What works?:
+- fixed bug with using **other** items, when stats wasn't reset after end of turn
+
+#### What doesn't work?:
+- player health is always 200 HP on start of battle, even after reaching new level. It should be increased each level.
+
+> TODO:
+
+
+
+### v0.2.4
+
+#### What works?:
+- fixed leveling up, now player gets only 2 stat points after reaching new level
+
+#### What doesn't work?:
+- player health is always 200 HP on start of battle, even after reaching new level. It should be increased each level.
+
+> TODO: fix bug when using **other** items. Now player can use for example *for leaf clover* as many times as he wants in one battle, and stats raises each time.
+
+
+
 ### v0.2.3
 - fixed player and enemy health bar length - now it's 60 '=' characters for both of them
 - fixed shop bug with list indexes errors

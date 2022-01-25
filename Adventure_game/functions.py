@@ -5,6 +5,7 @@ import time
 
 from images import *
 from constants import *
+from create_characters import *
 
 
 def clear_screen():
@@ -51,6 +52,7 @@ def decision_path():
     print("\nCo chcesz zrobić?")
     print("\n1. Walka")
     print("2. Sklep")
+    print("3. Ekran Gracza")
 
     choice = input("> ")
 
@@ -58,6 +60,10 @@ def decision_path():
         battle()
     elif choice == "2":
         shop()
+    elif choice == "3":
+        clear_screen()
+        player.show_player_stats()
+        decision_path()
     else:
         quit()
 
@@ -68,17 +74,14 @@ def attack():
     If hero hits an enemy, he gets experience points equal to hit chance and 6-side dice roll.
     When hero experience exceeds levels set in a given list, he gets a new level.
     """
-    player_hit_chance = (roll_20_dice() + player.getLuck()) - (
-        roll_20_dice() + enemy.getChance()
-    )
+    player_hit_chance = (roll_20_dice() + player.luck) - (roll_20_dice() + enemy.chance)
 
     if player_hit_chance > 0:
 
         print(f"\nUdało Ci się zadać cios.")
-        enemy_damage = roll_20_dice() + player.getAttack() - enemy.getDefense()
-        player.setExperience(
-            player.getExperience()
-            + int((player_hit_chance + roll_6_dice()) * 5 * player.getLevel() * 0.5)
+        enemy_damage = roll_20_dice() + player.attack - enemy.defense
+        player.experience = player.experience + int(
+            (player_hit_chance + roll_6_dice()) * 5 * player.level * 0.5
         )
 
         # Damage can't be lower than 0
@@ -86,29 +89,37 @@ def attack():
             enemy_damage == 0
 
         else:
-            pass
-        print(f"\n Przeciwnik odniósł {enemy_damage} obrażeń.")
+            critical_chance = random.randint(0, 100)
 
-        enemy.setHealth(int(enemy.getHealth() - enemy_damage))
-        delay_short()
+            if critical_chance > 90:
+                print(f"\nUdało Ci się zadać krytyczny cios. Przeciwnik odniósł {int(enemy_damage * 1.2)} obrażeń.")
+                enemy.health = int(enemy.health - int(enemy_damage * 1.2))
+                delay_medium()
+
+            else:
+                print(f"\nPrzeciwnik odniósł {enemy_damage} obrażeń.")
+                enemy.health = int(enemy.health - enemy_damage)
+                delay_medium()
 
     else:
         print("\nNie udało Ci się zadać ciosu, przeciwnik był sprytniejszy.")
         delay_short()
 
     # player stats increased by used item are going back to previous level
-    player.setAttack(player.getAttack() - player_temp_stat_boost["Damage"])
-    player.setDefense(player.getDefense() - player_temp_stat_boost["Defense"])
+    player.attack = player.attack - player_temp_stat_boost["Damage"]
+    player.defense = player.defense - player_temp_stat_boost["Defense"]
+    player.luck = player.luck - player_temp_stat_boost["Luck"]
 
     # stats boost is reset
     player_temp_stat_boost["Damage"] = 0
     player_temp_stat_boost["Defense"] = 0
+    player_temp_stat_boost["Luck"] = 0
 
-    if enemy.getHealth() <= 0:
+    if enemy.health <= 0:
         # hero gets 10% extra experience for defeating an enemy
-        player.setExperience(int(player.getExperience() * 1.1))
+        player.experience = int(player.experience * 1.1)
 
-        if player.getExperience() > levels[0]:
+        if player.experience > levels[0]:
             player.level_up()
             del levels[0]
 
@@ -119,30 +130,47 @@ def attack():
         print(f"\nCzas na ruch przeciwnika.")
         delay_short()
 
-        print(f"{enemy.getName()} atakuje!")
+        print(f"{enemy.name} atakuje!")
         delay_short()
 
-        enemy_hit_chance = (roll_20_dice() + enemy.getChance()) - (
-            roll_20_dice() + player.getLuck()
+        enemy_hit_chance = (roll_20_dice() + enemy.chance) - (
+            roll_20_dice() + player.luck
         )
 
         if enemy_hit_chance > 0:
             print("Jego cios Cię dosięgnął.")
-            player_damage = roll_20_dice() + enemy.getAttack() - player.getDefense()
+            player_damage = roll_20_dice() + enemy.attack - player.defense
 
             if player_damage < 0:
-                delay_short()
-                print(f"{enemy.getName()} nie zadał Ci obrażeń...")
+                delay_medium()
+                print(f"{enemy.name} nie zadał Ci obrażeń...")
 
             else:
-                delay_short()
-                print(f"{enemy.getName()} zadał Ci {player_damage} obrażeń...")
-                player.setHealth(player.getHealth() - player_damage)
-                if player.getHealth() <= 0:
-                    defeat()
                 delay_medium()
+                critical_chance = random.randint(0,100)
+
+                if critical_chance > 5:
+                    print(f"{enemy.name} zadał Ci {int(player_damage * 1.2)} obrażeń...")
+                    player.health = player.health - int(player_damage * 1.2)
+
+                    # if player already has a negative condition, no more is added
+                    if len(player.state) == 0:
+                        player.state.append(player_states[random.randint(0, len(player_states))])
+
+                    else:
+                        pass
+
+                    if player.health <= 0:
+                        defeat()
+                    delay_medium()
+                else:
+                    print(f"{enemy.name} zadał Ci {player_damage} obrażeń...")
+                    player.health = player.health - player_damage
+                    if player.health <= 0:
+                        defeat()
+                    delay_medium()
         else:
-            print(f"{enemy.getName()} nie zdołał Cię dosięgnąć.")
+            print(f"{enemy.name} nie zdołał Cię dosięgnąć.")
             delay_medium()
 
 
@@ -152,17 +180,15 @@ def magic_attack():
     If hero hits an enemy, he gets experience points equal to hit chance and 6-side dice roll.
     When hero experience exceeds levels set in a given list, he gets a new level.
     """
-    player_hit_chance = (roll_20_dice() + player.getLuck()) - (
-        roll_20_dice() + enemy.getChance()
-    )
+    player_hit_chance = (roll_20_dice() + player.luck) - (roll_20_dice() + enemy.chance)
 
     if player_hit_chance > 0:
 
         print(f"\nUdało Ci się zadać obrażenia magiczne.")
-        enemy_damage = roll_20_dice() + player.getMagic() - enemy.getDefense()
-        player.setExperience(
-            player.getExperience()
-            + (player_hit_chance + roll_6_dice()) * 10 * player.getLevel() * 0.5
+        enemy_damage = roll_20_dice() + player.magic - enemy.defense
+        player.experience = (
+            player.experience
+            + (player_hit_chance + roll_6_dice()) * 10 * player.level * 0.5
         )
 
         # Damage can't be lower than 0
@@ -171,20 +197,20 @@ def magic_attack():
 
         else:
             pass
-        print(f"\n Przeciwnik odniósł {enemy_damage} obrażeń.")
-        enemy.setHealth(int(enemy.getHealth() - enemy_damage))
+        print(f"\nPrzeciwnik odniósł {enemy_damage} obrażeń.")
+        enemy.health = int(enemy.health - enemy_damage)
         delay_short()
 
     else:
         print("\nTwoja magia zawiodła, nie zadałeś przeciwnikowi obrażeń.")
         delay_short()
 
-    if enemy.getHealth() <= 0:
+    if enemy.health <= 0:
         # hero gets 10% extra experience for defeating an enemy
-        player.setExperience(int(player.getExperience() * 1.1))
+        player.experience = int(player.experience * 1.1)
 
         for i in range(len(levels)):
-            if player.getExperience() > levels[i]:
+            if player.experience > levels[i]:
                 clear_screen()
                 player.level_up()
 
@@ -195,28 +221,28 @@ def magic_attack():
         print(f"\nCzas na ruch przeciwnika.")
         delay_short()
 
-        print(f"{enemy.getName()} atakuje!")
+        print(f"{enemy.name} atakuje!")
         delay_short()
 
-        enemy_hit_chance = (roll_20_dice() + enemy.getChance()) - (
-            roll_20_dice() + player.getLuck()
+        enemy_hit_chance = (roll_20_dice() + enemy.chance) - (
+            roll_20_dice() + player.luck
         )
 
         if enemy_hit_chance > 0:
             print("Jego cios Cię dosięgnął.")
-            player_damage = roll_20_dice() + enemy.getAttack() - player.getDefense()
+            player_damage = roll_20_dice() + enemy.attack - player.defense
 
             if player_damage < 0:
                 delay_short()
-                print(f"{enemy.getName()} nie zadał Ci obrażeń...")
+                print(f"{enemy.name} nie zadał Ci obrażeń...")
 
             else:
                 delay_short()
-                print(f"{enemy.getName()} zadał Ci {player_damage} obrażeń...")
-                player.setHealth(player.getHealth() - player_damage)
+                print(f"{enemy.name} zadał Ci {player_damage} obrażeń...")
+                player.health = player.health - player_damage
                 delay_medium()
         else:
-            print(f"{enemy.getName()} nie zdołał Cię dosięgnąć.")
+            print(f"{enemy.name} nie zdołał Cię dosięgnąć.")
             delay_medium()
 
 
@@ -244,7 +270,7 @@ def use_item():
         print(f"\n\nPosiadane przez Ciebie przedmioty typu {item_type.capitalize()}:")
 
         # list of every item in Hero's inventory
-        for k, v in player.getItems()[item_type].items():
+        for k, v in player.inventory[item_type].items():
             print(f"\n{k.capitalize()} : ")
             print("-" * (len(k) + 5))
 
@@ -252,7 +278,7 @@ def use_item():
                 print(f"\t{x:10} -", y)
 
         # create item list from dictionary keys
-        item_list = list(player.getItems().get(item_type))
+        item_list = list(player.inventory.get(item_type))
         print(f"\nCzego chcesz użyć w tej turze?\n")
 
         for i in enumerate(item_list, start=1):
@@ -271,52 +297,52 @@ def use_item():
             else:
                 choosed_item = item_list[choice - 1]
 
-                if "Damage" in player.getItems()[item_type][choosed_item]:
-                    player.setAttack(
-                        player.getAttack()
-                        + player.getItems()[item_type][choosed_item]["Damage"]
+                if "Damage" in player.inventory[item_type][choosed_item]:
+                    player.attack = (
+                        player.attack
+                        + player.inventory[item_type][choosed_item]["Damage"]
                     )
 
-                    player_temp_stat_boost["Damage"] = player.getItems()[item_type][
+                    player_temp_stat_boost["Damage"] = player.inventory[item_type][
                         choosed_item
                     ]["Damage"]
 
-                elif "Defense" in player.getItems()[item_type][choosed_item]:
-                    player.setDefense(
-                        player.getDefense()
-                        + player.getItems()[item_type][choosed_item]["Defense"]
+                elif "Defense" in player.inventory[item_type][choosed_item]:
+                    player.defense = (
+                        player.defense
+                        + player.inventory[item_type][choosed_item]["Defense"]
                     )
 
-                    player_temp_stat_boost["Defense"] = player.getItems()[item_type][
+                    player_temp_stat_boost["Defense"] = player.inventory[item_type][
                         choosed_item
                     ]["Defense"]
 
-                elif "HP" in player.getItems()[item_type][choosed_item]:
+                elif "HP" in player.inventory[item_type][choosed_item]:
                     # if actual health plus potion HP exceeds max health level, potion effect is reduced
                     if (
-                        player.getHealth() + all_items[item_type][choosed_item]["HP"]
+                        player.health + all_items[item_type][choosed_item]["HP"]
                         > player_max_health
                     ):
-                        player.setHealth(player_max_health)
+                        player.health = player_max_health
 
                     else:
-                        player.setHealth(
-                            player.getHealth()
-                            + all_items[item_type][choosed_item]["HP"]
+                        player.health = (
+                            player.health + all_items[item_type][choosed_item]["HP"]
                         )
-                elif "MP" in player.getItems()[item_type][choosed_item]:
-                    player.setMagic(
-                        player.getMagic() + all_items[item_type][choosed_item]["MP"]
+
+                elif "MP" in player.inventory[item_type][choosed_item]:
+                    player.magic = (
+                        player.magic + all_items[item_type][choosed_item]["MP"]
                     )
 
-                elif "Luck" in player.getItems()[item_type][choosed_item].keys():
-                    player.setLuck(
-                        player.getLuck()
-                        + player.getItems()[item_type][choosed_item]["Luck"]
+                elif "Luck" in player.inventory[item_type][choosed_item].keys():
+                    player.luck = (
+                        player.luck + player.inventory[item_type][choosed_item]["Luck"]
                     )
+                    player_temp_stat_boost["Luck"] = player.inventory[item_type][choosed_item]["Luck"]
 
-                elif "Clear State" in player.getItems()[item_type][choosed_item].keys():
-                    player.setState([])
+                elif "Clear State" in player.inventory[item_type][choosed_item].keys():
+                    player.state = []
 
                 else:
                     pass
@@ -331,12 +357,12 @@ def use_item():
             delay_short()
 
             # durability of item is decreased after each use. Consumables are destroyed after one use
-            player.getItems()[item_type][choosed_item]["Durability"] -= 1
+            player.inventory[item_type][choosed_item]["Durability"] -= 1
 
             # if item durability reaches 0, item is destroyed and removed from inventory
-            if player.getItems()[item_type][choosed_item]["Durability"] < 1:
+            if player.inventory[item_type][choosed_item]["Durability"] < 1:
                 print(f"\n\t\t\t\t  Przedmiot {choosed_item} został zniszczony!\n")
-                del player.getItems()[item_type][choosed_item]
+                del player.inventory[item_type][choosed_item]
 
             delay_medium()
 
@@ -365,8 +391,8 @@ def defense():
 
 
 def run():
-    run_chance = player.getLuck() + roll_20_dice()
-    stop_chance = enemy.getChance() + roll_20_dice()
+    run_chance = player.luck + roll_20_dice()
+    stop_chance = enemy.chance + roll_20_dice()
 
     if run_chance > stop_chance:
         print(
@@ -383,76 +409,84 @@ def run():
         return
 
 
+def check_player_state():
+    # if len(player.state) > 0:
+    pass
+
 def battle():
 
     global enemy, player_max_health
     enemy = create_enemy()
-    enemy_max_health = enemy.getHealth()
-    player_max_health = player.getHealth()
+    enemy_max_health = enemy.health
+    player_max_health = player.health
     turn_counter = 0
+
 
     while True:
 
         clear_screen()
         turn_counter += 1
+        check_player_state()
 
         print("\n\t\t\t\tTRWA WALKA!")
         print("\t\t\t\t===========")
         print(f"\n\t\t\t\tTura {turn_counter}")
 
-        player_health_bar = "=" * int(player.getHealth() * 60 / player_max_health)
+        player_health_bar = "=" * int(player.health * 60 / player_max_health)
 
-        if player.getHealth() < player_max_health * 0.3:
+        if player.health < player_max_health * 0.3:
             player_health_bar_color = "\033[0;31m"
 
-        elif player_max_health * 0.3 <= player.getHealth() < player_max_health * 0.7:
+        elif player_max_health * 0.3 <= player.health < player_max_health * 0.7:
             player_health_bar_color = "\033[0;33m"
 
-        elif player.getHealth() >= player_max_health * 0.7:
+        elif player.health >= player_max_health * 0.7:
             player_health_bar_color = "\033[0;32m"
 
-        print(f"\nBohater - {player.getName()}")
-        print("-" * (10 + len(player.getName())))
-        print(f'{"Poziom:":17} {player.getLevel()}')
-        print(f'{"Doświadczenie:":17} {player.getExperience()}')
+        print(f"\nBohater - {player.name}")
+        print("-" * (10 + len(player.name)))
+        print(f'{"Poziom":19} : {player.level}')
+        print(f'{"Doświadczenie":19} : {player.experience}')
         print(
-            f'{"Zdrowie:":17} {player.getHealth()} {player_health_bar_color} [{player_health_bar}',
+            f'{"Zdrowie":19} : {player.health} {player_health_bar_color} [{player_health_bar}',
             " " * (60 - len(player_health_bar)),
             "]",
             "\033[0m",
             sep="",
         )
-        print(f'{"Atak:":17} {player.getAttack()}')
-        print(f'{"Obrona:":17} {player.getDefense()}')
-        print(f'{"Magia:":17} {player.getMagic()}')
-        print(f'{"Szczęście:":17} {player.getLuck()}')
-        print(f'{"Pieniądze:":17} {player.getMoney()}')
+        print(f'{"Atak":19} : {player.attack}')
+        print(f'{"Obrona":19} : {player.defense}')
+        print(f'{"Magia":19} : {player.magic}')
+        print(f'{"Szczęście":19} : {player.luck}')
+        print(f'{"Pieniądze":19} : {player.money}')
+        print(f'{"Twój stan":19} : {player.state}')
 
-        print(f"\nPrzeciwnik - {enemy.getName()}")
-        print("-" * (13 + len(enemy.getName())))
+        print(f"\nPrzeciwnik - {enemy.name}")
+        print("-" * (13 + len(enemy.name)))
 
-        enemy_health_bar = "=" * int(enemy.getHealth() * 60 / enemy_max_health)
+        enemy_health_bar = "=" * int(enemy.health * 60 / enemy_max_health)
 
-        if enemy.getHealth() < enemy_max_health * 0.3:
+        if enemy.health < enemy_max_health * 0.3:
             enemy_health_bar_color = "\033[0;31m"
 
-        elif enemy_max_health * 0.3 <= enemy.getHealth() < enemy_max_health * 0.7:
+        elif enemy_max_health * 0.3 <= enemy.health < enemy_max_health * 0.7:
             enemy_health_bar_color = "\033[0;33m"
 
-        elif enemy.getHealth() >= enemy_max_health * 0.7:
+        elif enemy.health >= enemy_max_health * 0.7:
             enemy_health_bar_color = "\033[0;32m"
 
         print(
-            f'{"Zdrowie":17} {enemy.getHealth()} {enemy_health_bar_color} [{enemy_health_bar}',
+            f'{"Zdrowie":19} : {enemy.health} {enemy_health_bar_color} [{enemy_health_bar}',
             " " * (60 - len(enemy_health_bar)),
             "]",
             "\033[0m",
             sep="",
         )
-        print(f'{"Atak":17} {enemy.getAttack()}')
-        print(f'{"Obrona":17} {enemy.getDefense()}')
-        print(f'{"Obrona magiczna:":17} {enemy.getMagicdefense()}')
-        print(f'{"Szansa trafienia:":17} {enemy.getChance()}')
+        print(f'{"Atak":19} : {enemy.attack}')
+        print(f'{"Obrona":19} : {enemy.defense}')
+        print(f'{"Obrona magiczna:":19} : {enemy.magicdefense}')
+        print(f'{"Szansa trafienia:":19} : {enemy.chance}')
+        print(f'{"Zdolność specjalna":19} : {enemy.special}')
 
         print(f"\n--------------------------------")
         print(f"| Możliwe akcje:\t       |")
@@ -481,6 +515,8 @@ def battle():
 
 
 def victory():
+
+    player.health = player_max_health
     clear_screen()
 
     print("\n\nOdniosłeś wspaniałe zwycięstwo!")
@@ -506,11 +542,12 @@ def victory():
 def defeat():
     clear_screen()
     delay_short()
-    print(f'\n\n{player.getName()}, poniosłeś porażkę w walce i umierasz...')
+    print(f"\n\n{player.name}, poniosłeś porażkę w walce i umierasz...")
     delay_short()
-    print('Twoje zwłoki zostają na pożarce sępom.\n\n\n\n')
+    print("Twoje zwłoki zostają na pożarce sępom.\n\n\n\n")
     delay_short()
     quit()
+
 
 def body_search():
 
@@ -519,14 +556,15 @@ def body_search():
     # when risk dice roll fails, player looses some HP
     if risk < 5:
         print("Uruchomiłeś pułapkę!")
-        delay_medium()
+        delay_short()
         print(f"\nStraciłeś {20 - risk} punktów życia.")
-        player.setHealth(player.getHealth() - (20 - risk))
-
+        player.health = player.health - (20 - risk)
+        delay_medium()
+        decision_path()
     else:
         # player gets loot from enemy body
         money = roll_6_dice() * 2
-        player.setMoney(player.getMoney() + money)
+        player.money = player.money + money
         print(f"\nZnalazłeś {money} sztuk złota.")
         print("\nCiekawe, czy znajdzesz jeszcze jakieś przedmioty...")
         delay_medium()
@@ -543,7 +581,7 @@ def body_search():
 
                     print(f"Świetnie! Udało Ci się coś znaleźć!")
                     delay_long()
-                    if k in player.getItems()[item_type]:
+                    if k in player.inventory[item_type]:
                         print(
                             f"\nNiestety, ale {k} posiadasz już w ekwipunku, nie możesz nieść kolejnego."
                         )
@@ -551,7 +589,7 @@ def body_search():
                         delay_long()
 
                     else:
-                        player.getItems()[item_type][k] = v
+                        player.inventory[item_type][k] = v
                         print(f"Przedmiot {k.capitalize()} został dodany do ekwipunku.")
                         delay_long()
                 else:
@@ -593,10 +631,10 @@ def shop():
                 item_to_buy = items_list[choice]
                 cost_of_item_to_buy = all_items[item_type][item_to_buy]["Price"]
 
-                if cost_of_item_to_buy > player.getMoney():
+                if cost_of_item_to_buy > player.money:
 
                     print(
-                        f"\nMasz za mało pieniedzy, brakuje Ci {cost_of_item_to_buy - player.getMoney()} sztuk złota!"
+                        f"\nMasz za mało pieniedzy, brakuje Ci {cost_of_item_to_buy - player.money} sztuk złota!"
                     )
                     delay_medium()
 
@@ -607,13 +645,13 @@ def shop():
                             if k == item_to_buy:
                                 new_item_dict = {k: v}
 
-                                bought_message = f"\nKupiłeś przedmiot {item_to_buy}. Pozostało Ci {player.getMoney() - cost_of_item_to_buy} sztuk złota."
+                                bought_message = f"\nKupiłeś przedmiot {item_to_buy}. Pozostało Ci {player.money - cost_of_item_to_buy} sztuk złota."
 
                                 print("-" * len(bought_message))
                                 print(bought_message)
                                 print("_" * len(bought_message))
-                                player.getItems()[item_type].update(new_item_dict)
-                                player.setMoney(player.getMoney() - cost_of_item_to_buy)
+                                player.inventory[item_type].update(new_item_dict)
+                                player.money = player.money - cost_of_item_to_buy
                                 delay_long()
 
                             else:
@@ -631,12 +669,12 @@ def shop():
     print("\t\t\t\t\t\t", "-" * 20, "\n")
     print("Posiadasz następujące przedmioty:")
 
-    for item_type, item in player.getItems().items():
+    for item_type, item in player.inventory.items():
 
         for name, parameters in item.items():
             print(name)
 
-    print(f"\nTwoja gotówka to {player.getMoney()} sztuk złota.")
+    print(f"\nTwoja gotówka to {player.money} sztuk złota.")
 
     print("\n\n\nLista przedmiotów na sprzedaż:")
 

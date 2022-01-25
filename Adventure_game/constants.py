@@ -1,5 +1,5 @@
 import json
-from create_characters import *
+# from create_characters import *
 
 levels = [450, 1300, 3000, 5000]
 
@@ -10,4 +10,6 @@ with open(
     global all_items
     all_items = json.load(file)
 
-player_temp_stat_boost = {"Damage": 0, "Defense": 0}
+player_temp_stat_boost = {"Damage": 0, "Defense": 0, "Luck": 0}
+
+player_states = ['frozen', 'bleed', 'burn', 'poisoned', 'stunned']

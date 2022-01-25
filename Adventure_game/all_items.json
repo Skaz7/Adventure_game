@@ -62,22 +62,22 @@
     "other": {
         "Four Leaf Clover": {
             "Luck": 2,
-            "Durability": 999,
+            "Durability": 3,
             "Price": 30
         },
         "Poison Amulet": {
             "Poison resist": 10,
-            "Durability": 999,
+            "Durability": 3,
             "Price": 50
         },
         "Fire Amulet": {
             "Fire resist": 10,
-            "Durability": 999,
+            "Durability": 3,
             "Price": 50
         },
         "Frost Amulet": {
             "Frost resist": 10,
-            "Durability": 999,
+            "Durability": 3,
             "Price": 50
         }
     }
