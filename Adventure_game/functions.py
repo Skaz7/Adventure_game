@@ -68,7 +68,7 @@ def decision_path():
         quit()
 
 
-def attack():
+def hero_attack():
     """
     Chance for hit an enemy is based on hero and enemy luck, and 20-side dice roll.
     If hero hits an enemy, he gets experience points equal to hit chance and 6-side dice roll.
@@ -103,7 +103,7 @@ def attack():
 
     else:
         print("\nNie udało Ci się zadać ciosu, przeciwnik był sprytniejszy.")
-        delay_short()
+        delay_medium()
 
     # player stats increased by used item are going back to previous level
     player.attack = player.attack - player_temp_stat_boost["Damage"]
@@ -127,54 +127,57 @@ def attack():
         victory()
 
     else:
-        print(f"\nCzas na ruch przeciwnika.")
-        delay_short()
+        enemy_attack()
 
-        print(f"{enemy.name} atakuje!")
-        delay_short()
+def enemy_attack():
+    print(f"\nCzas na ruch przeciwnika.")
+    delay_short()
 
-        enemy_hit_chance = (roll_20_dice() + enemy.chance) - (
-            roll_20_dice() + player.luck
-        )
+    print(f"{enemy.name} atakuje!")
+    delay_short()
 
-        if enemy_hit_chance > 0:
-            print("Jego cios Cię dosięgnął.")
-            player_damage = roll_20_dice() + enemy.attack - player.defense
+    enemy_hit_chance = (roll_20_dice() + enemy.chance) - (
+        roll_20_dice() + player.luck
+    )
 
-            if player_damage < 0:
-                delay_medium()
-                print(f"{enemy.name} nie zadał Ci obrażeń...")
+    if enemy_hit_chance > 0:
+        print("Jego cios Cię dosięgnął.")
+        player_damage = roll_20_dice() + enemy.attack - player.defense
 
-            else:
-                delay_medium()
-                critical_chance = random.randint(0,100)
-
-                if critical_chance > 5:
-                    print(f"{enemy.name} zadał Ci {int(player_damage * 1.2)} obrażeń...")
-                    player.health = player.health - int(player_damage * 1.2)
-
-                    # if player already has a negative condition, no more is added
-                    if len(player.state) == 0:
-                        player.state.append(player_states[random.randint(0, len(player_states))])
-
-                    else:
-                        pass
-
-                    if player.health <= 0:
-                        defeat()
-                    delay_medium()
-                else:
-                    print(f"{enemy.name} zadał Ci {player_damage} obrażeń...")
-                    player.health = player.health - player_damage
-                    if player.health <= 0:
-                        defeat()
-                    delay_medium()
-        else:
-            print(f"{enemy.name} nie zdołał Cię dosięgnąć.")
+        if player_damage < 0:
             delay_medium()
+            print(f"{enemy.name} nie zadał Ci obrażeń...")
+
+        else:
+            delay_medium()
+            critical_chance = random.randint(0,100)
+
+            if critical_chance > 5:
+                print(f"{enemy.name} zadał Ci {int(player_damage * 1.2)} obrażeń...")
+                player.health = player.health - int(player_damage * 1.2)
+
+                # if player already has a negative condition, no more is added
+                if len(player.state) == 0:
+                    player.state.append(player_states[random.randint(0, len(player_states))])
+
+                else:
+                    pass
+
+                if player.health <= 0:
+                    defeat()
+                delay_medium()
+            else:
+                print(f"{enemy.name} zadał Ci {player_damage} obrażeń...")
+                player.health = player.health - player_damage
+                if player.health <= 0:
+                    defeat()
+                delay_medium()
+    else:
+        print(f"{enemy.name} nie zdołał Cię dosięgnąć.")
+        delay_medium()
 
 
-def magic_attack():
+def hero_magic_attack():
     """
     Chance for hit an enemy is based on hero and enemy luck, and 20-side dice roll.
     If hero hits an enemy, he gets experience points equal to hit chance and 6-side dice roll.
@@ -199,11 +202,11 @@ def magic_attack():
             pass
         print(f"\nPrzeciwnik odniósł {enemy_damage} obrażeń.")
         enemy.health = int(enemy.health - enemy_damage)
-        delay_short()
+        delay_medium()
 
     else:
         print("\nTwoja magia zawiodła, nie zadałeś przeciwnikowi obrażeń.")
-        delay_short()
+        delay_medium()
 
     if enemy.health <= 0:
         # hero gets 10% extra experience for defeating an enemy
@@ -501,9 +504,9 @@ def battle():
         battle_action = input("> ")
 
         if battle_action == "1":
-            attack()
+            hero_attack()
         elif battle_action == "2":
-            magic_attack()
+            hero_magic_attack()
         elif battle_action == "3":
             use_item()
         elif battle_action == "4":
@@ -554,10 +557,12 @@ def body_search():
     risk = roll_20_dice()
 
     # when risk dice roll fails, player looses some HP
-    if risk < 5:
+    if risk < 3:
         print("Uruchomiłeś pułapkę!")
         delay_short()
-        print(f"\nStraciłeś {20 - risk} punktów życia.")
+        print("Odniosłeś poważne obrażenia.")
+        delay_short()
+        print(f"\nTwoje zdrowie trwale obniża się o {20 - risk} punktów życia.")
         player.health = player.health - (20 - risk)
         delay_medium()
         decision_path()

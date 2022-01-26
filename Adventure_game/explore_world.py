@@ -7,225 +7,281 @@ List of regions ["woods","town","ruins","north crossroads","south crossroads","w
 """
 
 
-from functions import clear_screen, delay_medium
+from functions import clear_screen, delay_short
 
 
 clear_screen()
 
 
 def abandoned_mansion():
-    print(f"You are in the Abandoned Mansion.")
-    delay_medium()
+    delay_short()
     region_builder("abandoned mansion",
-    """This is small and peaceful town at a crossroads.
-    The citizens are poor, but you can see that they are good people.
-    You stand in the middle of townsquare.
-    On your left there is weapon shop
+    """    You arrived to a place where you supposed to find farmers house.
+    Instead you see that their house is ruined and abandoned.
+    You don't know if there is anything interesting in there,
+    so you wonder if you should leave the area or go to check the mansion.
     """,
-    ["north crossroads", "south crossroads"])
+    ["old farm", "plains"])
 
     return
 
 
 def flat_fields():
-    print(f"You are in the Flat Fields.")
-    delay_medium()
+    delay_short()
     region_builder("flat fields",
-    """This is small and peaceful town at a crossroads.
-    The citizens are poor, but you can see that they are good people.
-    You stand in the middle of townsquare.
-    On your left there is weapon shop
+    """    You came to the flat fields. 
+    To the south you see the road leading to the port, and to the west there are ruins of a castle.
     """,
-    ["north crossroads", "south crossroads"])
+    ["port", "ruins"])
 
     return
 
 
 def iron_ore_mine():
-    print(f"You are in the Iron Ore Mine.")
-    delay_medium()
+    delay_short()
     region_builder("iron ore mine",
-    """This is small and peaceful town at a crossroads.
-    The citizens are poor, but you can see that they are good people.
-    You stand in the middle of townsquare.
-    On your left there is weapon shop
+    """    Here is an old iron ore mine.
+    A long time ago, the ore used to make the best weapons was mined here.
+    Now the mine terrifies with abandoned corridors and strange sounds coming out of the depths
     """,
-    ["north crossroads", "south crossroads"])
+    ["mountains"])
 
     return
 
 
 def goblin_forest():
-    print(f"You are in the Goblin Forest.")
-    delay_medium()
+    delay_short()
     region_builder("goblin forest",
-    """This is small and peaceful town at a crossroads.
-    The citizens are poor, but you can see that they are good people.
-    You stand in the middle of townsquare.
-    On your left there is weapon shop
+    """    You've heard a lot about this dangerous forest.
+    Many wanderers were lost here, and many merchants were robbed.
+    Herds of wild goblins attack those who could not afford to hire adequate protection.
     """,
-    ["north crossroads", "south crossroads"])
+    ["swamp", "river", "plains"])
 
     return
 
 
 def darkwood():
-    print(f"You are in the Darkwood.")
-    delay_medium()
+    delay_short()
+    region_builder("darkwood",
+    """    You are not able to see the light of day through impenetrable thickets of forests.
+    You are surrounded by darkness on all sides, you are afraid of what may be lurking in it.
+    """,
+    ["mountains", "safe path", "north crossroads"])
+
+    return
+
+
+def safe_path():
+    delay_short()
     region_builder("darkwood",
     """This is small and peaceful town at a crossroads.
     The citizens are poor, but you can see that they are good people.
     You stand in the middle of townsquare.
     On your left there is weapon shop
     """,
-    ["north crossroads", "south crossroads"])
+    ["darkwood", "green hills"])
 
     return
 
 
 def gate():
-    print(f"You are at the Gate.")
-    delay_medium()
+    delay_short()
     region_builder("gate",
     """This is small and peaceful town at a crossroads.
     The citizens are poor, but you can see that they are good people.
     You stand in the middle of townsquare.
     On your left there is weapon shop
     """,
-    ["north crossroads", "south crossroads"])
+    ["plains"])
 
     return
 
 
 def old_farm():
-    print(f"You are in the Old Farm.")
-    delay_medium()
+    delay_short()
     region_builder("old farm",
     """This is small and peaceful town at a crossroads.
     The citizens are poor, but you can see that they are good people.
     You stand in the middle of townsquare.
     On your left there is weapon shop
     """,
-    ["north crossroads", "south crossroads"])
+    ["east crossroads", "south crossroads", "abandoned mansion"])
 
     return
 
 
 def mill():
-    print(f"You are in the Mill.")
-    delay_medium()
+    delay_short()
     region_builder("mill",
     """This is small and peaceful town at a crossroads.
     The citizens are poor, but you can see that they are good people.
     You stand in the middle of townsquare.
     On your left there is weapon shop
     """,
-    ["north crossroads", "south crossroads"])
+    ["river", "waterfall"])
+
+    return
+
+
+def waterfall():
+    delay_short()
+    region_builder("mill",
+    """This is small and peaceful town at a crossroads.
+    The citizens are poor, but you can see that they are good people.
+    You stand in the middle of townsquare.
+    On your left there is weapon shop
+    """,
+    ["mill", "rocks"])
 
     return
 
 
 def green_hills():
-    print(f"You are in the Green Hills.")
-    delay_medium()
+    delay_short()
     region_builder("green hills",
     """This is small and peaceful town at a crossroads.
     The citizens are poor, but you can see that they are good people.
     You stand in the middle of townsquare.
     On your left there is weapon shop
     """,
-    ["north crossroads", "south crossroads"])
+    ["west crossroads", "clearing", "safe path", "north crossroads"])
+
+    return
+
+
+def clearing():
+    delay_short()
+    region_builder("green hills",
+    """This is small and peaceful town at a crossroads.
+    The citizens are poor, but you can see that they are good people.
+    You stand in the middle of townsquare.
+    On your left there is weapon shop
+    """,
+    ["woods", "green hills"])
 
     return
 
 
 def woods():
-    print(f"You are in the Woods.")
-    delay_medium()
+    delay_short()
     region_builder("woods",
     """This is small and peaceful town at a crossroads.
     The citizens are poor, but you can see that they are good people.
     You stand in the middle of townsquare.
     On your left there is weapon shop
     """,
-    ["north crossroads", "south crossroads"])
+    ["west crossroads", "clearing", "rocks"])
 
     return
 
 
 def town():
-    print(f"You are in the Town.")
-    delay_medium()
+    delay_short()
     region_builder("town",
-    """This is small and peaceful town at a crossroads.
+    """    This is small and peaceful town at a crossroads.
     The citizens are poor, but you can see that they are good people.
     You stand in the middle of townsquare.
-    On your left there is weapon shop
+    On your left there is inn, in front of you is a temple, and a medic on you right.
+    You can leave the Town in all directions.
     """,
-    ["north crossroads", "south crossroads", "west crossroads", "east crossroads"])
+    ["north crossroads", "south crossroads", "west crossroads", "east crossroads", "inn", "temple", "shop"])
+
+    return
+
+
+def inn():
+    delay_short()
+    region_builder("inn",
+    """    This is small and peaceful town at a crossroads.
+    The citizens are poor, but you can see that they are good people.
+    You stand in the middle of townsquare.
+    On your left there is weapon shop, in front of you is a temple, and a medic on you right.
+    """,
+    ["town"])
+
+    return
+
+
+def temple():
+    delay_short()
+    region_builder("inn",
+    """    This is small and peaceful town at a crossroads.
+    The citizens are poor, but you can see that they are good people.
+    You stand in the middle of townsquare.
+    On your left there is weapon shop, in front of you is a temple, and a medic on you right.
+    """,
+    ["town"])
+
+    return
+
+
+def medic():
+    delay_short()
+    region_builder("inn",
+    """    This is small and peaceful town at a crossroads.
+    The citizens are poor, but you can see that they are good people.
+    You stand in the middle of townsquare.
+    On your left there is weapon shop, in front of you is a temple, and a medic on you right.
+    """,
+    ["town"])
 
     return
 
 
 def ruins():
-    print(f"You are in the Ruins.")
-    delay_medium()
+    delay_short()
     region_builder("ruins",
     """This is small and peaceful town at a crossroads.
     The citizens are poor, but you can see that they are good people.
     You stand in the middle of townsquare.
     On your left there is weapon shop
     """,
-    ["north crossroads", "south crossroads"])
+    ["north crossroads", "east crossroads", "flat fields"])
 
     return
 
 
 def north_crossroads():
-    print(f"You are in the North Crossroads.")
-    delay_medium()
+    delay_short()
     region_builder("north_crossroads",
-    """This is small and peaceful town at a crossroads.
-    The citizens are poor, but you can see that they are good people.
-    You stand in the middle of townsquare.
-    On your left there is weapon shop
+    """    You have entered the northern crossroads. 
+    Many merchants and adventurers travel here. 
+    Most of them go north, where dangers await, but also great wealth.
     """,
-    ["river", "mountains", "seaside",])
+    ["town", "darkwood", "green hills", "ruins"])
 
     return
 
 
 def south_crossroads():
-    print(f"You are in the South Crossroads.")
-    delay_medium()
+    delay_short()
     region_builder("south_crossroads",
     """This is small and peaceful town at a crossroads.
     The citizens are poor, but you can see that they are good people.
     You stand in the middle of townsquare.
     On your left there is weapon shop
     """,
-    ["north crossroads", "south crossroads"])
+    ["town", "plains", "river", "old farm"])
     
     return
 
 
 def west_crossroads():
-    print(f"You are in the West Crossroads.")
-    delay_medium()
+    delay_short()
     region_builder("west_crossroads",
     """This is small and peaceful town at a crossroads.
     The citizens are poor, but you can see that they are good people.
     You stand in the middle of townsquare.
     On your left there is weapon shop
     """,
-    ["north crossroads", "south crossroads"])
+    ["town", "woods", "green hills", "river"])
     
     return
 
 
 def east_crossroads():
-    print(f"You are in the East Crossroads.")
-    delay_medium()
+    delay_short()
     region_builder("east_crossroads",
     """After you left town, you came to a East Crossroads.
     In the middle there is a broken signpost, from which you can barely read where the roads lead.
@@ -234,56 +290,52 @@ def east_crossroads():
 
     What would you do?
     """,
-    ["town", "flat fields", "old farm", "abandoned mansion"])
+    ["town", "ruins", "old farm", "port"])
     
     return
 
 
 def cave():
-    print(f"You are in the Cave.")
-    delay_medium()
+    delay_short()
     region_builder("cave",
     """This is small and peaceful town at a crossroads.
     The citizens are poor, but you can see that they are good people.
     You stand in the middle of townsquare.
     On your left there is weapon shop
     """,
-    ["north crossroads", "south crossroads"])
+    ["mountains"])
     
     return
 
 
 def dungeon():
-    print(f"You are in the Dungeon.")
-    delay_medium()
+    delay_short()
     region_builder("dungeon",
     """This is small and peaceful town at a crossroads.
     The citizens are poor, but you can see that they are good people.
     You stand in the middle of townsquare.
     On your left there is weapon shop
     """,
-    ["north crossroads", "south crossroads"])
+    ["abandoned mansion"])
     
     return
 
 
 def weapon_shop():
-    print(f"You are in the Weapon Shop.")
-    delay_medium()
+    delay_short()
     region_builder("weapon shop",
     """This is small and peaceful town at a crossroads.
     The citizens are poor, but you can see that they are good people.
     You stand in the middle of townsquare.
     On your left there is weapon shop
     """,
-    ["north crossroads", "south crossroads"])
+    ["town"])
     
     return
 
 
 def medic():
-    print(f"You are in the Medic.")
-    delay_medium()
+    delay_short()
     region_builder("medic",
     """This is small and peaceful town at a crossroads.
     The citizens are poor, but you can see that they are good people.
@@ -295,121 +347,126 @@ def medic():
     return
 
 
-def magic_shop():
-    print(f"You are in the Magic Shop.")
-    delay_medium()
+def temple():
+    delay_short()
     region_builder("magic shop",
     """This is small and peaceful town at a crossroads.
     The citizens are poor, but you can see that they are good people.
     You stand in the middle of townsquare.
     On your left there is weapon shop
     """,
-    ["north crossroads", "south crossroads"])
+    ["town"])
     
     return
 
 
 def river():
-    print(f"You are in the River.")
-    delay_medium()
+    delay_short()
     region_builder("river",
     """This is small and peaceful town at a crossroads.
     The citizens are poor, but you can see that they are good people.
     You stand in the middle of townsquare.
     On your left there is weapon shop
     """,
-    ["north crossroads", "south crossroads"])
+    ["west crossroads", "south crossroads", "mill", "goblin forest"])
     
     return
 
 
 def desert():
-    print(f"You are in the Desert.")
-    delay_medium()
+    delay_short()
     region_builder("desert",
     """This is small and peaceful town at a crossroads.
     The citizens are poor, but you can see that they are good people.
     You stand in the middle of townsquare.
     On your left there is weapon shop
     """,
-    ["north crossroads", "south crossroads"])
+    ["rocks"])
     
     return
 
 
 def mountains():
-    print(f"You are in the Mountains.")
-    delay_medium()
+    delay_short()
     region_builder("mountains",
     """This is small and peaceful town at a crossroads.
     The citizens are poor, but you can see that they are good people.
     You stand in the middle of townsquare.
     On your left there is weapon shop
     """,
-    ["north crossroads", "south crossroads"])
+    ["cave", "iron ore mine", "darkwood"])
     
     return
 
 
-def seaside():
-    print(f"You are at the Seaside.")
-    delay_medium()
+def coast():
+    delay_short()
     region_builder("seaside",
     """This is small and peaceful town at a crossroads.
     The citizens are poor, but you can see that they are good people.
     You stand in the middle of townsquare.
     On your left there is weapon shop
     """,
-    ["north crossroads", "south crossroads"])
+    ["port"])
     
     return
 
 
 def plains():
-    print(f"You are in the Plains.")
-    delay_medium()
+    delay_short()
     region_builder("plains",
     """This is small and peaceful town at a crossroads.
     The citizens are poor, but you can see that they are good people.
     You stand in the middle of townsquare.
     On your left there is weapon shop
     """,
-    ["north crossroads", "south crossroads"])
+    ["gate", "south crossroads", "abandoned mansion", "goblin forest"])
     
     return
 
 
 def swamp():
-    print(f"You are in the Swamp.")
-    delay_medium()
+    delay_short()
     region_builder("swamp",
     """This is small and peaceful town at a crossroads.
     The citizens are poor, but you can see that they are good people.
     You stand in the middle of townsquare.
     On your left there is weapon shop
     """,
-    ["north crossroads", "south crossroads"])
+    ["goblin forest"])
 
     return
 
 
 def rocks():
-    print(f"You are in the Rocks.")
-    delay_medium()
+    delay_short()
     region_builder("rocks",
     """This is small and peaceful town at a crossroads.
     The citizens are poor, but you can see that they are good people.
     You stand in the middle of townsquare.
     On your left there is weapon shop
     """,
-    ["north crossroads", "south crossroads"])
+    ["desert", "woods", "waterfall"])
     
     return
 
 
+def port():
+    delay_short()
+    region_builder("port",
+    """This is small and peaceful town at a crossroads.
+    The citizens are poor, but you can see that they are good people.
+    You stand in the middle of townsquare.
+    On your left there is weapon shop
+    """,
+    ["east crossroads", "flat fields", "coast"])
+
+
 def region_builder(region_name, region_description, next_regions):
 
-    print(f"\n\nYou have reached The {region_name.capitalize()}.")
+    where_are_you = f"\n\nYou are in The {region_name.capitalize()}."
+    print(f"{where_are_you}")
+    print(f"{'-' * len(where_are_you)}\n")
     print(f"{region_description}")
     print("\nFrom here you can go to:\n")
 
@@ -419,7 +476,7 @@ def region_builder(region_name, region_description, next_regions):
         print(number, region.title())
         next_regions_list.append(region)
 
-    input_message = int(input("Where are you going to?    > "))
+    input_message = int(input("Where yould you like to go?    > "))
 
     eval((f"{next_regions_list[input_message-1]}()".replace(" ", "_")))
 

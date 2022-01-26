@@ -1,3 +1,8 @@
+### v0.2.6
+- working on world exploration. Updating locations description
+
+
+
 ### v0.2.5
 
 #### What works?:
