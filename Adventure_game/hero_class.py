@@ -22,6 +22,7 @@ class Hero:
     # when hero experience points exceends level given in level list the stats increases
     def level_up(self):
         self.level = self.level + 1
+        self.health = int(self.health * 1.1)
         additional_points = 2
 
         while additional_points > 0:

@@ -78,7 +78,7 @@ def hero_attack():
 
     if player_hit_chance > 0:
 
-        print(f"\nUdało Ci się zadać cios.")
+        print(f"\nTwój atak się powiódł.")
         enemy_damage = roll_20_dice() + player.attack - enemy.defense
         player.experience = player.experience + int(
             (player_hit_chance + roll_6_dice()) * 5 * player.level * 0.5
@@ -156,12 +156,7 @@ def enemy_attack():
                 print(f"{enemy.name} zadał Ci {int(player_damage * 1.2)} obrażeń...")
                 player.health = player.health - int(player_damage * 1.2)
 
-                # if player already has a negative condition, no more is added
-                if len(player.state) == 0:
-                    player.state.append(player_states[random.randint(0, len(player_states))])
-
-                else:
-                    pass
+                check_player_state()
 
                 if player.health <= 0:
                     defeat()
@@ -413,8 +408,10 @@ def run():
 
 
 def check_player_state():
-    # if len(player.state) > 0:
-    pass
+    if len(player.state) == 0:
+        player.state.append(enemy.special)
+    else:
+        pass
 
 def battle():
 
@@ -429,7 +426,6 @@ def battle():
 
         clear_screen()
         turn_counter += 1
-        check_player_state()
 
         print("\n\t\t\t\tTRWA WALKA!")
         print("\t\t\t\t===========")

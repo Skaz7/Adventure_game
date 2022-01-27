@@ -464,19 +464,20 @@ def port():
 
 def region_builder(region_name, region_description, next_regions):
 
-    where_are_you = f"\n\nYou are in The {region_name.capitalize()}."
+    where_are_you = f"\n\nYou are in The {region_name.title().replace('_', ' ')}."
     print(f"{where_are_you}")
     print(f"{'-' * len(where_are_you)}\n")
     print(f"{region_description}")
+    delay_short()
     print("\nFrom here you can go to:\n")
 
     next_regions_list = []
 
     for number, region in enumerate(next_regions, start=1):
-        print(number, region.title())
+        print(number, '- ', region.title())
         next_regions_list.append(region)
 
-    input_message = int(input("Where yould you like to go?    > "))
+    input_message = int(input("\nWhere yould you like to go?    > "))
 
     eval((f"{next_regions_list[input_message-1]}()".replace(" ", "_")))
 

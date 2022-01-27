@@ -1,5 +1,8 @@
 ### v0.2.6
 - working on world exploration. Updating locations description
+- working on player negative conditions after getting critical hit from enemy
+
+> TODO: fix bug with leveling up, add 10% health when player level increases. Now health is always 200.
 
 
 

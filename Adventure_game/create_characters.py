@@ -67,7 +67,7 @@ def create_enemy():
     defense = random.randint(5, 10)
     magicdefense = random.randint(5, 10)
     chance = random.randint(10, 20)
-    special = 'Poison'
+    special = random.choice(['Poison', 'Burn', 'Bleed', 'Frost'])
 
     return Enemy(
         adjective + " " + animal, health, attack, defense, magicdefense, chance, special
