@@ -7,10 +7,17 @@ List of regions ["woods","town","ruins","north crossroads","south crossroads","w
 """
 
 
-from functions import clear_screen, delay_short
+import os
+import time
+import functions
 
 
-clear_screen()
+def clear_screen():
+    os.system('cls')
+
+
+def delay_short():
+    time.sleep(0.5)
 
 
 def abandoned_mansion():
@@ -61,17 +68,6 @@ def goblin_forest():
     return
 
 
-def darkwood():
-    delay_short()
-    region_builder("darkwood",
-    """    You are not able to see the light of day through impenetrable thickets of forests.
-    You are surrounded by darkness on all sides, you are afraid of what may be lurking in it.
-    """,
-    ["mountains", "safe path", "north crossroads"])
-
-    return
-
-
 def safe_path():
     delay_short()
     region_builder("darkwood",
@@ -81,8 +77,6 @@ def safe_path():
     On your left there is weapon shop
     """,
     ["darkwood", "green hills"])
-
-    return
 
 
 def gate():
@@ -172,20 +166,6 @@ def woods():
     On your left there is weapon shop
     """,
     ["west crossroads", "clearing", "rocks"])
-
-    return
-
-
-def town():
-    delay_short()
-    region_builder("town",
-    """    This is small and peaceful town at a crossroads.
-    The citizens are poor, but you can see that they are good people.
-    You stand in the middle of townsquare.
-    On your left there is inn, in front of you is a temple, and a medic on you right.
-    You can leave the Town in all directions.
-    """,
-    ["north crossroads", "south crossroads", "west crossroads", "east crossroads", "inn", "temple", "shop"])
 
     return
 
@@ -462,13 +442,50 @@ def port():
     ["east crossroads", "flat fields", "coast"])
 
 
+def darkwood():
+    delay_short()
+    region_builder("darkwood",
+    """    You are not able to see the light of day through impenetrable thickets of forests.
+    You are surrounded by darkness on all sides, you are afraid of what may be lurking in it.
+    """,
+    ["mountains", "safe path", "north crossroads"])
+
+    clear_screen()
+    print(f"It's so dark all around that you can't see much.")
+    print(f"You are wondering if you can search the pile of broken wood standing on the side.")
+    print("What do you do?")
+    print("1 - Search the woods")
+    print("2 - Leave it alone and go further.")
+    choice = int(input('> '))
+    if choice == 1:
+        functions.battle()
+    if choice == 2:
+        input("pizdeczka")
+    else:
+        print('Wrong option.')
+
+
+def town():
+    delay_short()
+    region_builder("town",
+    """    This is small and peaceful town at a crossroads.
+    The citizens are poor, but you can see that they are good people.
+    You stand in the middle of townsquare.
+    On your left there is inn, in front of you is a temple, and a medic on you right.
+    You can leave the Town in all directions.
+    """,
+    ["north crossroads", "south crossroads", "west crossroads", "east crossroads", "inn", "temple", "shop"])
+
+
 def region_builder(region_name, region_description, next_regions):
+    clear_screen()
 
     where_are_you = f"\n\nYou are in The {region_name.title().replace('_', ' ')}."
     print(f"{where_are_you}")
     print(f"{'-' * len(where_are_you)}\n")
     print(f"{region_description}")
     delay_short()
+
     print("\nFrom here you can go to:\n")
 
     next_regions_list = []
@@ -477,9 +494,13 @@ def region_builder(region_name, region_description, next_regions):
         print(number, '- ', region.title())
         next_regions_list.append(region)
 
+    print(f"\n{len(next_regions_list)+1} -  Explore {region_name.title().replace('_', ' ')}")
     input_message = int(input("\nWhere yould you like to go?    > "))
 
-    eval((f"{next_regions_list[input_message-1]}()".replace(" ", "_")))
+    if input_message == len(next_regions_list)+1:
+        print('Udało się!')
 
+    else:
+        eval((f"{next_regions_list[input_message-1]}()".replace(" ", "_")))
 
-town()
+clear_screen()

@@ -1,3 +1,16 @@
+### v0.2.7
+- implementing ***functions*** to ***explore_world***
+
+#### What works?:
+- when player explores region and chooses to inspect it, the battle is initiated
+
+#### What doesn't work?:
+- when battle is over player gets to main menu, and when he chooses **explore world** he gets to Town instead of region he was during battle
+
+> TODO: fix bug when battle is over - game should return to region from ***explore_world*** instead of main menu
+
+
+
 ### v0.2.6
 - working on world exploration. Updating locations description
 - working on player negative conditions after getting critical hit from enemy

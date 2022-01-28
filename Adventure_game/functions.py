@@ -2,10 +2,10 @@ import os
 import random
 import time
 
-
 from images import *
 from constants import *
 from create_characters import *
+from explore_world import town
 
 
 def clear_screen():
@@ -42,7 +42,7 @@ def start_game():
 
     global player
     player = create_player_character()
-    decision_path()
+    town()
 
 
 def decision_path():
@@ -53,6 +53,7 @@ def decision_path():
     print("\n1. Walka")
     print("2. Sklep")
     print("3. Ekran Gracza")
+    print("4. Eksploracja")
 
     choice = input("> ")
 
@@ -64,6 +65,8 @@ def decision_path():
         clear_screen()
         player.show_player_stats()
         decision_path()
+    elif choice == "4":
+        town()
     else:
         quit()
 
