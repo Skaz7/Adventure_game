@@ -5,7 +5,17 @@ import time
 from images import *
 from constants import *
 from create_characters import *
-from explore_world import town
+from explore_world import *
+
+
+class Shield:
+    def __init__(self, defense, durability, price):
+        self.defense = defense
+        self.durability = durability
+        self.price = price
+
+    def wear(self):
+        player.defense += self.defense
 
 
 def clear_screen():
@@ -66,7 +76,7 @@ def decision_path():
         player.show_player_stats()
         decision_path()
     elif choice == "4":
-        town()
+        return
     else:
         quit()
 
@@ -387,8 +397,8 @@ def use_item():
 
 
 def defense():
-    print("Obrona nie jest opcją, musisz atakować!")
-    delay_medium()
+    protector.wear()
+    input()
 
 
 def run():
@@ -425,7 +435,7 @@ def battle():
     turn_counter = 0
 
 
-    while True:
+    while player.health > 0 and enemy.health > 0:
 
         clear_screen()
         turn_counter += 1
@@ -515,6 +525,8 @@ def battle():
         else:
             print("Wybierz opcję z zakresu 1 - 5!")
 
+    return
+
 
 def victory():
 
@@ -533,7 +545,7 @@ def victory():
         body_search()
 
     elif choice == "2":
-        decision_path()
+        return
 
     else:
         print("\nWybierz jedną z opcji 1-2 !")
@@ -564,7 +576,7 @@ def body_search():
         print(f"\nTwoje zdrowie trwale obniża się o {20 - risk} punktów życia.")
         player.health = player.health - (20 - risk)
         delay_medium()
-        decision_path()
+        return
     else:
         # player gets loot from enemy body
         money = roll_6_dice() * 2
@@ -600,7 +612,7 @@ def body_search():
                     pass
 
         delay_medium()
-        decision_path()
+        return
 
 
 def shop():
@@ -656,7 +668,7 @@ def shop():
                                 print("_" * len(bought_message))
                                 player.inventory[item_type].update(new_item_dict)
                                 player.money = player.money - cost_of_item_to_buy
-                                delay_long()
+                                delay_medium()
 
                             else:
                                 pass
@@ -709,11 +721,25 @@ def shop():
         buy_item("other")
 
     elif choice == "0" or choice == "":
-        decision_path()
+        pass
 
     else:
         print("\n\n\t\t\t\tWybrałeś nieprawidłową opcję!")
         delay_medium()
         return
 
-    return
+
+def medic():
+    pass
+
+
+def temple():
+    pass
+
+
+def inn():
+    pass
+
+protector = Shield(15, 10, 30)
+
+

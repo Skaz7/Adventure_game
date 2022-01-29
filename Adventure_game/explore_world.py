@@ -20,6 +20,33 @@ def delay_short():
     time.sleep(0.5)
 
 
+def explore(where_are_you):
+    clear_screen()
+
+    place = f"You are in {str(where_are_you)}."
+    print(f"\n\n{place}")
+    print(f"{'-' * len(place)}\n")
+    print(f"It's so dark all around that you can't see much.")
+    print(f"You are wondering if you can search the pile of broken wood standing on the side.\n")
+    print("What do you do?")
+    print("1 - Search the area")
+    print("2 - Leave it alone and go further.\n")
+    print("0 - Hero screen.\n")
+    choice = int(input('> '))
+    if choice == 1:
+        functions.battle()
+    elif choice == 2:
+        return
+    elif choice == 0:
+        clear_screen()
+        functions.player.show_player_stats()
+    else:
+        print('Wrong option.')
+
+    explore(where_are_you)
+
+
+
 def abandoned_mansion():
     delay_short()
     region_builder("abandoned mansion",
@@ -30,7 +57,9 @@ def abandoned_mansion():
     """,
     ["old farm", "plains"])
 
-    return
+    explore("Abandoned Mansion")
+
+    abandoned_mansion()
 
 
 def flat_fields():
@@ -41,7 +70,9 @@ def flat_fields():
     """,
     ["port", "ruins"])
 
-    return
+    explore("Flat Fields")
+
+    flat_fields()
 
 
 def iron_ore_mine():
@@ -53,7 +84,9 @@ def iron_ore_mine():
     """,
     ["mountains"])
 
-    return
+    explore("Iron Ore Mine")
+
+    iron_ore_mine()
 
 
 def goblin_forest():
@@ -65,7 +98,9 @@ def goblin_forest():
     """,
     ["swamp", "river", "plains"])
 
-    return
+    explore("Goblin Forest")
+
+    goblin_forest()
 
 
 def safe_path():
@@ -78,6 +113,10 @@ def safe_path():
     """,
     ["darkwood", "green hills"])
 
+    explore("Safe Path")
+
+    safe_path()
+
 
 def gate():
     delay_short()
@@ -89,7 +128,9 @@ def gate():
     """,
     ["plains"])
 
-    return
+    explore("Gate")
+
+    gate()
 
 
 def old_farm():
@@ -102,7 +143,9 @@ def old_farm():
     """,
     ["east crossroads", "south crossroads", "abandoned mansion"])
 
-    return
+    explore("Old Farm")
+
+    old_farm()
 
 
 def mill():
@@ -115,7 +158,9 @@ def mill():
     """,
     ["river", "waterfall"])
 
-    return
+    explore("Mill")
+
+    mill()
 
 
 def waterfall():
@@ -128,7 +173,9 @@ def waterfall():
     """,
     ["mill", "rocks"])
 
-    return
+    explore("Waterfall")
+
+    waterfall()
 
 
 def green_hills():
@@ -141,7 +188,9 @@ def green_hills():
     """,
     ["west crossroads", "clearing", "safe path", "north crossroads"])
 
-    return
+    explore("Green Hills")
+
+    green_hills()
 
 
 def clearing():
@@ -154,7 +203,9 @@ def clearing():
     """,
     ["woods", "green hills"])
 
-    return
+    explore("Clearing")
+
+    clearing()
 
 
 def woods():
@@ -167,7 +218,9 @@ def woods():
     """,
     ["west crossroads", "clearing", "rocks"])
 
-    return
+    explore("Woods")
+
+    woods()
 
 
 def inn():
@@ -180,7 +233,9 @@ def inn():
     """,
     ["town"])
 
-    return
+    explore("Inn")
+
+    inn()
 
 
 def temple():
@@ -193,7 +248,9 @@ def temple():
     """,
     ["town"])
 
-    return
+    explore("Temple")
+
+    temple()
 
 
 def medic():
@@ -206,7 +263,9 @@ def medic():
     """,
     ["town"])
 
-    return
+    explore("Medic")
+
+    medic()
 
 
 def ruins():
@@ -219,7 +278,9 @@ def ruins():
     """,
     ["north crossroads", "east crossroads", "flat fields"])
 
-    return
+    explore("Ruins")
+
+    ruins()
 
 
 def north_crossroads():
@@ -231,7 +292,9 @@ def north_crossroads():
     """,
     ["town", "darkwood", "green hills", "ruins"])
 
-    return
+    explore("North Crossroads")
+
+    north_crossroads()
 
 
 def south_crossroads():
@@ -244,7 +307,9 @@ def south_crossroads():
     """,
     ["town", "plains", "river", "old farm"])
     
-    return
+    explore("South Crossroads")
+
+    south_crossroads()
 
 
 def west_crossroads():
@@ -257,7 +322,9 @@ def west_crossroads():
     """,
     ["town", "woods", "green hills", "river"])
     
-    return
+    explore("West Crossroads")
+
+    west_crossroads()
 
 
 def east_crossroads():
@@ -272,7 +339,9 @@ def east_crossroads():
     """,
     ["town", "ruins", "old farm", "port"])
     
-    return
+    explore("East Crossroads")
+
+    east_crossroads()
 
 
 def cave():
@@ -285,7 +354,9 @@ def cave():
     """,
     ["mountains"])
     
-    return
+    explore("Cave")
+
+    cave()
 
 
 def dungeon():
@@ -298,46 +369,9 @@ def dungeon():
     """,
     ["abandoned mansion"])
     
-    return
+    explore("Dungeon")
 
-
-def weapon_shop():
-    delay_short()
-    region_builder("weapon shop",
-    """This is small and peaceful town at a crossroads.
-    The citizens are poor, but you can see that they are good people.
-    You stand in the middle of townsquare.
-    On your left there is weapon shop
-    """,
-    ["town"])
-    
-    return
-
-
-def medic():
-    delay_short()
-    region_builder("medic",
-    """This is small and peaceful town at a crossroads.
-    The citizens are poor, but you can see that they are good people.
-    You stand in the middle of townsquare.
-    On your left there is weapon shop
-    """,
-    ["north crossroads", "south crossroads"])
-    
-    return
-
-
-def temple():
-    delay_short()
-    region_builder("magic shop",
-    """This is small and peaceful town at a crossroads.
-    The citizens are poor, but you can see that they are good people.
-    You stand in the middle of townsquare.
-    On your left there is weapon shop
-    """,
-    ["town"])
-    
-    return
+    dungeon()
 
 
 def river():
@@ -350,7 +384,9 @@ def river():
     """,
     ["west crossroads", "south crossroads", "mill", "goblin forest"])
     
-    return
+    explore("River")
+
+    river()
 
 
 def desert():
@@ -363,20 +399,9 @@ def desert():
     """,
     ["rocks"])
     
-    return
+    explore("Desert")
 
-
-def mountains():
-    delay_short()
-    region_builder("mountains",
-    """This is small and peaceful town at a crossroads.
-    The citizens are poor, but you can see that they are good people.
-    You stand in the middle of townsquare.
-    On your left there is weapon shop
-    """,
-    ["cave", "iron ore mine", "darkwood"])
-    
-    return
+    desert()
 
 
 def coast():
@@ -389,7 +414,9 @@ def coast():
     """,
     ["port"])
     
-    return
+    explore("Coast")
+
+    coast()
 
 
 def plains():
@@ -402,7 +429,9 @@ def plains():
     """,
     ["gate", "south crossroads", "abandoned mansion", "goblin forest"])
     
-    return
+    explore("Plains")
+
+    plains()
 
 
 def swamp():
@@ -415,7 +444,9 @@ def swamp():
     """,
     ["goblin forest"])
 
-    return
+    explore("Swamp")
+
+    swamp()
 
 
 def rocks():
@@ -428,7 +459,9 @@ def rocks():
     """,
     ["desert", "woods", "waterfall"])
     
-    return
+    explore("Rocks")
+
+    rocks()
 
 
 def port():
@@ -441,28 +474,38 @@ def port():
     """,
     ["east crossroads", "flat fields", "coast"])
 
+    explore("Port")
+
+    port()
+
+
+def mountains():
+    delay_short()
+    region_builder("mountains",
+    """This is small and peaceful town at a crossroads.
+    The citizens are poor, but you can see that they are good people.
+    You stand in the middle of townsquare.
+    On your left there is weapon shop
+    """,
+    ["cave", "iron ore mine", "darkwood"])
+
+    explore("Mountains")
+
+    mountains()
+
 
 def darkwood():
     delay_short()
+
     region_builder("darkwood",
     """    You are not able to see the light of day through impenetrable thickets of forests.
     You are surrounded by darkness on all sides, you are afraid of what may be lurking in it.
     """,
     ["mountains", "safe path", "north crossroads"])
 
-    clear_screen()
-    print(f"It's so dark all around that you can't see much.")
-    print(f"You are wondering if you can search the pile of broken wood standing on the side.")
-    print("What do you do?")
-    print("1 - Search the woods")
-    print("2 - Leave it alone and go further.")
-    choice = int(input('> '))
-    if choice == 1:
-        functions.battle()
-    if choice == 2:
-        input("pizdeczka")
-    else:
-        print('Wrong option.')
+    explore("The Darkwood")
+
+    darkwood()
 
 
 def town():
@@ -470,11 +513,49 @@ def town():
     region_builder("town",
     """    This is small and peaceful town at a crossroads.
     The citizens are poor, but you can see that they are good people.
-    You stand in the middle of townsquare.
-    On your left there is inn, in front of you is a temple, and a medic on you right.
-    You can leave the Town in all directions.
+    You stand by the Town Gates, and see nearby Townsquare.
+    You can go there and visit the local merchants, you can also leave the Town in all directions.
     """,
-    ["north crossroads", "south crossroads", "west crossroads", "east crossroads", "inn", "temple", "shop"])
+    ["north crossroads", "south crossroads", "west crossroads", "east crossroads"])
+
+    def explore_town():
+        clear_screen()
+
+        print("You are standing in the Townsquare, you look around and you can see a shop, a medic and a temple nearby. ")
+        print("If you need additional equipment and have the right amount of money, it is worth visiting shop.")
+        print("At the Medic you can heal your wounds.")
+        print("In the Temple you can learn new spells.")
+        print("\nWhat do you do?\n")
+        print("1 - Visit Shop")
+        print("2 - Visit Medic.")
+        print("3 - Visit Temple")
+        print("4 - Visit Inn")
+        print("\n5 - Go back to Town Gates\n")
+
+        choice = int(input('> '))
+
+        if choice == 1:
+            functions.shop()
+
+        elif choice == 2:
+            functions.medic()
+
+        elif choice == 3:
+            functions.temple()
+        
+        elif choice == 4:
+            functions.inn()
+
+        elif choice == 5:
+            town()
+
+        else:
+            print('Wrong option.')
+
+        explore_town()
+
+    explore_town()
+
 
 
 def region_builder(region_name, region_description, next_regions):

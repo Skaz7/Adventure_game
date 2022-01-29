@@ -14,7 +14,7 @@ def create_player_character():
     Hname = input("\nPodaj swoje imię: ").title()
 
     Hhealth = 200
-    Hattack = random.randint(10, 20)
+    Hattack = random.randint(70, 130)
     Hdefense = random.randint(10, 20)
     Hmagic = random.randint(10, 20)
     Hluck = random.randint(10, 20)

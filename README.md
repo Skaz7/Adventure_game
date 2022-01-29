@@ -1,3 +1,13 @@
+### v0.2.8
+- still implementing ***functions*** to ***explore_world*** (partially works)
+
+#### What works?:
+- explore_world works with examine every area in game. back from battle and shop to previous region also works
+
+> TODO: add **medic**, **temple**, **inn** functions in ***Town***
+
+
+
 ### v0.2.7
 - implementing ***functions*** to ***explore_world***
 
