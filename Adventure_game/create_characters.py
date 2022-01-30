@@ -14,7 +14,7 @@ def create_player_character():
     Hname = input("\nPodaj swoje imię: ").title()
 
     Hhealth = 200
-    Hattack = random.randint(70, 130)
+    Hattack = random.randint(10, 20)
     Hdefense = random.randint(10, 20)
     Hmagic = random.randint(10, 20)
     Hluck = random.randint(10, 20)
@@ -67,7 +67,7 @@ def create_enemy():
     defense = random.randint(5, 10)
     magicdefense = random.randint(5, 10)
     chance = random.randint(10, 20)
-    special = random.choice(['Poison', 'Burn', 'Bleed', 'Frost'])
+    special = random.choice(['Poison', 'Burn', 'Bleed', 'Freeze'])
 
     return Enemy(
         adjective + " " + animal, health, attack, defense, magicdefense, chance, special

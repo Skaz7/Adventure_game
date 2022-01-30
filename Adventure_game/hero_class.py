@@ -17,6 +17,18 @@ class Hero:
 
     def bleed(self):
         self.health = self.health - 5
+    
+
+    def freeze(self):
+        self.health = self.health - 2
+    
+
+    def burn(self):
+        self.health = self.health - 10
+
+    
+    def poison(self):
+        self.health = self.health - 7
 
 
     # when hero experience points exceends level given in level list the stats increases

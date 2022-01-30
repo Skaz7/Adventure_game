@@ -532,26 +532,26 @@ def town():
         print("4 - Visit Inn")
         print("\n5 - Go back to Town Gates\n")
 
-        choice = int(input('> '))
+        choice = input('> ')
 
-        if choice == 1:
+        if choice == '1':
             functions.shop()
 
-        elif choice == 2:
+        elif choice == '2':
             functions.medic()
 
-        elif choice == 3:
+        elif choice == '3':
             functions.temple()
         
-        elif choice == 4:
+        elif choice == '4':
             functions.inn()
 
-        elif choice == 5:
+        elif choice == '5':
             town()
 
         else:
             print('Wrong option.')
-
+            delay_short()
         explore_town()
 
     explore_town()
@@ -576,12 +576,25 @@ def region_builder(region_name, region_description, next_regions):
         next_regions_list.append(region)
 
     print(f"\n{len(next_regions_list)+1} -  Explore {region_name.title().replace('_', ' ')}")
-    input_message = int(input("\nWhere yould you like to go?    > "))
+    # input_message = int(input("\nWhere yould you like to go?    > "))
 
-    if input_message == len(next_regions_list)+1:
-        print('Udało się!')
+    try:
+        input_message = int(input("\nWhere yould you like to go?    > "))
 
-    else:
-        eval((f"{next_regions_list[input_message-1]}()".replace(" ", "_")))
+        if input_message == len(next_regions_list)+1:
+            return
+
+        elif input_message < 1 or input_message > len(next_regions_list):
+            print('\nWrong option!')
+            delay_short()
+            eval(f'{region_name}()'.replace(' ', '_'))
+
+        else:
+            eval((f"{next_regions_list[input_message-1]}()".replace(" ", "_")))
+    
+    except ValueError:
+        print('\nWrong option!')
+        delay_short()
+        eval(f'{region_name}()')
 
 clear_screen()

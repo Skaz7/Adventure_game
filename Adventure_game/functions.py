@@ -107,16 +107,16 @@ def hero_attack():
             if critical_chance > 90:
                 print(f"\nUdało Ci się zadać krytyczny cios. Przeciwnik odniósł {int(enemy_damage * 1.2)} obrażeń.")
                 enemy.health = int(enemy.health - int(enemy_damage * 1.2))
-                delay_medium()
+                delay_short()
 
             else:
                 print(f"\nPrzeciwnik odniósł {enemy_damage} obrażeń.")
                 enemy.health = int(enemy.health - enemy_damage)
-                delay_medium()
+                delay_short()
 
     else:
         print("\nNie udało Ci się zadać ciosu, przeciwnik był sprytniejszy.")
-        delay_medium()
+        delay_short()
 
     # player stats increased by used item are going back to previous level
     player.attack = player.attack - player_temp_stat_boost["Damage"]
@@ -136,7 +136,7 @@ def hero_attack():
             player.level_up()
             del levels[0]
 
-        delay_medium()
+        delay_short()
         victory()
 
     else:
@@ -158,11 +158,11 @@ def enemy_attack():
         player_damage = roll_20_dice() + enemy.attack - player.defense
 
         if player_damage < 0:
-            delay_medium()
+            delay_short()
             print(f"{enemy.name} nie zadał Ci obrażeń...")
+            delay_short()
 
         else:
-            delay_medium()
             critical_chance = random.randint(0,100)
 
             if critical_chance > 5:
@@ -173,16 +173,16 @@ def enemy_attack():
 
                 if player.health <= 0:
                     defeat()
-                delay_medium()
+                delay_short()
             else:
                 print(f"{enemy.name} zadał Ci {player_damage} obrażeń...")
                 player.health = player.health - player_damage
                 if player.health <= 0:
                     defeat()
-                delay_medium()
+                delay_short()
     else:
         print(f"{enemy.name} nie zdołał Cię dosięgnąć.")
-        delay_medium()
+        delay_short()
 
 
 def hero_magic_attack():
@@ -210,11 +210,11 @@ def hero_magic_attack():
             pass
         print(f"\nPrzeciwnik odniósł {enemy_damage} obrażeń.")
         enemy.health = int(enemy.health - enemy_damage)
-        delay_medium()
+        delay_short()
 
     else:
         print("\nTwoja magia zawiodła, nie zadałeś przeciwnikowi obrażeń.")
-        delay_medium()
+        delay_short()
 
     if enemy.health <= 0:
         # hero gets 10% extra experience for defeating an enemy
@@ -225,7 +225,7 @@ def hero_magic_attack():
                 clear_screen()
                 player.level_up()
 
-        delay_medium()
+        delay_short()
         victory()
 
     else:
@@ -251,10 +251,10 @@ def hero_magic_attack():
                 delay_short()
                 print(f"{enemy.name} zadał Ci {player_damage} obrażeń...")
                 player.health = player.health - player_damage
-                delay_medium()
+                delay_short()
         else:
             print(f"{enemy.name} nie zdołał Cię dosięgnąć.")
-            delay_medium()
+            delay_short()
 
 
 def use_item():
@@ -530,7 +530,7 @@ def battle():
 
 def victory():
 
-    player.health = player_max_health
+    # player.health = player_max_health
     clear_screen()
 
     print("\n\nOdniosłeś wspaniałe zwycięstwo!")
@@ -583,7 +583,7 @@ def body_search():
         player.money = player.money + money
         print(f"\nZnalazłeś {money} sztuk złota.")
         print("\nCiekawe, czy znajdzesz jeszcze jakieś przedmioty...")
-        delay_medium()
+        delay_short()
 
         for item_type, item in all_items.items():
 
@@ -596,18 +596,18 @@ def body_search():
                 if loot_chance > 0:
 
                     print(f"Świetnie! Udało Ci się coś znaleźć!")
-                    delay_long()
+                    delay_short()
                     if k in player.inventory[item_type]:
                         print(
                             f"\nNiestety, ale {k} posiadasz już w ekwipunku, nie możesz nieść kolejnego."
                         )
                         print("Łup zostaje na swoim miejscu.\n")
-                        delay_long()
+                        delay_medium()
 
                     else:
                         player.inventory[item_type][k] = v
                         print(f"Przedmiot {k.capitalize()} został dodany do ekwipunku.")
-                        delay_long()
+                        delay_medium()
                 else:
                     pass
 
@@ -730,7 +730,9 @@ def shop():
 
 
 def medic():
-    pass
+    clear_screen()
+    print('You came to a Medic.')
+    print('Here you can heal your wounds.')
 
 
 def temple():
@@ -741,5 +743,3 @@ def inn():
     pass
 
 protector = Shield(15, 10, 30)
-
-

@@ -1,3 +1,11 @@
+### v0.2.9
+- fixed bug when player input in ***explore_world*** was invalid, now game is not crashing and returns 'wrong option' message
+
+> TODO: add **medic**, **temple**, **inn** functions in ***Town***
+> TODO: add **town portal scroll**, that teleports player from actual area to Town
+
+
+
 ### v0.2.8
 - still implementing ***functions*** to ***explore_world*** (partially works)
 
