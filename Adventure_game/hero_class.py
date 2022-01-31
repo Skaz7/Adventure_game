@@ -75,7 +75,7 @@ Którą parametr chcesz rozwinąć?
         if len(self.state) == 0 :
             print(f'\t\t\t{"7. STAN":12} : Wszystko w porządku, brak dodatkowych efektów\n')
         else:
-            print(f'\t\t\t{"7. STAN":12} : {self.state}\n')
+            print(f'\t\t\t{"7. STAN":12} : {self.state[0]}\n')
 
         input('\n\n\nENTER - Powrót')
         return

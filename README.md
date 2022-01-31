@@ -1,3 +1,11 @@
+### v0.3.0
+- now negative ***player state*** impacts player health on the end of the turn
+- added **town scroll** item that teleports player to another location (town)
+
+> TODO: other teleport locations, 3 maybe
+
+
+
 ### v0.2.9
 - fixed bug when player input in ***explore_world*** was invalid, now game is not crashing and returns 'wrong option' message
 

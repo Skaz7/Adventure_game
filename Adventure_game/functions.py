@@ -8,16 +8,6 @@ from create_characters import *
 from explore_world import *
 
 
-class Shield:
-    def __init__(self, defense, durability, price):
-        self.defense = defense
-        self.durability = durability
-        self.price = price
-
-    def wear(self):
-        player.defense += self.defense
-
-
 def clear_screen():
     os.system("cls")
 
@@ -105,7 +95,9 @@ def hero_attack():
             critical_chance = random.randint(0, 100)
 
             if critical_chance > 90:
-                print(f"\nUdało Ci się zadać krytyczny cios. Przeciwnik odniósł {int(enemy_damage * 1.2)} obrażeń.")
+                print(
+                    f"\nUdało Ci się zadać krytyczny cios. Przeciwnik odniósł {int(enemy_damage * 1.2)} obrażeń."
+                )
                 enemy.health = int(enemy.health - int(enemy_damage * 1.2))
                 delay_short()
 
@@ -142,6 +134,7 @@ def hero_attack():
     else:
         enemy_attack()
 
+
 def enemy_attack():
     print(f"\nCzas na ruch przeciwnika.")
     delay_short()
@@ -149,9 +142,7 @@ def enemy_attack():
     print(f"{enemy.name} atakuje!")
     delay_short()
 
-    enemy_hit_chance = (roll_20_dice() + enemy.chance) - (
-        roll_20_dice() + player.luck
-    )
+    enemy_hit_chance = (roll_20_dice() + enemy.chance) - (roll_20_dice() + player.luck)
 
     if enemy_hit_chance > 0:
         print("Jego cios Cię dosięgnął.")
@@ -163,13 +154,13 @@ def enemy_attack():
             delay_short()
 
         else:
-            critical_chance = random.randint(0,100)
+            critical_chance = random.randint(0, 100)
 
             if critical_chance > 5:
                 print(f"{enemy.name} zadał Ci {int(player_damage * 1.2)} obrażeń...")
                 player.health = player.health - int(player_damage * 1.2)
 
-                check_player_state()
+                set_player_state()
 
                 if player.health <= 0:
                     defeat()
@@ -183,6 +174,16 @@ def enemy_attack():
     else:
         print(f"{enemy.name} nie zdołał Cię dosięgnąć.")
         delay_short()
+
+    check_player_state()
+
+
+def check_player_state():
+    if len(player.state) == 0:
+        pass
+    else:
+        condition = f"player.{player.state[0].lower()}()"
+        eval(condition)
 
 
 def hero_magic_attack():
@@ -350,10 +351,20 @@ def use_item():
                     player.luck = (
                         player.luck + player.inventory[item_type][choosed_item]["Luck"]
                     )
-                    player_temp_stat_boost["Luck"] = player.inventory[item_type][choosed_item]["Luck"]
+                    player_temp_stat_boost["Luck"] = player.inventory[item_type][
+                        choosed_item
+                    ]["Luck"]
 
                 elif "Clear State" in player.inventory[item_type][choosed_item].keys():
                     player.state = []
+
+                elif "Teleport" in player.inventory[item_type][choosed_item].keys():
+                    destination = list(
+                        player.inventory[item_type][choosed_item].values()
+                    )[0]
+                    # delete teleport scroll after use
+                    del player.inventory[item_type][choosed_item]
+                    teleport(destination)
 
                 else:
                     pass
@@ -397,8 +408,7 @@ def use_item():
 
 
 def defense():
-    protector.wear()
-    input()
+    pass
 
 
 def run():
@@ -420,11 +430,13 @@ def run():
         return
 
 
-def check_player_state():
+def set_player_state():
     if len(player.state) == 0:
         player.state.append(enemy.special)
+
     else:
         pass
+
 
 def battle():
 
@@ -433,7 +445,6 @@ def battle():
     enemy_max_health = enemy.health
     player_max_health = player.health
     turn_counter = 0
-
 
     while player.health > 0 and enemy.health > 0:
 
@@ -471,8 +482,12 @@ def battle():
         print(f'{"Magia":19} : {player.magic}')
         print(f'{"Szczęście":19} : {player.luck}')
         print(f'{"Pieniądze":19} : {player.money}')
-        print(f'{"Twój stan":19} : {player.state}')
-
+        if len(player.state) == 0:
+            print(f'{"Twój stan":19} : Wszystko w porządku, brak dodatkowych obrażeń.')
+        else:
+            print(
+                f'{"Twój stan":19} : {player.state[0].capitalize()}  -   otrzymujesz dodatkowe obrażenia po każdej turze.'
+            )
         print(f"\nPrzeciwnik - {enemy.name}")
         print("-" * (13 + len(enemy.name)))
 
@@ -528,15 +543,19 @@ def battle():
     return
 
 
-def victory():
+def teleport(destination):
+    eval(f"{destination.lower()}()")
 
-    # player.health = player_max_health
+
+def victory():
     clear_screen()
 
     print("\n\nOdniosłeś wspaniałe zwycięstwo!")
     print("\nStoisz nad zwłokami swojego przeciwnika i zastanawiasz się co dalej...")
     print("\nPostanawiasz:")
-    print("\n\t1 - Przeszukać zwłoki przeciwnika.")
+    print(
+        "\n\t1 - Przeszukać zwłoki przeciwnika, chociaż nie wiesz czego się spodziewać."
+    )
     print("\t2 - Zostawić go w spokoju i ruszyć dalej.")
 
     choice = input("\n> ")
@@ -731,8 +750,8 @@ def shop():
 
 def medic():
     clear_screen()
-    print('You came to a Medic.')
-    print('Here you can heal your wounds.')
+    print("You came to a Medic.")
+    print("Here you can heal your wounds.")
 
 
 def temple():
@@ -741,5 +760,3 @@ def temple():
 
 def inn():
     pass
-
-protector = Shield(15, 10, 30)

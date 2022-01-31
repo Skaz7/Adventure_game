@@ -79,6 +79,11 @@
             "Frost resist": 10,
             "Durability": 3,
             "Price": 50
+        },
+        "Town Teleport Scroll": {
+            "Teleport": "Town",
+            "Durability": 1,
+            "Price": 50
         }
     }
 }
