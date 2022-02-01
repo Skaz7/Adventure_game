@@ -62,20 +62,32 @@ Którą parametr chcesz rozwinąć?
 
 
     def show_player_stats(self):
-        print(f'\n\n{"Ekran gracza":^120}\n')
-        print(f'\t\tIMIĘ: {self.name}   |   POZIOM -> {self.level}\n')
-        print(f'\t\tDoświadczenie: {self.experience} / {levels[0]}\n')
-        print(f'\t\tSzczegółowe statystyki:\n')
-        print(f'\t\t\t{"1. ZDROWIE":12} : {self.health}')
-        print(f'\t\t\t{"2. ATAK":12} : {self.attack}')
-        print(f'\t\t\t{"3. OBRONA":12} : {self.defense}')
-        print(f'\t\t\t{"4. MAGIA":12} : {self.magic}')
-        print(f'\t\t\t{"5. SZCZĘŚCIE":12} : {self.luck}')
-        print(f'\t\t\t{"6. PIENIĄDZE":12} : {self.money}szt złota')
+        print(f'\n\n{"Ekran gracza":^120}')
+        print(f'{"-"*14:^120}\n')
+        print(f'\t{"="*50}\n')
+        print(f'\tIMIĘ: {self.name}   |   POZIOM -> {self.level}\n')
+        print(f'\tDoświadczenie: {self.experience} / {levels[0]}\n')
+        print(f'\t{"="*50}\n\n')
+        print(f'\tSzczegółowe statystyki:\n')
+        print(f'\t\t{"1. ZDROWIE":12} : {self.health}')
+        print(f'\t\t{"2. ATAK":12} : {self.attack}')
+        print(f'\t\t{"3. OBRONA":12} : {self.defense}')
+        print(f'\t\t{"4. MAGIA":12} : {self.magic}')
+        print(f'\t\t{"5. SZCZĘŚCIE":12} : {self.luck}')
+        print(f'\t\t{"6. PIENIĄDZE":12} : {self.money}szt złota')
+
         if len(self.state) == 0 :
-            print(f'\t\t\t{"7. STAN":12} : Wszystko w porządku, brak dodatkowych efektów\n')
+            print(f'\t\t{"7. STAN":12} : Wszystko w porządku, brak dodatkowych efektów\n')
+
         else:
-            print(f'\t\t\t{"7. STAN":12} : {self.state[0]}\n')
+            print(f'\t\t{"7. STAN":12} : {self.state[0]}\n')
+        
+        items_list = []
+        for k, v in self.inventory.items():
+            for i, j in v.items():
+                items_list.append(i)
+
+        print(f'\t\t{"8. PRZEDMIOTY":12} : {"  |  ".join(items_list)}')
 
         input('\n\n\nENTER - Powrót')
         return

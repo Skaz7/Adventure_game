@@ -11,8 +11,7 @@ def create_player_character():
     Player name is based on input by user.
     """
 
-    Hname = input("\nPodaj swoje imię: ").title()
-
+    Hname = input("\nPodaj swoje imię: ").title() 
     Hhealth = 200
     Hattack = random.randint(10, 20)
     Hdefense = random.randint(10, 20)

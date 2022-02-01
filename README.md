@@ -1,8 +1,18 @@
+### v0.3.1
+- added new ***teleport scrolls*** - *Cave* and *Dungeon*
+- added ***Hero Screen*** on every location options
+- fixed bug - items from inventory aren't destroyed after use, it's durability goes below 0
+
+> TODO: divide items from ***shop*** to ***blacksmith***, ***temple*** and ***medic*** - in progress
+
+
+
 ### v0.3.0
 - now negative ***player state*** impacts player health on the end of the turn
 - added **town scroll** item that teleports player to another location (town)
 
 > TODO: other teleport locations, 3 maybe
+> TODO: fix bug - items from inventory aren't destroyed after use, it's durability goes below 0
 
 
 

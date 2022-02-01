@@ -60,7 +60,7 @@ def decision_path():
     if choice == "1":
         battle()
     elif choice == "2":
-        shop()
+        blacksmith()
     elif choice == "3":
         clear_screen()
         player.show_player_stats()
@@ -307,70 +307,48 @@ def use_item():
                 return
 
             else:
-                choosed_item = item_list[choice - 1]
+                choosed_item_data = player.inventory[item_type][item_list[choice - 1]]
+                choosed_item_name = item_list[choice - 1]
 
-                if "Damage" in player.inventory[item_type][choosed_item]:
-                    player.attack = (
-                        player.attack
-                        + player.inventory[item_type][choosed_item]["Damage"]
-                    )
+                if "Damage" in choosed_item_data:
+                    player.attack = player.attack + choosed_item_data["Damage"]
 
-                    player_temp_stat_boost["Damage"] = player.inventory[item_type][
-                        choosed_item
-                    ]["Damage"]
+                    player_temp_stat_boost["Damage"] = choosed_item_data["Damage"]
 
-                elif "Defense" in player.inventory[item_type][choosed_item]:
-                    player.defense = (
-                        player.defense
-                        + player.inventory[item_type][choosed_item]["Defense"]
-                    )
+                elif "Defense" in choosed_item_data:
+                    player.defense = player.defense + choosed_item_data["Defense"]
 
-                    player_temp_stat_boost["Defense"] = player.inventory[item_type][
-                        choosed_item
-                    ]["Defense"]
+                    player_temp_stat_boost["Defense"] = choosed_item_data["Defense"]
 
-                elif "HP" in player.inventory[item_type][choosed_item]:
+                elif "HP" in choosed_item_data:
                     # if actual health plus potion HP exceeds max health level, potion effect is reduced
-                    if (
-                        player.health + all_items[item_type][choosed_item]["HP"]
-                        > player_max_health
-                    ):
+                    if player.health + choosed_item_data["HP"] > player_max_health:
                         player.health = player_max_health
 
                     else:
-                        player.health = (
-                            player.health + all_items[item_type][choosed_item]["HP"]
-                        )
+                        player.health = player.health + choosed_item_data["HP"]
 
-                elif "MP" in player.inventory[item_type][choosed_item]:
-                    player.magic = (
-                        player.magic + all_items[item_type][choosed_item]["MP"]
-                    )
+                elif "MP" in choosed_item_data:
+                    player.magic = player.magic + choosed_item_data["MP"]
 
-                elif "Luck" in player.inventory[item_type][choosed_item].keys():
-                    player.luck = (
-                        player.luck + player.inventory[item_type][choosed_item]["Luck"]
-                    )
-                    player_temp_stat_boost["Luck"] = player.inventory[item_type][
-                        choosed_item
-                    ]["Luck"]
+                elif "Luck" in choosed_item_data.keys():
+                    player.luck = player.luck + choosed_item_data["Luck"]
+                    player_temp_stat_boost["Luck"] = choosed_item_data["Luck"]
 
-                elif "Clear State" in player.inventory[item_type][choosed_item].keys():
+                elif "Clear State" in choosed_item_data.keys():
                     player.state = []
 
-                elif "Teleport" in player.inventory[item_type][choosed_item].keys():
-                    destination = list(
-                        player.inventory[item_type][choosed_item].values()
-                    )[0]
+                elif "Teleport" in choosed_item_data.keys():
+                    destination = list(choosed_item_data.values())[0]
                     # delete teleport scroll after use
-                    del player.inventory[item_type][choosed_item]
+                    del choosed_item_data
                     teleport(destination)
 
                 else:
                     pass
 
             use_item_text = (
-                f"Użyłeś przedmiotu {choosed_item}, Twoje statystyki wzrastają."
+                f"Użyłeś przedmiotu {choosed_item_name}, Twoje statystyki wzrastają."
             )
             print(f"\n\n\t\t\t", "-" * (len(use_item_text) + 6))
             print(f"\t\t\t |  {use_item_text}  |")
@@ -379,13 +357,12 @@ def use_item():
             delay_short()
 
             # durability of item is decreased after each use. Consumables are destroyed after one use
-            player.inventory[item_type][choosed_item]["Durability"] -= 1
+            choosed_item_data["Durability"] -= 1
 
             # if item durability reaches 0, item is destroyed and removed from inventory
-            if player.inventory[item_type][choosed_item]["Durability"] < 1:
-                print(f"\n\t\t\t\t  Przedmiot {choosed_item} został zniszczony!\n")
-                del player.inventory[item_type][choosed_item]
-
+            if choosed_item_data["Durability"] < 1:
+                print(f"\n\t\t\t\t  Przedmiot {choosed_item_name} został zniszczony!\n")
+                del player.inventory[item_type][f'{choosed_item_name}']
             delay_medium()
 
         except ValueError:
@@ -634,7 +611,7 @@ def body_search():
         return
 
 
-def shop():
+def blacksmith():
     def buy_item(item_type):
         clear_screen()
 
@@ -695,7 +672,7 @@ def shop():
             print("\nWybrałeś nieprawidłową opcję, powtórz.")
             delay_medium()
 
-        shop()
+        blacksmith()
 
     clear_screen()
 

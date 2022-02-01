@@ -84,6 +84,16 @@
             "Teleport": "Town",
             "Durability": 1,
             "Price": 50
+        },
+        "Dungeon Teleport Scroll": {
+            "Teleport": "Dungeon",
+            "Durability": 1,
+            "Price": 50
+        },
+        "Cave Teleport Scroll": {
+            "Teleport": "Cave",
+            "Durability": 1,
+            "Price": 50
         }
     }
 }

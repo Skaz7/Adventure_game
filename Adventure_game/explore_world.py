@@ -244,7 +244,7 @@ def temple():
     """    This is small and peaceful town at a crossroads.
     The citizens are poor, but you can see that they are good people.
     You stand in the middle of townsquare.
-    On your left there is weapon shop, in front of you is a temple, and a medic on you right.
+    On your left there is blacksmith, in front of you is a temple, and a medic on you right.
     """,
     ["town"])
 
@@ -259,7 +259,7 @@ def medic():
     """    This is small and peaceful town at a crossroads.
     The citizens are poor, but you can see that they are good people.
     You stand in the middle of townsquare.
-    On your left there is weapon shop, in front of you is a temple, and a medic on you right.
+    On your left there is blacksmith, in front of you is a temple, and a medic on you right.
     """,
     ["town"])
 
@@ -513,7 +513,7 @@ def town():
     region_builder("town",
     """    This is small and peaceful town at a crossroads.
     The citizens are poor, but you can see that they are good people.
-    You stand by the Town Gates, and see nearby Townsquare.
+    You stand by the Town Gates, and see Townsquare nearby.
     You can go there and visit the local merchants, you can also leave the Town in all directions.
     """,
     ["north crossroads", "south crossroads", "west crossroads", "east crossroads"])
@@ -522,11 +522,11 @@ def town():
         clear_screen()
 
         print("You are standing in the Townsquare, you look around and you can see a shop, a medic and a temple nearby. ")
-        print("If you need additional equipment and have the right amount of money, it is worth visiting shop.")
-        print("At the Medic you can heal your wounds.")
+        print("If you need additional equipment and have the right amount of money, it is worth visiting Blacksmith.")
+        print("At the Medic you can heal your wounds and buy potions.")
         print("In the Temple you can learn new spells.")
         print("\nWhat do you do?\n")
-        print("1 - Visit Shop")
+        print("1 - Visit Blacksmith")
         print("2 - Visit Medic.")
         print("3 - Visit Temple")
         print("4 - Visit Inn")
@@ -535,7 +535,7 @@ def town():
         choice = input('> ')
 
         if choice == '1':
-            functions.shop()
+            functions.blacksmith()
 
         elif choice == '2':
             functions.medic()
@@ -567,7 +567,7 @@ def region_builder(region_name, region_description, next_regions):
     print(f"{region_description}")
     delay_short()
 
-    print("\nFrom here you can go to:\n")
+    print("\nFrom here you can travel to:\n")
 
     next_regions_list = []
 
@@ -578,13 +578,22 @@ def region_builder(region_name, region_description, next_regions):
     print(f"\n{len(next_regions_list)+1} -  Explore {region_name.title().replace('_', ' ')}")
     # input_message = int(input("\nWhere yould you like to go?    > "))
 
+    print('\n--------------------')
+    print("0 - Show Hero Screen")
+    print('--------------------')
+
     try:
-        input_message = int(input("\nWhere yould you like to go?    > "))
+        input_message = int(input("\n\nWhat would you like to do?    > "))
 
         if input_message == len(next_regions_list)+1:
             return
+        
+        elif input_message == 0:
+            clear_screen()
+            functions.player.show_player_stats()
+            eval(f'{region_name}()')
 
-        elif input_message < 1 or input_message > len(next_regions_list):
+        elif input_message < 0 or input_message > len(next_regions_list):
             print('\nWrong option!')
             delay_short()
             eval(f'{region_name}()'.replace(' ', '_'))
