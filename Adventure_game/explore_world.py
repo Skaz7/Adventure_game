@@ -48,7 +48,7 @@ def explore(where_are_you):
 
 
 def abandoned_mansion():
-    delay_short()
+ 
     region_builder("abandoned mansion",
     """    You arrived to a place where you supposed to find farmers house.
     Instead you see that their house is ruined and abandoned.
@@ -63,7 +63,7 @@ def abandoned_mansion():
 
 
 def flat_fields():
-    delay_short()
+  
     region_builder("flat fields",
     """    You came to the flat fields. 
     To the south you see the road leading to the port, and to the west there are ruins of a castle.
@@ -76,7 +76,7 @@ def flat_fields():
 
 
 def iron_ore_mine():
-    delay_short()
+  
     region_builder("iron ore mine",
     """    Here is an old iron ore mine.
     A long time ago, the ore used to make the best weapons was mined here.
@@ -90,7 +90,7 @@ def iron_ore_mine():
 
 
 def goblin_forest():
-    delay_short()
+   
     region_builder("goblin forest",
     """    You've heard a lot about this dangerous forest.
     Many wanderers were lost here, and many merchants were robbed.
@@ -104,7 +104,7 @@ def goblin_forest():
 
 
 def safe_path():
-    delay_short()
+  
     region_builder("darkwood",
     """This is small and peaceful town at a crossroads.
     The citizens are poor, but you can see that they are good people.
@@ -119,7 +119,7 @@ def safe_path():
 
 
 def gate():
-    delay_short()
+  
     region_builder("gate",
     """This is small and peaceful town at a crossroads.
     The citizens are poor, but you can see that they are good people.
@@ -134,7 +134,7 @@ def gate():
 
 
 def old_farm():
-    delay_short()
+   
     region_builder("old farm",
     """This is small and peaceful town at a crossroads.
     The citizens are poor, but you can see that they are good people.
@@ -149,7 +149,7 @@ def old_farm():
 
 
 def mill():
-    delay_short()
+   
     region_builder("mill",
     """This is small and peaceful town at a crossroads.
     The citizens are poor, but you can see that they are good people.
@@ -164,7 +164,7 @@ def mill():
 
 
 def waterfall():
-    delay_short()
+  
     region_builder("mill",
     """This is small and peaceful town at a crossroads.
     The citizens are poor, but you can see that they are good people.
@@ -179,7 +179,7 @@ def waterfall():
 
 
 def green_hills():
-    delay_short()
+  
     region_builder("green hills",
     """This is small and peaceful town at a crossroads.
     The citizens are poor, but you can see that they are good people.
@@ -194,7 +194,7 @@ def green_hills():
 
 
 def clearing():
-    delay_short()
+    
     region_builder("green hills",
     """This is small and peaceful town at a crossroads.
     The citizens are poor, but you can see that they are good people.
@@ -209,7 +209,7 @@ def clearing():
 
 
 def woods():
-    delay_short()
+  
     region_builder("woods",
     """This is small and peaceful town at a crossroads.
     The citizens are poor, but you can see that they are good people.
@@ -224,7 +224,7 @@ def woods():
 
 
 def inn():
-    delay_short()
+    
     region_builder("inn",
     """    This is small and peaceful town at a crossroads.
     The citizens are poor, but you can see that they are good people.
@@ -239,7 +239,7 @@ def inn():
 
 
 def temple():
-    delay_short()
+    
     region_builder("inn",
     """    This is small and peaceful town at a crossroads.
     The citizens are poor, but you can see that they are good people.
@@ -254,7 +254,7 @@ def temple():
 
 
 def medic():
-    delay_short()
+    
     region_builder("inn",
     """    This is small and peaceful town at a crossroads.
     The citizens are poor, but you can see that they are good people.
@@ -269,7 +269,7 @@ def medic():
 
 
 def ruins():
-    delay_short()
+    
     region_builder("ruins",
     """This is small and peaceful town at a crossroads.
     The citizens are poor, but you can see that they are good people.
@@ -284,7 +284,7 @@ def ruins():
 
 
 def north_crossroads():
-    delay_short()
+   
     region_builder("north_crossroads",
     """    You have entered the northern crossroads. 
     Many merchants and adventurers travel here. 
@@ -298,7 +298,7 @@ def north_crossroads():
 
 
 def south_crossroads():
-    delay_short()
+   
     region_builder("south_crossroads",
     """This is small and peaceful town at a crossroads.
     The citizens are poor, but you can see that they are good people.
@@ -313,7 +313,7 @@ def south_crossroads():
 
 
 def west_crossroads():
-    delay_short()
+    
     region_builder("west_crossroads",
     """This is small and peaceful town at a crossroads.
     The citizens are poor, but you can see that they are good people.
@@ -328,7 +328,7 @@ def west_crossroads():
 
 
 def east_crossroads():
-    delay_short()
+   
     region_builder("east_crossroads",
     """After you left town, you came to a East Crossroads.
     In the middle there is a broken signpost, from which you can barely read where the roads lead.
@@ -345,7 +345,7 @@ def east_crossroads():
 
 
 def cave():
-    delay_short()
+  
     region_builder("cave",
     """This is small and peaceful town at a crossroads.
     The citizens are poor, but you can see that they are good people.
@@ -360,7 +360,7 @@ def cave():
 
 
 def dungeon():
-    delay_short()
+    
     region_builder("dungeon",
     """This is small and peaceful town at a crossroads.
     The citizens are poor, but you can see that they are good people.
@@ -375,7 +375,7 @@ def dungeon():
 
 
 def river():
-    delay_short()
+  
     region_builder("river",
     """This is small and peaceful town at a crossroads.
     The citizens are poor, but you can see that they are good people.
@@ -390,7 +390,7 @@ def river():
 
 
 def desert():
-    delay_short()
+    
     region_builder("desert",
     """This is small and peaceful town at a crossroads.
     The citizens are poor, but you can see that they are good people.
@@ -405,7 +405,7 @@ def desert():
 
 
 def coast():
-    delay_short()
+    
     region_builder("seaside",
     """This is small and peaceful town at a crossroads.
     The citizens are poor, but you can see that they are good people.
@@ -420,7 +420,7 @@ def coast():
 
 
 def plains():
-    delay_short()
+   
     region_builder("plains",
     """This is small and peaceful town at a crossroads.
     The citizens are poor, but you can see that they are good people.
@@ -435,7 +435,7 @@ def plains():
 
 
 def swamp():
-    delay_short()
+    
     region_builder("swamp",
     """This is small and peaceful town at a crossroads.
     The citizens are poor, but you can see that they are good people.
@@ -450,7 +450,7 @@ def swamp():
 
 
 def rocks():
-    delay_short()
+    
     region_builder("rocks",
     """This is small and peaceful town at a crossroads.
     The citizens are poor, but you can see that they are good people.
@@ -465,7 +465,7 @@ def rocks():
 
 
 def port():
-    delay_short()
+    
     region_builder("port",
     """This is small and peaceful town at a crossroads.
     The citizens are poor, but you can see that they are good people.
@@ -480,7 +480,7 @@ def port():
 
 
 def mountains():
-    delay_short()
+ 
     region_builder("mountains",
     """This is small and peaceful town at a crossroads.
     The citizens are poor, but you can see that they are good people.
@@ -495,7 +495,6 @@ def mountains():
 
 
 def darkwood():
-    delay_short()
 
     region_builder("darkwood",
     """    You are not able to see the light of day through impenetrable thickets of forests.
@@ -509,7 +508,7 @@ def darkwood():
 
 
 def town():
-    delay_short()
+
     region_builder("town",
     """    This is small and peaceful town at a crossroads.
     The citizens are poor, but you can see that they are good people.
@@ -526,27 +525,23 @@ def town():
         print("At the Medic you can heal your wounds and buy potions.")
         print("In the Temple you can learn new spells.")
         print("\nWhat do you do?\n")
-        print("1 - Visit Blacksmith")
-        print("2 - Visit Medic.")
-        print("3 - Visit Temple")
-        print("4 - Visit Inn")
-        print("\n5 - Go back to Town Gates\n")
+        print("1 - Visit Shop")
+        print("2 - Visit Temple.")
+        print("3 - Visit Inn")
+        print("\n4 - Go back to Town Gates\n")
 
         choice = input('> ')
 
         if choice == '1':
-            functions.blacksmith()
+            functions.shop()
 
         elif choice == '2':
-            functions.medic()
+            functions.temple()
 
         elif choice == '3':
-            functions.temple()
+            functions.inn()
         
         elif choice == '4':
-            functions.inn()
-
-        elif choice == '5':
             town()
 
         else:
@@ -565,7 +560,6 @@ def region_builder(region_name, region_description, next_regions):
     print(f"{where_are_you}")
     print(f"{'-' * len(where_are_you)}\n")
     print(f"{region_description}")
-    delay_short()
 
     print("\nFrom here you can travel to:\n")
 
@@ -591,7 +585,7 @@ def region_builder(region_name, region_description, next_regions):
         elif input_message == 0:
             clear_screen()
             functions.player.show_player_stats()
-            eval(f'{region_name}()')
+            eval(f'{region_name}()'.replace(' ', '_'))
 
         elif input_message < 0 or input_message > len(next_regions_list):
             print('\nWrong option!')

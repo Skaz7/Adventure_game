@@ -1,3 +1,13 @@
+### v0.3.2
+
+### What works?:
+- ***Temple*** in ***Town*** (hero can heal his wounds)
+- fixed **leveling up**, now health is correctly increased by 10% each level.
+
+> TODO: implement ***inn*** in ***Town*** where player can take **quests** and **rest**.
+> TODO: rewrite create ***enemy functions***, add ***enemy level*** and ***specials***
+
+
 ### v0.3.1
 - added new ***teleport scrolls*** - *Cave* and *Dungeon*
 - added ***Hero Screen*** on every location options

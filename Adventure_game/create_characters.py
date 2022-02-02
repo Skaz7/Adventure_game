@@ -13,10 +13,11 @@ def create_player_character():
 
     Hname = input("\nPodaj swoje imię: ").title() 
     Hhealth = 200
+    Hmaxhealth = 200
     Hattack = random.randint(10, 20)
     Hdefense = random.randint(10, 20)
     Hmagic = random.randint(10, 20)
-    Hluck = random.randint(10, 20)
+    Hluck = random.randint(18, 20)
     Hmoney = random.randint(80, 120)
     Hitems = {"weapons": {}, "consumables": {}, "other": {}}
     Hstate = []
@@ -26,6 +27,7 @@ def create_player_character():
     return Hero(
         Hname,
         Hhealth,
+        Hmaxhealth,
         Hattack,
         Hdefense,
         Hmagic,

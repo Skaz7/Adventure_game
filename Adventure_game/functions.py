@@ -60,7 +60,7 @@ def decision_path():
     if choice == "1":
         battle()
     elif choice == "2":
-        blacksmith()
+        shop()
     elif choice == "3":
         clear_screen()
         player.show_player_stats()
@@ -611,7 +611,7 @@ def body_search():
         return
 
 
-def blacksmith():
+def shop():
     def buy_item(item_type):
         clear_screen()
 
@@ -672,7 +672,7 @@ def blacksmith():
             print("\nWybrałeś nieprawidłową opcję, powtórz.")
             delay_medium()
 
-        blacksmith()
+        shop()
 
     clear_screen()
 
@@ -725,15 +725,40 @@ def blacksmith():
         return
 
 
-def medic():
-    clear_screen()
-    print("You came to a Medic.")
-    print("Here you can heal your wounds.")
-
-
 def temple():
-    pass
+    clear_screen()
 
+    heal_cost = 20
+
+    print(f'\n\n{"Welcome to the Temple.":^120}')
+    print(f'{"-"*24:^120}\n\n')
+    print('\tHere you can heal you wounds and buy spells.')
+    print('\tWhat would you like to do?\n')
+    print(f'\n\t1 - Heal (costs {heal_cost} coins)')
+    print('\t2 - Buy spells')
+    print('\n\t0 - Leave Temple.')
+
+    choice = input("\n\t> ")
+
+    if choice == '0':
+        return
+
+    elif choice == '1':
+        player.health = player.maxhealth
+        player.state = []
+        player.money -= 20
+        print('\t\t\nYou ragained all your health and healed your wounds.')
+        delay_medium()
+        temple()
+    
+    elif choice == '2':
+        print('\nThere are no spells for sale at this time. Please come back later.')
+        delay_medium()
+        temple()
+    else:
+        print('\n\t\tWrong option!')
+        delay_medium()
+        temple()
 
 def inn():
     pass

@@ -1,9 +1,12 @@
 from functions import levels
 
+hero_max_health = 200
+
 class Hero:
-    def __init__(self, Hname, Hhealth, Hattack, Hdefense, Hmagic, Hluck, Hmoney, Hinventory, Hstate, Hexperience, Hlevel):
+    def __init__(self, Hname, Hhealth, Hmaxhealth, Hattack, Hdefense, Hmagic, Hluck, Hmoney, Hinventory, Hstate, Hexperience, Hlevel):
         self.name = Hname
         self.health = Hhealth
+        self.maxhealth = Hmaxhealth
         self.attack = Hattack
         self.defense = Hdefense
         self.magic = Hmagic
@@ -34,7 +37,8 @@ class Hero:
     # when hero experience points exceends level given in level list the stats increases
     def level_up(self):
         self.level = self.level + 1
-        self.health = int(self.health * 1.1)
+        self.maxhealth = int(self.maxhealth * 1.1)
+        self.health = self.maxhealth
         additional_points = 2
 
         while additional_points > 0:
