@@ -1,3 +1,8 @@
+### v0.3.3
+- rebuilding enemy class, now enemies will be saved in csv file with all statistics instead of randomly generated stats and names
+
+
+
 ### v0.3.2
 
 ### What works?:
@@ -6,6 +11,7 @@
 
 > TODO: implement ***inn*** in ***Town*** where player can take **quests** and **rest**.
 > TODO: rewrite create ***enemy functions***, add ***enemy level*** and ***specials***
+
 
 
 ### v0.3.1

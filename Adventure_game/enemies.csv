@@ -1,0 +1,2 @@
+level,name,health,attack,defense,magicdefense,chance, special
+1,Goblin,80,10,10,10,15,bleed

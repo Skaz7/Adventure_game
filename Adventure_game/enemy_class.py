@@ -1,5 +1,6 @@
 class Enemy:
-    def __init__(self, Ename, Ehealth, Eattack, Edefense, Emagicdefense, Echance, Especial):
+    def __init__(self, Elevel, Ename, Ehealth, Eattack, Edefense, Emagicdefense, Echance, Especial):
+        self.level = Elevel
         self.name = Ename
         self.health = Ehealth
         self.attack = Eattack

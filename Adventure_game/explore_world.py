@@ -570,7 +570,6 @@ def region_builder(region_name, region_description, next_regions):
         next_regions_list.append(region)
 
     print(f"\n{len(next_regions_list)+1} -  Explore {region_name.title().replace('_', ' ')}")
-    # input_message = int(input("\nWhere yould you like to go?    > "))
 
     print('\n--------------------')
     print("0 - Show Hero Screen")
