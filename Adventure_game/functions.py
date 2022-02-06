@@ -45,32 +45,6 @@ def start_game():
     town()
 
 
-def decision_path():
-
-    clear_screen()
-
-    print("\nCo chcesz zrobić?")
-    print("\n1. Walka")
-    print("2. Sklep")
-    print("3. Ekran Gracza")
-    print("4. Eksploracja")
-
-    choice = input("> ")
-
-    if choice == "1":
-        battle()
-    elif choice == "2":
-        shop()
-    elif choice == "3":
-        clear_screen()
-        player.show_player_stats()
-        decision_path()
-    elif choice == "4":
-        return
-    else:
-        quit()
-
-
 def hero_attack():
     """
     Chance for hit an enemy is based on hero and enemy luck, and 20-side dice roll.
@@ -87,7 +61,6 @@ def hero_attack():
             (player_hit_chance + roll_6_dice()) * 5 * player.level * 0.5
         )
 
-        # Damage can't be lower than 0
         if enemy_damage < 0:
             enemy_damage == 0
 
@@ -125,6 +98,7 @@ def hero_attack():
         player.experience = int(player.experience * 1.1)
 
         if player.experience > levels[0]:
+            clear_screen()
             player.level_up()
             del levels[0]
 
@@ -154,11 +128,15 @@ def enemy_attack():
             delay_short()
 
         else:
-            critical_chance = random.randint(0, 100)
+            critical_chance = roll_6_dice()
 
-            if critical_chance > 5:
-                print(f"{enemy.name} zadał Ci {int(player_damage * 1.2)} obrażeń...")
+            if critical_chance > 2:
+                print(f"{enemy.name} zadał Ci {int(player_damage * 1.2)} obrażeń.")
+                print(
+                    f"\nNiestety zadał krytyczny cios, powodując u Ciebie {enemy.special}."
+                )
                 player.health = player.health - int(player_damage * 1.2)
+                delay_medium()
 
                 set_player_state()
 
@@ -362,7 +340,7 @@ def use_item():
             # if item durability reaches 0, item is destroyed and removed from inventory
             if choosed_item_data["Durability"] < 1:
                 print(f"\n\t\t\t\t  Przedmiot {choosed_item_name} został zniszczony!\n")
-                del player.inventory[item_type][f'{choosed_item_name}']
+                del player.inventory[item_type][f"{choosed_item_name}"]
             delay_medium()
 
         except ValueError:
@@ -397,7 +375,8 @@ def run():
             "\nUdało Ci się uciec z miejsca potyczki, przeciwnik nie może Cię dogonić."
         )
         delay_medium()
-        decision_path()
+        input()
+        return
 
     else:
         print(
@@ -419,6 +398,9 @@ def battle():
 
     global enemy, player_max_health
     enemy = create_enemy()
+    # while enemy.level != player.level:
+    while enemy.level > player.level + 1 or enemy.level < player.level - 1:
+        enemy = create_enemy()
     enemy_max_health = enemy.health
     player_max_health = player.health
     turn_counter = 0
@@ -479,6 +461,7 @@ def battle():
         elif enemy.health >= enemy_max_health * 0.7:
             enemy_health_bar_color = "\033[0;32m"
 
+        print(f'{"Poziom":19} : {enemy.level}')
         print(
             f'{"Zdrowie":19} : {enemy.health} {enemy_health_bar_color} [{enemy_health_bar}',
             " " * (60 - len(enemy_health_bar)),
@@ -490,7 +473,7 @@ def battle():
         print(f'{"Obrona":19} : {enemy.defense}')
         print(f'{"Obrona magiczna:":19} : {enemy.magicdefense}')
         print(f'{"Szansa trafienia:":19} : {enemy.chance}')
-        print(f'{"Zdolność specjalna":19} : {enemy.special}')
+        print(f'{"Zdolność specjalna":19} : {enemy.special.capitalize()}')
 
         print(f"\n--------------------------------")
         print(f"| Możliwe akcje:\t       |")
@@ -514,6 +497,7 @@ def battle():
             defense()
         elif battle_action == "5":
             run()
+            return
         else:
             print("Wybierz opcję z zakresu 1 - 5!")
 
@@ -571,6 +555,8 @@ def body_search():
         delay_short()
         print(f"\nTwoje zdrowie trwale obniża się o {20 - risk} punktów życia.")
         player.health = player.health - (20 - risk)
+        if player.health < 1:
+            defeat()
         delay_medium()
         return
     else:
@@ -617,6 +603,7 @@ def shop():
 
         items_list = []
 
+        print(f"\nTwoja gotówka to {player.money}szt złota")
         print(
             f"\nWybrałeś {item_type}, oto przedmioty z tej kategorii dostępne w sprzedaży:\n"
         )
@@ -674,6 +661,93 @@ def shop():
 
         shop()
 
+    def sell_item():
+        clear_screen()
+
+        items_list = []
+
+        print("Posiadasz następujące przedmioty:")
+
+        for i, (item_type, item) in enumerate(player.inventory.items(), start=1):
+
+            for name, parameters in item.items():
+                print(i, name)
+                items_list.append(name)
+
+        print(f"\nTwoja gotówka to {player.money} sztuk złota.\n\n")
+
+        choice = int(input("\nJaki przedmiot chcesz sprzedać?   > ")) - 1
+
+        if choice == "":
+            return
+
+        elif choice < 0 or choice > len(items_list) - 1:
+            print("\nWybrałeś nieprawidłową opcję, powtórz.")
+            delay_medium()
+
+        else:
+            item_to_sell = items_list[choice]
+            # cost_of_item_to_sell = int(
+            #     all_items[item_type][item_to_sell]["Price"] * 0.7
+            # )
+
+            # player.money = player.money + cost_of_item_to_sell
+            if item_to_sell in player.inventory['weapons']:
+                player.money = player.money + int(player.inventory['weapons'][item_to_sell]['Price'] * 0.7)
+                del player.inventory['weapons'][item_to_sell]
+
+            elif item_to_sell in player.inventory['consumables']:
+                player.money = player.money + int(player.inventory['consumables'][item_to_sell]['Price'] * 0.7)
+                del player.inventory['consumables'][item_to_sell]
+
+            elif item_to_sell in player.inventory['other']:
+                player.money = player.money + int(player.inventory['other'][item_to_sell]['Price'] * 0.7)
+                del player.inventory['other'][item_to_sell]
+
+            else:
+                pass
+
+            print('\nUdało się sprzedać przedmiot.')
+            delay_medium()
+
+    def buy():
+        clear_screen()
+        print("\n\n\nLista przedmiotów na sprzedaż:")
+
+        for i, item_type in enumerate(all_items, start=1):
+            print(f"\n{i}. {item_type.capitalize()} :")
+            print(f"{'-' * (len(item_type)+6)} ")
+
+            for k in all_items[item_type].keys():
+                print("\t", k.capitalize())
+
+        print("\n\n")
+
+        print("\nWybierz kategorię przedmiotu, który chcesz kupić (1/2/3)")
+        print("\n0 - Powrót\n")
+
+        choice = input("\n> ")
+
+        if choice == "1":
+
+            buy_item("weapons")
+
+        elif choice == "2":
+
+            buy_item("consumables")
+
+        elif choice == "3":
+
+            buy_item("other")
+
+        elif choice == "0" or choice == "":
+            pass
+
+        else:
+            print("\n\n\t\t\t\tWybrałeś nieprawidłową opcję!")
+            delay_medium()
+            return
+
     clear_screen()
 
     print("\n\n\t\t\t\t\t\t", "-" * 20)
@@ -687,42 +761,23 @@ def shop():
             print(name)
 
     print(f"\nTwoja gotówka to {player.money} sztuk złota.")
+    print("\nCo chcesz zrobić?")
+    print("\n1 - Kupić przedmiot")
+    print("2 - Sprzedać przedmiot")
+    print("\n0 - Powrót")
 
-    print("\n\n\nLista przedmiotów na sprzedaż:")
-
-    for i, item_type in enumerate(all_items, start=1):
-        print(f"\n{i}. {item_type.capitalize()} :")
-        print(f"{'-' * (len(item_type)+6)} ")
-
-        for k in all_items[item_type].keys():
-            print("\t", k.capitalize())
-
-    print("\n\n")
-
-    print("\nWybierz kategorię przedmiotu, który chcesz kupić (1/2/3)")
-    print("\n0 - Powrót\n")
-
-    choice = input("\n> ")
+    choice = input("> ")
 
     if choice == "1":
-
-        buy_item("weapons")
-
+        buy()
     elif choice == "2":
-
-        buy_item("consumables")
-
-    elif choice == "3":
-
-        buy_item("other")
-
-    elif choice == "0" or choice == "":
-        pass
-
-    else:
-        print("\n\n\t\t\t\tWybrałeś nieprawidłową opcję!")
-        delay_medium()
+        sell_item()
+    elif choice == "0":
         return
+    else:
+        print("\nWybrałeś nieprawidłową opcję!")
+        delay_medium()
+        shop()
 
 
 def temple():
@@ -732,33 +787,41 @@ def temple():
 
     print(f'\n\n{"Welcome to the Temple.":^120}')
     print(f'{"-"*24:^120}\n\n')
-    print('\tHere you can heal you wounds and buy spells.')
-    print('\tWhat would you like to do?\n')
-    print(f'\n\t1 - Heal (costs {heal_cost} coins)')
-    print('\t2 - Buy spells')
-    print('\n\t0 - Leave Temple.')
+    print("\tHere you can heal you wounds and buy spells.")
+    print("\tWhat would you like to do?\n")
+    print(f"\n\t1 - Heal (costs {heal_cost} coins)")
+    print("\t2 - Buy spells")
+    print("\n\t0 - Leave Temple.")
 
     choice = input("\n\t> ")
 
-    if choice == '0':
+    if choice == "0":
         return
 
-    elif choice == '1':
+    elif choice == "1":
         player.health = player.maxhealth
         player.state = []
-        player.money -= 20
-        print('\t\t\nYou ragained all your health and healed your wounds.')
-        delay_medium()
+        if player.money < 20:
+            print(f"You don't have enough money!")
+            delay_medium()
+            pass
+        else:
+            player.money -= 20
+            player.health = player.maxhealth
+            player.state = []
+            print("\t\t\nYou ragained all your health and healed your wounds.")
+            delay_medium()
         temple()
-    
-    elif choice == '2':
-        print('\nThere are no spells for sale at this time. Please come back later.')
+
+    elif choice == "2":
+        print("\nThere are no spells for sale at this time. Please come back later.")
         delay_medium()
         temple()
     else:
-        print('\n\t\tWrong option!')
+        print("\n\t\tWrong option!")
         delay_medium()
         temple()
+
 
 def inn():
     pass

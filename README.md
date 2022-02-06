@@ -1,3 +1,18 @@
+### v0.3.5
+- fixed ***run from battle***, now player gets to region which he has been exploring instead of **decision path** function
+
+> TODO: fix bug with selling items in shop. Items is correctly removed from inventory, but ***enumerate*** numbers of other items are wrong
+
+
+
+### v0.3.4
+- now enemy level must match the player's level +-1
+
+> TODO: add difficulty level at the beginning of the game. Monsters are going to be stronger and player will get less experience.
+> TODO: fix bug when player doesn't die after his health is below 0, instead it's end of battle and player health less than 0
+
+
+
 ### v0.3.3
 - rebuilding enemy class, now enemies will be saved in csv file with all statistics instead of randomly generated stats and names
 

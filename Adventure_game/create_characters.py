@@ -5,7 +5,6 @@ from enemy_class import Enemy
 from hero_class import Hero
 
 
-
 def create_player_character():
 
     Hname = input("\nPodaj swoje imię: ").title() 
@@ -45,18 +44,16 @@ def create_enemy():
         newline="",
     ) as file:
         reader = csv.reader(file)
-        data = list(reader)
+        data = random.choice(list(reader))
 
-    data.pop(0)
-
-    level = int(data[0][0])
-    name = data[0][1]
-    health = int(data[0][2])
-    attack = int(data[0][3])
-    defense = int(data[0][4])
-    magicdefense = int(data[0][5])
-    chance = int(data[0][6])
-    special = data[0][7]
+    level = int(data[0])
+    name = data[1]
+    health = int(data[2])
+    attack = int(data[3])
+    defense = int(data[4])
+    magicdefense = int(data[5])
+    chance = int(data[6])
+    special = data[7]
 
     return Enemy(
         level, name, health, attack, defense, magicdefense, chance, special

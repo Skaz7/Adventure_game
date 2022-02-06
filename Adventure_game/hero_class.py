@@ -34,6 +34,10 @@ class Hero:
         self.health = self.health - 7
 
 
+    def stunned(self):
+        pass
+
+
     # when hero experience points exceends level given in level list the stats increases
     def level_up(self):
         self.level = self.level + 1
@@ -84,7 +88,7 @@ Którą parametr chcesz rozwinąć?
             print(f'\t\t{"7. STAN":12} : Wszystko w porządku, brak dodatkowych efektów\n')
 
         else:
-            print(f'\t\t{"7. STAN":12} : {self.state[0]}\n')
+            print(f'\t\t{"7. STAN":12} : {self.state[0].capitalize()}\n')
         
         items_list = []
         for k, v in self.inventory.items():

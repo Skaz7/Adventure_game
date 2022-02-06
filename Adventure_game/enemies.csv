@@ -1,2 +1,42 @@
 level,name,health,attack,defense,magicdefense,chance, special
-1,Goblin,80,10,10,10,15,bleed
+1,Angry Goblin,80,10,10,10,15,bleed
+1,Wolf,90,10,10,7,12,bleed
+1,Bear,110,15,15,7,10,bleed
+1,Spider,70,10,10,15,13,poison
+1,Skeleton,60,15,15,6,15,bleed
+1,Bat,40,10,10,10,10,bleed
+1,Bandit,100,12,12,12,12,bleed
+1,Snake,80,10,13,15,14,poison
+1,Thief,90,12,10,12,12,bleed
+2,Ghoul,150,18,19,18,17,poison
+2,Gnome,130,19,17,17,16,bleed
+2,Ghost,140,19,25,13,18,freeze
+2,Lizard,160,19,19,18,15,poison
+2,Orc,150,20,16,20,12,bleed
+2,Scorpion,130,17,17,18,14,poison
+2,Shadow,145,15,22,19,13,stunned
+2,Wywern,155,15,21,20,15,bleed
+2,Vampire,150,17,22,15,17,bleed
+3,Zombie,165,20,23,22,18,poison
+3,Troll,180,22,22,20,19,stunned
+3,Mummy,170,21,20,20,18,bleed
+3,Warewolf,175,24,18,21,20,bleed
+3,Harpy,175,23,25,20,19,stunned
+3,Chimera,170,24,19,22,19,bleed
+3,Rotten Goblin,175,20,22,20,18,poison
+3,Angry Wolf,180,20,21,21,19,freeze
+3,Fire Skeleton,185,21,20,19,20,burn
+3,Little Dragon,185,24,21,20,18,burn
+4,Hydra,195,26,21,25,21,stunned
+4,Lich,210,27,22,24,22,freeze
+4,Cyclop,200,29,21,23,20,bleed
+4,Warlock,205,30,21,25,22,burn
+4,Golem,220,27,25,20,21,stunned
+4,Blood Spider,225,28,24,20,22,bleed
+4,Frost Nightmare,230,32,20,21,21,freeze
+4,Fire Lizard,235,28,24,20,19,burn
+4,Gnome Squad,240,25,20,19,22,bleed
+5,Giant,250,32,25,26,24,bleed
+5,Titan,255,33,27,24,25,bleed
+5,Behemoth,260,34,25,25,23,burn
+5,Dragon,265,36,28,26,24,burn

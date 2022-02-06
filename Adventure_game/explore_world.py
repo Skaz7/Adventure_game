@@ -22,7 +22,7 @@ def delay_short():
 
 def explore(where_are_you):
     clear_screen()
-
+    
     place = f"You are in {str(where_are_you)}."
     print(f"\n\n{place}")
     print(f"{'-' * len(place)}\n")
