@@ -39,7 +39,7 @@ def explore(where_are_you):
         return
     elif choice == 0:
         clear_screen()
-        functions.player.show_player_stats()
+        functions.player.show_player_screen()
     else:
         print('Wrong option.')
 
@@ -105,11 +105,8 @@ def goblin_forest():
 
 def safe_path():
   
-    region_builder("darkwood",
-    """This is small and peaceful town at a crossroads.
-    The citizens are poor, but you can see that they are good people.
-    You stand in the middle of townsquare.
-    On your left there is weapon shop
+    region_builder("safe path",
+    """NO DESCRIPTION
     """,
     ["darkwood", "green hills"])
 
@@ -121,10 +118,7 @@ def safe_path():
 def gate():
   
     region_builder("gate",
-    """This is small and peaceful town at a crossroads.
-    The citizens are poor, but you can see that they are good people.
-    You stand in the middle of townsquare.
-    On your left there is weapon shop
+    """NO DESCRIPTION
     """,
     ["plains"])
 
@@ -136,10 +130,7 @@ def gate():
 def old_farm():
    
     region_builder("old farm",
-    """This is small and peaceful town at a crossroads.
-    The citizens are poor, but you can see that they are good people.
-    You stand in the middle of townsquare.
-    On your left there is weapon shop
+    """NO DESCRIPTION
     """,
     ["east crossroads", "south crossroads", "abandoned mansion"])
 
@@ -151,10 +142,7 @@ def old_farm():
 def mill():
    
     region_builder("mill",
-    """This is small and peaceful town at a crossroads.
-    The citizens are poor, but you can see that they are good people.
-    You stand in the middle of townsquare.
-    On your left there is weapon shop
+    """NO DESCRIPTION
     """,
     ["river", "waterfall"])
 
@@ -165,11 +153,8 @@ def mill():
 
 def waterfall():
   
-    region_builder("mill",
-    """This is small and peaceful town at a crossroads.
-    The citizens are poor, but you can see that they are good people.
-    You stand in the middle of townsquare.
-    On your left there is weapon shop
+    region_builder("waterfall",
+    """NO DESCRIPTION
     """,
     ["mill", "rocks"])
 
@@ -181,10 +166,7 @@ def waterfall():
 def green_hills():
   
     region_builder("green hills",
-    """This is small and peaceful town at a crossroads.
-    The citizens are poor, but you can see that they are good people.
-    You stand in the middle of townsquare.
-    On your left there is weapon shop
+    """NO DESCRIPTION
     """,
     ["west crossroads", "clearing", "safe path", "north crossroads"])
 
@@ -195,11 +177,8 @@ def green_hills():
 
 def clearing():
     
-    region_builder("green hills",
-    """This is small and peaceful town at a crossroads.
-    The citizens are poor, but you can see that they are good people.
-    You stand in the middle of townsquare.
-    On your left there is weapon shop
+    region_builder("clearing",
+    """NO DESCRIPTION
     """,
     ["woods", "green hills"])
 
@@ -211,10 +190,7 @@ def clearing():
 def woods():
   
     region_builder("woods",
-    """This is small and peaceful town at a crossroads.
-    The citizens are poor, but you can see that they are good people.
-    You stand in the middle of townsquare.
-    On your left there is weapon shop
+    """NO DESCRIPTION
     """,
     ["west crossroads", "clearing", "rocks"])
 
@@ -226,10 +202,7 @@ def woods():
 def inn():
     
     region_builder("inn",
-    """    This is small and peaceful town at a crossroads.
-    The citizens are poor, but you can see that they are good people.
-    You stand in the middle of townsquare.
-    On your left there is weapon shop, in front of you is a temple, and a medic on you right.
+    """NO DESCRIPTION
     """,
     ["town"])
 
@@ -240,11 +213,8 @@ def inn():
 
 def temple():
     
-    region_builder("inn",
-    """    This is small and peaceful town at a crossroads.
-    The citizens are poor, but you can see that they are good people.
-    You stand in the middle of townsquare.
-    On your left there is blacksmith, in front of you is a temple, and a medic on you right.
+    region_builder("temple",
+    """NO DESCRIPTION
     """,
     ["town"])
 
@@ -255,11 +225,8 @@ def temple():
 
 def medic():
     
-    region_builder("inn",
-    """    This is small and peaceful town at a crossroads.
-    The citizens are poor, but you can see that they are good people.
-    You stand in the middle of townsquare.
-    On your left there is blacksmith, in front of you is a temple, and a medic on you right.
+    region_builder("medic",
+    """NO DESCRIPTION
     """,
     ["town"])
 
@@ -271,10 +238,7 @@ def medic():
 def ruins():
     
     region_builder("ruins",
-    """This is small and peaceful town at a crossroads.
-    The citizens are poor, but you can see that they are good people.
-    You stand in the middle of townsquare.
-    On your left there is weapon shop
+    """NO DESCRIPTION
     """,
     ["north crossroads", "east crossroads", "flat fields"])
 
@@ -300,10 +264,7 @@ def north_crossroads():
 def south_crossroads():
    
     region_builder("south_crossroads",
-    """This is small and peaceful town at a crossroads.
-    The citizens are poor, but you can see that they are good people.
-    You stand in the middle of townsquare.
-    On your left there is weapon shop
+    """NO DESCRIPTION
     """,
     ["town", "plains", "river", "old farm"])
     
@@ -315,10 +276,7 @@ def south_crossroads():
 def west_crossroads():
     
     region_builder("west_crossroads",
-    """This is small and peaceful town at a crossroads.
-    The citizens are poor, but you can see that they are good people.
-    You stand in the middle of townsquare.
-    On your left there is weapon shop
+    """NO DESCRIPTION
     """,
     ["town", "woods", "green hills", "river"])
     
@@ -330,12 +288,7 @@ def west_crossroads():
 def east_crossroads():
    
     region_builder("east_crossroads",
-    """After you left town, you came to a East Crossroads.
-    In the middle there is a broken signpost, from which you can barely read where the roads lead.
-    It turns out that the main road continues east, to the sea.
-    In the north you will find an old farm, and a path to the south will lead you to an abandoned mansion.
-
-    What would you do?
+    """NO DESCRIPTION
     """,
     ["town", "ruins", "old farm", "port"])
     
@@ -347,10 +300,7 @@ def east_crossroads():
 def cave():
   
     region_builder("cave",
-    """This is small and peaceful town at a crossroads.
-    The citizens are poor, but you can see that they are good people.
-    You stand in the middle of townsquare.
-    On your left there is weapon shop
+    """NO DESCRIPTION
     """,
     ["mountains"])
     
@@ -362,10 +312,7 @@ def cave():
 def dungeon():
     
     region_builder("dungeon",
-    """This is small and peaceful town at a crossroads.
-    The citizens are poor, but you can see that they are good people.
-    You stand in the middle of townsquare.
-    On your left there is weapon shop
+    """NO DESCRIPTION
     """,
     ["abandoned mansion"])
     
@@ -377,10 +324,7 @@ def dungeon():
 def river():
   
     region_builder("river",
-    """This is small and peaceful town at a crossroads.
-    The citizens are poor, but you can see that they are good people.
-    You stand in the middle of townsquare.
-    On your left there is weapon shop
+    """NO DESCRIPTION
     """,
     ["west crossroads", "south crossroads", "mill", "goblin forest"])
     
@@ -392,10 +336,7 @@ def river():
 def desert():
     
     region_builder("desert",
-    """This is small and peaceful town at a crossroads.
-    The citizens are poor, but you can see that they are good people.
-    You stand in the middle of townsquare.
-    On your left there is weapon shop
+    """NO DESCRIPTION
     """,
     ["rocks"])
     
@@ -406,11 +347,8 @@ def desert():
 
 def coast():
     
-    region_builder("seaside",
-    """This is small and peaceful town at a crossroads.
-    The citizens are poor, but you can see that they are good people.
-    You stand in the middle of townsquare.
-    On your left there is weapon shop
+    region_builder("coast",
+    """NO DESCRIPTION
     """,
     ["port"])
     
@@ -422,10 +360,7 @@ def coast():
 def plains():
    
     region_builder("plains",
-    """This is small and peaceful town at a crossroads.
-    The citizens are poor, but you can see that they are good people.
-    You stand in the middle of townsquare.
-    On your left there is weapon shop
+    """NO DESCRIPTION
     """,
     ["gate", "south crossroads", "abandoned mansion", "goblin forest"])
     
@@ -437,10 +372,7 @@ def plains():
 def swamp():
     
     region_builder("swamp",
-    """This is small and peaceful town at a crossroads.
-    The citizens are poor, but you can see that they are good people.
-    You stand in the middle of townsquare.
-    On your left there is weapon shop
+    """NO DESCRIPTION
     """,
     ["goblin forest"])
 
@@ -452,10 +384,7 @@ def swamp():
 def rocks():
     
     region_builder("rocks",
-    """This is small and peaceful town at a crossroads.
-    The citizens are poor, but you can see that they are good people.
-    You stand in the middle of townsquare.
-    On your left there is weapon shop
+    """NO DESCRIPTION
     """,
     ["desert", "woods", "waterfall"])
     
@@ -467,10 +396,7 @@ def rocks():
 def port():
     
     region_builder("port",
-    """This is small and peaceful town at a crossroads.
-    The citizens are poor, but you can see that they are good people.
-    You stand in the middle of townsquare.
-    On your left there is weapon shop
+    """NO DESCRIPTION
     """,
     ["east crossroads", "flat fields", "coast"])
 
@@ -482,10 +408,7 @@ def port():
 def mountains():
  
     region_builder("mountains",
-    """This is small and peaceful town at a crossroads.
-    The citizens are poor, but you can see that they are good people.
-    You stand in the middle of townsquare.
-    On your left there is weapon shop
+    """NO DESCRIPTION
     """,
     ["cave", "iron ore mine", "darkwood"])
 
@@ -583,7 +506,7 @@ def region_builder(region_name, region_description, next_regions):
         
         elif input_message == 0:
             clear_screen()
-            functions.player.show_player_stats()
+            functions.player.show_player_screen()
             eval(f'{region_name}()'.replace(' ', '_'))
 
         elif input_message < 0 or input_message > len(next_regions_list):

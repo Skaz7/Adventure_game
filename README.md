@@ -1,3 +1,20 @@
+### v0.3.7
+- fixed bug with selling items in shop.
+- added hero creator at game start.
+
+> TODO: fix bug with leveling up after magic attack. Now player gets more levels than he should.
+
+
+
+### v0.3.6
+- added new item **bandage**
+- added some new item effects (cure poison, cure burn, bandage)
+- few minor improvements
+
+> TODO: fix bug with selling items in shop. Items is correctly removed from inventory, but ***enumerate*** numbers of other items are wrong
+
+
+
 ### v0.3.5
 - fixed ***run from battle***, now player gets to region which he has been exploring instead of **decision path** function
 

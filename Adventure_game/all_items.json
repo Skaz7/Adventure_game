@@ -57,7 +57,6 @@
             "Durability": 1,
             "Price": 20
         }
-
     },
     "other": {
         "Four Leaf Clover": {
@@ -94,6 +93,11 @@
             "Teleport": "Cave",
             "Durability": 1,
             "Price": 50
+        },
+        "Bandage": {
+            "Bandage": 1,
+            "Durability": 1,
+            "Price": 20
         }
     }
 }

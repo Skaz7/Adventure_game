@@ -37,13 +37,32 @@ def roll_6_dice():
 def start_game():
     clear_screen()
 
-    print("To jest nowa gra.")
-    print("Zacznij od stworzenia swojej postaci\n\n")
+    game_title = "first rpg adventure"
 
-    global player
-    player = create_player_character()
-    town()
+    print(f'\n\n\n{"=" * (len(game_title) + 4):^120}')
+    print(f'{"|" + " " * (len(game_title) + 4) + "|":^120}')
+    print(f'{"|  " + game_title.upper() + "  |":^120}')
+    print(f'{"|" + " " * (len(game_title) + 4) + "|":^120}')
+    print(f'{"=" * (len(game_title) + 4):^120}\n\n\n')
 
+    print(f'{"Wybierz opcję:          ":^120}\n')
+    print(f'{"1 - Nowa gra            ":^120}')
+    print(f'{"2 - Wczytaj zapisaną grę":^120}\n')
+    print(f'{"Twój wybór:             ":^120}\n')
+    choice = input(f'\t\t\t\t\t\t> ')
+
+    if choice == '1':
+        global player
+        player = create_player_character()
+        town()
+    elif choice == '2':
+        print(f'\n{"FUNKCJA JESZCZE NIE DZIAŁA":^120}')
+        delay_medium()
+        start_game()
+    else:
+        print(f'\n{"WYBRAŁEŚ NIEPRAWIDŁOWĄ OPCJĘ!":^120}')
+        delay_medium()
+        start_game()
 
 def hero_attack():
     """
@@ -199,10 +218,10 @@ def hero_magic_attack():
         # hero gets 10% extra experience for defeating an enemy
         player.experience = int(player.experience * 1.1)
 
-        for i in range(len(levels)):
-            if player.experience > levels[i]:
-                clear_screen()
-                player.level_up()
+        if player.experience > levels[0]:
+            clear_screen()
+            player.level_up()
+            del levels[0]
 
         delay_short()
         victory()
@@ -316,6 +335,15 @@ def use_item():
                 elif "Clear State" in choosed_item_data.keys():
                     player.state = []
 
+                elif "Cure Poison" in choosed_item_data.keys():
+                    player.state.remove("poisoned")
+
+                elif "Cure Burn" in choosed_item_data.keys():
+                    player.state.remove("burned")
+
+                elif "Bandage" in choosed_item_data.keys():
+                    player.state.remove("bleed")
+
                 elif "Teleport" in choosed_item_data.keys():
                     destination = list(choosed_item_data.values())[0]
                     # delete teleport scroll after use
@@ -398,9 +426,10 @@ def battle():
 
     global enemy, player_max_health
     enemy = create_enemy()
-    # while enemy.level != player.level:
+
     while enemy.level > player.level + 1 or enemy.level < player.level - 1:
         enemy = create_enemy()
+
     enemy_max_health = enemy.health
     player_max_health = player.health
     turn_counter = 0
@@ -428,9 +457,9 @@ def battle():
         print(f"\nBohater - {player.name}")
         print("-" * (10 + len(player.name)))
         print(f'{"Poziom":19} : {player.level}')
-        print(f'{"Doświadczenie":19} : {player.experience}')
+        print(f'{"Doświadczenie":19} : {player.experience:<4} /  {levels[0]:<4}')
         print(
-            f'{"Zdrowie":19} : {player.health} {player_health_bar_color} [{player_health_bar}',
+            f'{"Zdrowie":19} : {player.health:<4} /  {player_max_health:<4} {player_health_bar_color} [{player_health_bar}',
             " " * (60 - len(player_health_bar)),
             "]",
             "\033[0m",
@@ -463,7 +492,7 @@ def battle():
 
         print(f'{"Poziom":19} : {enemy.level}')
         print(
-            f'{"Zdrowie":19} : {enemy.health} {enemy_health_bar_color} [{enemy_health_bar}',
+            f'{"Zdrowie":19} : {enemy.health:<4} /  {enemy_max_health:<4} {enemy_health_bar_color} [{enemy_health_bar}',
             " " * (60 - len(enemy_health_bar)),
             "]",
             "\033[0m",
@@ -489,15 +518,20 @@ def battle():
 
         if battle_action == "1":
             hero_attack()
+
         elif battle_action == "2":
             hero_magic_attack()
+
         elif battle_action == "3":
             use_item()
+
         elif battle_action == "4":
             defense()
+
         elif battle_action == "5":
             run()
             return
+
         else:
             print("Wybierz opcję z zakresu 1 - 5!")
 
@@ -581,14 +615,14 @@ def body_search():
                     delay_short()
                     if k in player.inventory[item_type]:
                         print(
-                            f"\nNiestety, ale {k} posiadasz już w ekwipunku, nie możesz nieść kolejnego."
+                            f"\nNiestety, ale {k} posiadasz już w ekwipunku, nie możesz nieść kolejnego.\n"
                         )
                         print("Łup zostaje na swoim miejscu.\n")
                         delay_medium()
 
                     else:
                         player.inventory[item_type][k] = v
-                        print(f"Przedmiot {k.capitalize()} został dodany do ekwipunku.")
+                        print(f"Przedmiot {k.capitalize()} został dodany do ekwipunku.\n")
                         delay_medium()
                 else:
                     pass
@@ -598,6 +632,7 @@ def body_search():
 
 
 def shop():
+    
     def buy_item(item_type):
         clear_screen()
 
@@ -664,50 +699,54 @@ def shop():
     def sell_item():
         clear_screen()
 
-        items_list = []
+        inventory_list = []
 
         print("Posiadasz następujące przedmioty:")
 
-        for i, (item_type, item) in enumerate(player.inventory.items(), start=1):
-
+        for item_type, item in player.inventory.items():
             for name, parameters in item.items():
-                print(i, name)
-                items_list.append(name)
+                inventory_list.append(name)
+
+        for i, item in enumerate(inventory_list, start=1):
+            print(i, item)
 
         print(f"\nTwoja gotówka to {player.money} sztuk złota.\n\n")
 
-        choice = int(input("\nJaki przedmiot chcesz sprzedać?   > ")) - 1
+        choice = int(input("\nKtóry przedmiot chcesz sprzedać?   > ")) - 1
 
         if choice == "":
             return
 
-        elif choice < 0 or choice > len(items_list) - 1:
+        elif choice < 0 or choice > len(inventory_list) - 1:
             print("\nWybrałeś nieprawidłową opcję, powtórz.")
             delay_medium()
 
         else:
-            item_to_sell = items_list[choice]
-            # cost_of_item_to_sell = int(
-            #     all_items[item_type][item_to_sell]["Price"] * 0.7
-            # )
+            item_to_sell = inventory_list[choice]
 
-            # player.money = player.money + cost_of_item_to_sell
-            if item_to_sell in player.inventory['weapons']:
-                player.money = player.money + int(player.inventory['weapons'][item_to_sell]['Price'] * 0.7)
-                del player.inventory['weapons'][item_to_sell]
+            if item_to_sell in player.inventory["weapons"]:
+                player.money = player.money + int(
+                    player.inventory["weapons"][item_to_sell]["Price"] * 0.7
+                )
+                del player.inventory["weapons"][item_to_sell]
 
-            elif item_to_sell in player.inventory['consumables']:
-                player.money = player.money + int(player.inventory['consumables'][item_to_sell]['Price'] * 0.7)
-                del player.inventory['consumables'][item_to_sell]
+            elif item_to_sell in player.inventory["consumables"]:
+                player.money = player.money + int(
+                    player.inventory["consumables"][item_to_sell]["Price"] * 0.7
+                )
+                del player.inventory["consumables"][item_to_sell]
 
-            elif item_to_sell in player.inventory['other']:
-                player.money = player.money + int(player.inventory['other'][item_to_sell]['Price'] * 0.7)
-                del player.inventory['other'][item_to_sell]
+            elif item_to_sell in player.inventory["other"]:
+                player.money = player.money + int(
+                    player.inventory["other"][item_to_sell]["Price"] * 0.7
+                )
+                del player.inventory["other"][item_to_sell]
 
             else:
                 pass
-
-            print('\nUdało się sprzedać przedmiot.')
+            
+            print(f"\nUdało się sprzedać przedmiot {item_to_sell}.")
+            inventory_list.remove(item_to_sell)
             delay_medium()
 
     def buy():
