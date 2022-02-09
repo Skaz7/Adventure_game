@@ -88,9 +88,9 @@ def hero_attack():
 
             if critical_chance > 90:
                 print(
-                    f"\nUdało Ci się zadać krytyczny cios. Przeciwnik odniósł {int(enemy_damage * 1.2)} obrażeń."
+                    f"\nUdało Ci się zadać krytyczny cios. Przeciwnik odniósł {int(enemy_damage * 1.5)} obrażeń."
                 )
-                enemy.health = int(enemy.health - int(enemy_damage * 1.2))
+                enemy.health = int(enemy.health - int(enemy_damage * 1.5))
                 delay_short()
 
             else:
@@ -175,14 +175,6 @@ def enemy_attack():
     check_player_state()
 
 
-def check_player_state():
-    if len(player.state) == 0:
-        pass
-    else:
-        condition = f"player.{player.state[0].lower()}()"
-        eval(condition)
-
-
 def hero_magic_attack():
     """
     Chance for hit an enemy is based on hero and enemy luck, and 20-side dice roll.
@@ -227,32 +219,16 @@ def hero_magic_attack():
         victory()
 
     else:
-        print(f"\nCzas na ruch przeciwnika.")
-        delay_short()
+        enemy_attack()
 
-        print(f"{enemy.name} atakuje!")
-        delay_short()
 
-        enemy_hit_chance = (roll_20_dice() + enemy.chance) - (
-            roll_20_dice() + player.luck
-        )
+def check_player_state():
 
-        if enemy_hit_chance > 0:
-            print("Jego cios Cię dosięgnął.")
-            player_damage = roll_20_dice() + enemy.attack - player.defense
-
-            if player_damage < 0:
-                delay_short()
-                print(f"{enemy.name} nie zadał Ci obrażeń...")
-
-            else:
-                delay_short()
-                print(f"{enemy.name} zadał Ci {player_damage} obrażeń...")
-                player.health = player.health - player_damage
-                delay_short()
-        else:
-            print(f"{enemy.name} nie zdołał Cię dosięgnąć.")
-            delay_short()
+    if len(player.state) == 0:
+        pass
+    else:
+        condition = f"player.{player.state[0].lower()}()"
+        eval(condition)
 
 
 def use_item():
@@ -394,26 +370,6 @@ def defense():
     pass
 
 
-def run():
-    run_chance = player.luck + roll_20_dice()
-    stop_chance = enemy.chance + roll_20_dice()
-
-    if run_chance > stop_chance:
-        print(
-            "\nUdało Ci się uciec z miejsca potyczki, przeciwnik nie może Cię dogonić."
-        )
-        delay_medium()
-        input()
-        return
-
-    else:
-        print(
-            "\nNie udało Ci się uciec, przeciwnik był sprytniejszy i walka trwa dalej."
-        )
-        delay_medium()
-        return
-
-
 def set_player_state():
     if len(player.state) == 0:
         player.state.append(enemy.special)
@@ -529,9 +485,26 @@ def battle():
             defense()
 
         elif battle_action == "5":
-            run()
-            return
+            run_chance = player.luck + roll_20_dice()
+            stop_chance = enemy.chance + roll_20_dice()
 
+            if run_chance > stop_chance:
+                print(
+                    "\nUdało Ci się uciec z miejsca potyczki, przeciwnik nie może Cię dogonić."
+                )
+                delay_medium()
+                if player.experience > levels[0]:
+                    clear_screen()
+                    player.level_up()
+                    del levels[0]
+                return
+
+            else:
+                print(
+                    "\nNie udało Ci się uciec, przeciwnik był sprytniejszy i walka trwa dalej."
+                )
+                delay_medium()
+                pass
         else:
             print("Wybierz opcję z zakresu 1 - 5!")
 
@@ -665,31 +638,36 @@ def shop():
                 item_to_buy = items_list[choice]
                 cost_of_item_to_buy = all_items[item_type][item_to_buy]["Price"]
 
-                if cost_of_item_to_buy > player.money:
-
-                    print(
-                        f"\nMasz za mało pieniedzy, brakuje Ci {cost_of_item_to_buy - player.money} sztuk złota!"
-                    )
+                if item_to_buy in player.inventory[item_type]:
+                    print('Posiadasz już ten przedmiot, nie możesz go kupić.')
                     delay_medium()
-
+                    
                 else:
+                    if cost_of_item_to_buy > player.money:
 
-                    for item_type, item in all_items.items():
-                        for k, v in item.items():
-                            if k == item_to_buy:
-                                new_item_dict = {k: v}
+                        print(
+                            f"\nMasz za mało pieniedzy, brakuje Ci {cost_of_item_to_buy - player.money} sztuk złota!"
+                        )
+                        delay_medium()
 
-                                bought_message = f"\nKupiłeś przedmiot {item_to_buy}. Pozostało Ci {player.money - cost_of_item_to_buy} sztuk złota."
+                    else:
 
-                                print("-" * len(bought_message))
-                                print(bought_message)
-                                print("_" * len(bought_message))
-                                player.inventory[item_type].update(new_item_dict)
-                                player.money = player.money - cost_of_item_to_buy
-                                delay_medium()
+                        for item_type, item in all_items.items():
+                            for k, v in item.items():
+                                if k == item_to_buy:
+                                    new_item_dict = {k: v}
 
-                            else:
-                                pass
+                                    bought_message = f"\nKupiłeś przedmiot {item_to_buy}. Pozostało Ci {player.money - cost_of_item_to_buy} sztuk złota."
+
+                                    print("-" * len(bought_message))
+                                    print(bought_message)
+                                    print("_" * len(bought_message))
+                                    player.inventory[item_type].update(new_item_dict)
+                                    player.money = player.money - cost_of_item_to_buy
+                                    delay_medium()
+
+                                else:
+                                    pass
         except ValueError:
             print("\nWybrałeś nieprawidłową opcję, powtórz.")
             delay_medium()
