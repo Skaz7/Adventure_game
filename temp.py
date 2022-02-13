@@ -580,5 +580,48 @@ print(double_char('Hi-There'))
 
 ###################################################
 
+def lone_sum(a, b, c):
+    if a != b and a != c and b != c:
+        return a + b + c
+    elif a == b and a != c:
+        return c
+    elif a == c and a != b:
+        return b
+    elif b == c and a != b:
+        return a
+    else:
+        return 0
 
+print()
+print(lone_sum(1, 2, 3))
+print(lone_sum(3, 2, 3))
+print(lone_sum(3, 3, 3))
+print(lone_sum(9, 2, 2))
+
+###################################################
+
+def no_teen_sum(a, b, c):
+    a = fix_teen(a)
+    b = fix_teen(b)
+    c = fix_teen(c)
+    return a + b + c
+
+
+def fix_teen(n):
+    if 13 <= n <= 19:
+        if n in {15, 16}:
+            n = n
+            return n
+        else:
+            n = 0
+            return n
+    return n
+
+
+print()
+print(no_teen_sum(1, 2, 3))
+print(no_teen_sum(2, 13, 1))
+print(no_teen_sum(2, 1, 14))
+
+###################################################
 

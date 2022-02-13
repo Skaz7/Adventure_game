@@ -88,7 +88,8 @@ def create_enemy():
     magicdefense = int(data[5])
     chance = int(data[6])
     special = data[7]
+    regions = data[8]
 
     return Enemy(
-        level, name, health, attack, defense, magicdefense, chance, special
+        level, name, health, attack, defense, magicdefense, chance, special, regions
     )

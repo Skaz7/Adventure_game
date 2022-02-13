@@ -25,12 +25,10 @@ def delay_long():
 
 
 def roll_20_dice():
-    # imitates 20-side dice roll
     return random.randint(1, 20)
 
 
 def roll_6_dice():
-    # imitates 6-side dice roll
     return random.randint(1, 6)
 
 
@@ -88,9 +86,9 @@ def hero_attack():
 
             if critical_chance > 90:
                 print(
-                    f"\nUdało Ci się zadać krytyczny cios. Przeciwnik odniósł {int(enemy_damage * 1.5)} obrażeń."
+                    f"\nUdało Ci się zadać krytyczny cios. Przeciwnik odniósł {int(enemy_damage * 2)} obrażeń."
                 )
-                enemy.health = int(enemy.health - int(enemy_damage * 1.5))
+                enemy.health = int(enemy.health - int(enemy_damage * 2))
                 delay_short()
 
             else:
@@ -111,6 +109,53 @@ def hero_attack():
     player_temp_stat_boost["Damage"] = 0
     player_temp_stat_boost["Defense"] = 0
     player_temp_stat_boost["Luck"] = 0
+
+    if enemy.health <= 0:
+        # hero gets 10% extra experience for defeating an enemy
+        player.experience = int(player.experience * 1.1)
+
+        if player.experience > levels[0]:
+            clear_screen()
+            player.level_up()
+            del levels[0]
+
+        delay_short()
+        victory()
+
+    else:
+        enemy_attack()
+
+
+def hero_magic_attack():
+    """
+    Chance for hit an enemy is based on hero and enemy luck, and 20-side dice roll.
+    If hero hits an enemy, he gets experience points equal to hit chance and 6-side dice roll.
+    When hero experience exceeds levels set in a given list, he gets a new level.
+    """
+    player_hit_chance = (roll_20_dice() + player.luck) - (roll_20_dice() + enemy.chance)
+
+    if player_hit_chance > 0:
+
+        print(f"\nUdało Ci się zadać obrażenia magiczne.")
+        enemy_damage = roll_20_dice() + player.magic - enemy.defense
+        player.experience = (
+            player.experience
+            + (player_hit_chance + roll_6_dice()) * 5 * player.level
+        )
+
+        # Damage can't be lower than 0
+        if enemy_damage < 0:
+            enemy_damage == 0
+
+        else:
+            pass
+        print(f"\nPrzeciwnik odniósł {enemy_damage} obrażeń.")
+        enemy.health = int(enemy.health - enemy_damage)
+        delay_short()
+
+    else:
+        print("\nTwoja magia zawiodła, nie zadałeś przeciwnikowi obrażeń.")
+        delay_short()
 
     if enemy.health <= 0:
         # hero gets 10% extra experience for defeating an enemy
@@ -173,53 +218,6 @@ def enemy_attack():
         delay_short()
 
     check_player_state()
-
-
-def hero_magic_attack():
-    """
-    Chance for hit an enemy is based on hero and enemy luck, and 20-side dice roll.
-    If hero hits an enemy, he gets experience points equal to hit chance and 6-side dice roll.
-    When hero experience exceeds levels set in a given list, he gets a new level.
-    """
-    player_hit_chance = (roll_20_dice() + player.luck) - (roll_20_dice() + enemy.chance)
-
-    if player_hit_chance > 0:
-
-        print(f"\nUdało Ci się zadać obrażenia magiczne.")
-        enemy_damage = roll_20_dice() + player.magic - enemy.defense
-        player.experience = (
-            player.experience
-            + (player_hit_chance + roll_6_dice()) * 10 * player.level * 0.5
-        )
-
-        # Damage can't be lower than 0
-        if enemy_damage < 0:
-            enemy_damage == 0
-
-        else:
-            pass
-        print(f"\nPrzeciwnik odniósł {enemy_damage} obrażeń.")
-        enemy.health = int(enemy.health - enemy_damage)
-        delay_short()
-
-    else:
-        print("\nTwoja magia zawiodła, nie zadałeś przeciwnikowi obrażeń.")
-        delay_short()
-
-    if enemy.health <= 0:
-        # hero gets 10% extra experience for defeating an enemy
-        player.experience = int(player.experience * 1.1)
-
-        if player.experience > levels[0]:
-            clear_screen()
-            player.level_up()
-            del levels[0]
-
-        delay_short()
-        victory()
-
-    else:
-        enemy_attack()
 
 
 def check_player_state():
@@ -295,8 +293,8 @@ def use_item():
 
                 elif "HP" in choosed_item_data:
                     # if actual health plus potion HP exceeds max health level, potion effect is reduced
-                    if player.health + choosed_item_data["HP"] > player_max_health:
-                        player.health = player_max_health
+                    if player.health + choosed_item_data["HP"] > player.maxhealth:
+                        player.health = player.maxhealth
 
                     else:
                         player.health = player.health + choosed_item_data["HP"]
@@ -380,14 +378,14 @@ def set_player_state():
 
 def battle():
 
-    global enemy, player_max_health
+    global enemy
     enemy = create_enemy()
 
     while enemy.level > player.level + 1 or enemy.level < player.level - 1:
         enemy = create_enemy()
 
     enemy_max_health = enemy.health
-    player_max_health = player.health
+    # player.maxhealth = player.health
     turn_counter = 0
 
     while player.health > 0 and enemy.health > 0:
@@ -399,15 +397,15 @@ def battle():
         print("\t\t\t\t===========")
         print(f"\n\t\t\t\tTura {turn_counter}")
 
-        player_health_bar = "=" * int(player.health * 60 / player_max_health)
+        player_health_bar = "=" * int(player.health * 60 / player.maxhealth)
 
-        if player.health < player_max_health * 0.3:
+        if player.health < player.maxhealth * 0.3:
             player_health_bar_color = "\033[0;31m"
 
-        elif player_max_health * 0.3 <= player.health < player_max_health * 0.7:
+        elif player.maxhealth * 0.3 <= player.health < player.maxhealth * 0.7:
             player_health_bar_color = "\033[0;33m"
 
-        elif player.health >= player_max_health * 0.7:
+        elif player.health >= player.maxhealth * 0.7:
             player_health_bar_color = "\033[0;32m"
 
         print(f"\nBohater - {player.name}")
@@ -415,7 +413,7 @@ def battle():
         print(f'{"Poziom":19} : {player.level}')
         print(f'{"Doświadczenie":19} : {player.experience:<4} /  {levels[0]:<4}')
         print(
-            f'{"Zdrowie":19} : {player.health:<4} /  {player_max_health:<4} {player_health_bar_color} [{player_health_bar}',
+            f'{"Zdrowie":19} : {player.health:<4} /  {player.maxhealth:<4} {player_health_bar_color} [{player_health_bar}',
             " " * (60 - len(player_health_bar)),
             "]",
             "\033[0m",

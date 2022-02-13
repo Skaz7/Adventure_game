@@ -1,7 +1,13 @@
+### v0.3.9
+- fixed bug with player max health during battle, now it reffers to player.maxhealth from Hero class instead of global variable
+
+> TODO: when player deals critical damage to enemy, sometimes damage is negative
+
+
+
 ### v0.3.8
 - fixed bug with leveling up after magic attack.
 
-> TODO: when player XP reaches new level durign battle, and player runs from battle, XP exceeds new level but player won't level up   
 > TODO: player max health during battle is lowered to value from previous battle (160/160 instead of 160/200) 
 
 
