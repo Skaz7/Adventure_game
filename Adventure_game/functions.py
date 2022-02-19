@@ -86,9 +86,9 @@ def hero_attack():
 
             if critical_chance > 90:
                 print(
-                    f"\nUdało Ci się zadać krytyczny cios. Przeciwnik odniósł {int(enemy_damage * 2)} obrażeń."
+                    f"\nUdało Ci się zadać krytyczny cios. Przeciwnik odniósł {int(player.attack * 1.5)} obrażeń."
                 )
-                enemy.health = int(enemy.health - int(enemy_damage * 2))
+                enemy.health = int(enemy.health - int(player.attack * 1.5))
                 delay_short()
 
             else:
@@ -105,7 +105,7 @@ def hero_attack():
     player.defense = player.defense - player_temp_stat_boost["Defense"]
     player.luck = player.luck - player_temp_stat_boost["Luck"]
 
-    # stats boost is reset
+    # stats boost reset
     player_temp_stat_boost["Damage"] = 0
     player_temp_stat_boost["Defense"] = 0
     player_temp_stat_boost["Luck"] = 0
@@ -123,7 +123,7 @@ def hero_attack():
         victory()
 
     else:
-        enemy_attack()
+        pass
 
 
 def hero_magic_attack():
@@ -170,7 +170,7 @@ def hero_magic_attack():
         victory()
 
     else:
-        enemy_attack()
+        pass
 
 
 def enemy_attack():
@@ -192,9 +192,9 @@ def enemy_attack():
             delay_short()
 
         else:
-            critical_chance = roll_6_dice()
+            critical_chance = roll_20_dice()
 
-            if critical_chance > 2:
+            if critical_chance > 18:
                 print(f"{enemy.name} zadał Ci {int(player_damage * 1.2)} obrażeń.")
                 print(
                     f"\nNiestety zadał krytyczny cios, powodując u Ciebie {enemy.special}."
@@ -322,6 +322,13 @@ def use_item():
                     destination = list(choosed_item_data.values())[0]
                     # delete teleport scroll after use
                     del choosed_item_data
+                    
+                    if player.experience > levels[0]:
+                        clear_screen()
+                        player.level_up()
+                        del levels[0]
+                    else:
+                        pass
                     teleport(destination)
 
                 else:
@@ -393,10 +400,9 @@ def battle():
         clear_screen()
         turn_counter += 1
 
-        print("\n\t\t\t\tTRWA WALKA!")
-        print("\t\t\t\t===========")
-        print(f"\n\t\t\t\tTura {turn_counter}")
-
+        print(f"\n{'TRWA WALKA!      Tura nr {turn_counter}':^120}")
+        print(f"{'=======================================':^120}")
+        
         player_health_bar = "=" * int(player.health * 60 / player.maxhealth)
 
         if player.health < player.maxhealth * 0.3:
@@ -458,56 +464,75 @@ def battle():
         print(f'{"Szansa trafienia:":19} : {enemy.chance}')
         print(f'{"Zdolność specjalna":19} : {enemy.special.capitalize()}')
 
-        print(f"\n--------------------------------")
-        print(f"| Możliwe akcje:\t       |")
-        print(f"|\t 1 - atak fizyczny     |")
-        print(f"|\t 2 - atak magiczny     |")
-        print(f"|\t 3 - użycie przedmiotu |")
-        print(f"|\t 4 - obrona            |")
-        print(f"|\t 5 - ucieczka          |")
-        print(f"--------------------------------")
-        print(f"\nCo robisz?")
+        player_turn()
 
-        battle_action = input("> ")
-
-        if battle_action == "1":
-            hero_attack()
-
-        elif battle_action == "2":
-            hero_magic_attack()
-
-        elif battle_action == "3":
-            use_item()
-
-        elif battle_action == "4":
-            defense()
-
-        elif battle_action == "5":
-            run_chance = player.luck + roll_20_dice()
-            stop_chance = enemy.chance + roll_20_dice()
-
-            if run_chance > stop_chance:
-                print(
-                    "\nUdało Ci się uciec z miejsca potyczki, przeciwnik nie może Cię dogonić."
-                )
-                delay_medium()
-                if player.experience > levels[0]:
-                    clear_screen()
-                    player.level_up()
-                    del levels[0]
-                return
-
-            else:
-                print(
-                    "\nNie udało Ci się uciec, przeciwnik był sprytniejszy i walka trwa dalej."
-                )
-                delay_medium()
-                pass
-        else:
-            print("Wybierz opcję z zakresu 1 - 5!")
+        enemy_turn()
 
     return
 
+
+def player_turn():
+
+    print(f"\nTura {player.name}")
+    print(f" ------------------------------")
+    print(f"| Możliwe akcje:\t       |")
+    print(f"|\t 1 - atak fizyczny     |")
+    print(f"|\t 2 - atak magiczny     |")
+    print(f"|\t 3 - użycie przedmiotu |")
+    print(f"|\t 4 - obrona            |")
+    print(f"|\t 5 - ucieczka          |")
+    print(f" ------------------------------")
+    print(f"\nCo robisz?")
+
+    battle_action = input("> ")
+
+    if battle_action == "1":
+        hero_attack()
+
+    elif battle_action == "2":
+        hero_magic_attack()
+
+    elif battle_action == "3":
+        use_item()
+
+    elif battle_action == "4":
+        defense()
+
+    elif battle_action == "5":
+        run_chance = player.luck + roll_20_dice()
+        stop_chance = enemy.chance + roll_20_dice()
+
+        if run_chance > stop_chance:
+            print(
+                "\nUdało Ci się uciec z miejsca potyczki, przeciwnik nie może Cię dogonić."
+            )
+            delay_medium()
+            if player.experience > levels[0]:
+                clear_screen()
+                player.level_up()
+                del levels[0]
+            return
+
+        else:
+            print(
+                "\nNie udało Ci się uciec, przeciwnik był sprytniejszy i walka trwa dalej."
+            )
+            delay_medium()
+            pass
+    else:
+        print("Wybierz opcję z zakresu 1 - 5!")
+    
+    return
+
+
+def enemy_turn():
+    if enemy.health > 0:
+        enemy_attack()
+        return
+    else:
+        # To avoid enemy turn after his death
+        return
+    
 
 def teleport(destination):
     eval(f"{destination.lower()}()")
@@ -566,7 +591,7 @@ def body_search():
         return
     else:
         # player gets loot from enemy body
-        money = roll_6_dice() * 2
+        money = roll_20_dice()
         player.money = player.money + money
         print(f"\nZnalazłeś {money} sztuk złota.")
         print("\nCiekawe, czy znajdzesz jeszcze jakieś przedmioty...")

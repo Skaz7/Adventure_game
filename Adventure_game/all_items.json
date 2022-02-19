@@ -52,6 +52,15 @@
             "Durability": 1,
             "Price": 20
         },
+        "Greater Regeneration": {
+            "HP": 200,
+            "MP": 50,
+            "Cure Poison": 1,
+            "Cure Burn": 1,
+            "Bandage": 1,
+            "Durability": 1,
+            "Price": 100
+        },
         "Cure Burn": {
             "Cure Burn": 1,
             "Durability": 1,

@@ -90,7 +90,7 @@ Którą parametr chcesz rozwinąć?
         print(f'\t\t{"1. ZDROWIE":12} : {self.health}')
         print(f'\t\t{"2. ATAK":12} : {self.attack}')
         print(f'\t\t{"3. OBRONA":12} : {self.defense}')
-        print(f'\t\t{"4. MAGIA":12} : {self.magic}')
+        print(f'\t\t{"4. MANA":12} : {self.magic}')
         print(f'\t\t{"5. SZCZĘŚCIE":12} : {self.luck}')
         print(f'\t\t{"6. PIENIĄDZE":12} : {self.money}szt złota')
 
