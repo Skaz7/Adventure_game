@@ -20,33 +20,6 @@ def delay_short():
     time.sleep(0.5)
 
 
-def explore(where_are_you):
-    clear_screen()
-    
-    place = f"You are in {str(where_are_you)}."
-    print(f"\n\n{place}")
-    print(f"{'-' * len(place)}\n")
-    print(f"It's so dark all around that you can't see much.")
-    print(f"You are wondering if you can search the pile of broken wood standing on the side.\n")
-    print("What do you do?")
-    print("1 - Search the area")
-    print("2 - Leave it alone and go further.\n")
-    print("0 - Hero screen.\n")
-    choice = int(input('> '))
-    if choice == 1:
-        functions.battle()
-    elif choice == 2:
-        return
-    elif choice == 0:
-        clear_screen()
-        functions.player.show_player_screen()
-    else:
-        print('Wrong option.')
-
-    explore(where_are_you)
-
-
-
 def abandoned_mansion():
  
     region_builder("abandoned mansion",
@@ -523,5 +496,35 @@ def region_builder(region_name, region_description, next_regions):
         print('\nWrong option!')
         delay_short()
         eval(f'{region_name}()')
+
+
+def explore(where_are_you):
+    clear_screen()
+    
+    place = f"You are in {str(where_are_you)}."
+    print(f"\n\n{place}")
+    print(f"{'-' * len(place)}\n")
+    print(f"It's so dark all around that you can't see much.")
+    print(f"You are wondering if you can search the pile of broken wood standing on the side.\n")
+    print("What do you do?")
+    print("1 - Search the area")
+    print("2 - Leave it alone and go further.")
+    print("3 - Open wooden chest.\n")
+    print("0 - Hero screen.\n")
+    choice = int(input('> '))
+    if choice == 1:
+        functions.battle()
+    elif choice == 2:
+        return
+    elif choice == 3:
+        functions.treasure()
+    elif choice == 0:
+        clear_screen()
+        functions.player.show_player_screen()
+    else:
+        print('Wrong option.')
+
+    explore(where_are_you)
+
 
 clear_screen()

@@ -107,6 +107,10 @@
             "Bandage": 1,
             "Durability": 1,
             "Price": 20
+        },
+        "Lockpick": {
+            "Durability": 1,
+            "Price": 15
         }
     }
 }

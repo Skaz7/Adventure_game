@@ -1,3 +1,26 @@
+### v0.4.3
+- fixed using ***mana potion***, now players' magic attack back to previous level on next turn.
+- fixed ***escape from battle***
+
+> TODO: get rid of global variables, especially **escape from battle**
+
+
+
+### v0.4.2
+- fixed printing spells in ***Temple***. Now player can see only spells that matches his experience level
+
+> TODO: escape from battle not working, after successful escape enemy still gets his turn and battle continues
+
+
+
+### v0.4.1
+- adding ***Chest*** class. Player now will find treasure chest in some locations
+
+> TODO: magic attack won't back to normal level after using **mana potion**, potion works permanently 
+> fix printing spells in ***Temple*** in **Town**
+
+
+
 ### v0.4.0
 - battle divided into turns
 - fixed bug when after searching dead enemy body started last enemy turn

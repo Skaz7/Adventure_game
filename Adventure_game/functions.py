@@ -6,6 +6,7 @@ from images import *
 from constants import *
 from create_characters import *
 from explore_world import *
+from other_classes import *
 
 
 def clear_screen():
@@ -101,14 +102,16 @@ def hero_attack():
         delay_short()
 
     # player stats increased by used item are going back to previous level
-    player.attack = player.attack - player_temp_stat_boost["Damage"]
-    player.defense = player.defense - player_temp_stat_boost["Defense"]
-    player.luck = player.luck - player_temp_stat_boost["Luck"]
+    player.attack -= player_temp_stat_boost["Damage"]
+    player.defense -= player_temp_stat_boost["Defense"]
+    player.luck -= player_temp_stat_boost["Luck"]
+    player.magic -= player_temp_stat_boost["Magic"]
 
     # stats boost reset
     player_temp_stat_boost["Damage"] = 0
     player_temp_stat_boost["Defense"] = 0
     player_temp_stat_boost["Luck"] = 0
+    player_temp_stat_boost["Magic"] = 0
 
     if enemy.health <= 0:
         # hero gets 10% extra experience for defeating an enemy
@@ -126,12 +129,12 @@ def hero_attack():
         pass
 
 
-def hero_magic_attack():
-    """
-    Chance for hit an enemy is based on hero and enemy luck, and 20-side dice roll.
-    If hero hits an enemy, he gets experience points equal to hit chance and 6-side dice roll.
-    When hero experience exceeds levels set in a given list, he gets a new level.
-    """
+def hero_cast_spell():
+    clear_screen()
+    print(f'\nPoznane czary, które możesz rzucić:')
+    
+
+
     player_hit_chance = (roll_20_dice() + player.luck) - (roll_20_dice() + enemy.chance)
 
     if player_hit_chance > 0:
@@ -156,6 +159,18 @@ def hero_magic_attack():
     else:
         print("\nTwoja magia zawiodła, nie zadałeś przeciwnikowi obrażeń.")
         delay_short()
+    
+    # player stats increased by used item are going back to previous level
+    player.attack -= player_temp_stat_boost["Damage"]
+    player.defense -= player_temp_stat_boost["Defense"]
+    player.luck -= player_temp_stat_boost["Luck"]
+    player.magic -= player_temp_stat_boost["Magic"]
+
+    # stats boost reset
+    player_temp_stat_boost["Damage"] = 0
+    player_temp_stat_boost["Defense"] = 0
+    player_temp_stat_boost["Luck"] = 0
+    player_temp_stat_boost["Magic"] = 0
 
     if enemy.health <= 0:
         # hero gets 10% extra experience for defeating an enemy
@@ -301,6 +316,7 @@ def use_item():
 
                 elif "MP" in choosed_item_data:
                     player.magic = player.magic + choosed_item_data["MP"]
+                    player_temp_stat_boost["Magic"] = choosed_item_data["MP"]
 
                 elif "Luck" in choosed_item_data.keys():
                     player.luck = player.luck + choosed_item_data["Luck"]
@@ -465,6 +481,8 @@ def battle():
         print(f'{"Zdolność specjalna":19} : {enemy.special.capitalize()}')
 
         player_turn()
+        if escape_from_battle:
+            return
 
         enemy_turn()
 
@@ -490,7 +508,7 @@ def player_turn():
         hero_attack()
 
     elif battle_action == "2":
-        hero_magic_attack()
+        hero_cast_spell()
 
     elif battle_action == "3":
         use_item()
@@ -511,6 +529,8 @@ def player_turn():
                 clear_screen()
                 player.level_up()
                 del levels[0]
+            global escape_from_battle
+            escape_from_battle = True
             return
 
         else:
@@ -518,7 +538,7 @@ def player_turn():
                 "\nNie udało Ci się uciec, przeciwnik był sprytniejszy i walka trwa dalej."
             )
             delay_medium()
-            pass
+            escape_from_battle = False
     else:
         print("Wybierz opcję z zakresu 1 - 5!")
     
@@ -854,8 +874,19 @@ def temple():
         temple()
 
     elif choice == "2":
-        print("\nThere are no spells for sale at this time. Please come back later.")
-        delay_medium()
+        clear_screen()
+        spells_not_available = []
+        print(f'\n\nSpells available to learn at your level:\n')
+        for spell, parameters in all_offensive_spells.items():
+            if parameters['level'] <= player.level:
+                print(f"Lvl {parameters['level']} - ".ljust(1) + spell.rjust(15))
+            else:
+                spells_not_available.append(spell)
+        print(f'\n\nYour experience level is too low to be able to buy spells:\n')
+        for spell in spells_not_available:
+            print(spell)
+
+        input()
         temple()
     else:
         print("\n\t\tWrong option!")
@@ -865,3 +896,39 @@ def temple():
 
 def inn():
     pass
+
+
+def treasure():
+    # (opened, trap, puzzle, gold, item, exp, searched)
+    treasure_chest = Chest(False, False, False, 25, "Mana Potion", 15, False)
+
+    def open_chest():
+        if treasure_chest.opened == True:
+            pass
+        else:
+            print(f'Niestety skrzynia jest zamknięta.')
+            print(f'Czy chcesz użyć wytrychu do jej otwarcia?')
+            choice = input('\nT/N   >')
+            if choice == 'n':
+                print('\nSkrzynia pozostaje zamknięta.')
+                return
+            elif choice == 't':
+                del player.inventory["other"]["Lockpick"]
+                treasure_chest.opened = True
+                player.money += treasure_chest.gold
+                player.inventory["consumables"][treasure_chest.item] = (all_items["consumables"][treasure_chest.item])
+                player.experience += treasure_chest.exp
+                treasure_chest.searched = True
+                print(f'\nCzy skrzynia otwarta? - {treasure_chest.opened}\n')
+                print(f'Czy była pułapka? - {treasure_chest.trap}')
+                print(f'Czy była zagadka? - {treasure_chest.puzzle}')
+                print(f'Znalezione złoto - {treasure_chest.gold}')
+                print(f'Znalezione przedmioty - {treasure_chest.item}')
+                print(f'Zdobyte doświadczenie - {treasure_chest.exp}')
+                print(f'Czy skrzynia przeszukana? - {treasure_chest.searched}')
+                input()
+            else:
+                print("\nBłędny wybór!")
+                input()
+                open_chest()
+    open_chest()
