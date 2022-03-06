@@ -15,6 +15,7 @@ class Hero:
         Hluck,
         Hmoney,
         Hinventory,
+        Hspellbook,
         Hstate,
         Hexperience,
         Hlevel,
@@ -28,6 +29,7 @@ class Hero:
         self.luck = Hluck
         self.money = Hmoney
         self.inventory = Hinventory
+        self.spellbook = Hspellbook
         self.state = Hstate
         self.experience = Hexperience
         self.level = Hlevel

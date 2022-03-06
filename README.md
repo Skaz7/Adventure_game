@@ -1,3 +1,18 @@
+### v0.4.5
+-
+
+> TODO: 
+
+
+
+### v0.4.4
+- added function to cast spells during battle
+  
+> TODO: fix bugs when player tries to use item he don't have.
+> TODO: fix bug when player doesn't get experience points for magic attack.
+
+
+
 ### v0.4.3
 - fixed using ***mana potion***, now players' magic attack back to previous level on next turn.
 - fixed ***escape from battle***

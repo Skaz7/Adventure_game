@@ -50,6 +50,9 @@ Pozostałe do dyspozycji punkty: {points_to_spend}\n
     Hluck = attributes_dict["Luck"]
     Hmoney = 99
     Hitems = {"weapons": {}, "consumables": {}, "other": {}}
+    Hspellbook = {"Sparks": {"element":"fire", "power": 10, "weakness": "freeze", "mana cost": 5, "level": 1},
+                  "Cold": {"element":"freeze", "power": 10, "weakness": "burn", "mana cost": 5, "level": 1}   
+                 }
     Hstate = []
     Hexperience = 0
     Hlevel = 1
@@ -64,6 +67,7 @@ Pozostałe do dyspozycji punkty: {points_to_spend}\n
         Hluck,
         Hmoney,
         Hitems,
+        Hspellbook,
         Hstate,
         Hexperience,
         Hlevel,

@@ -7,6 +7,7 @@ from constants import *
 from create_characters import *
 from explore_world import *
 from other_classes import *
+from hero_magic_attack import hero_magic_attack
 
 
 def clear_screen():
@@ -48,13 +49,13 @@ def start_game():
     print(f'{"1 - Nowa gra            ":^120}')
     print(f'{"2 - Wczytaj zapisaną grę":^120}\n')
     print(f'{"Twój wybór:             ":^120}\n')
-    choice = input(f'\t\t\t\t\t\t> ')
+    choice = input(f"\t\t\t\t\t\t> ")
 
-    if choice == '1':
+    if choice == "1":
         global player
         player = create_player_character()
         town()
-    elif choice == '2':
+    elif choice == "2":
         print(f'\n{"FUNKCJA JESZCZE NIE DZIAŁA":^120}')
         delay_medium()
         start_game()
@@ -62,6 +63,7 @@ def start_game():
         print(f'\n{"WYBRAŁEŚ NIEPRAWIDŁOWĄ OPCJĘ!":^120}')
         delay_medium()
         start_game()
+
 
 def hero_attack():
     """
@@ -128,13 +130,6 @@ def hero_attack():
     else:
         pass
 
-
-def hero_cast_spell():
-    clear_screen()
-    print(f'\nPoznane czary, które możesz rzucić:')
-    
-
-
     player_hit_chance = (roll_20_dice() + player.luck) - (roll_20_dice() + enemy.chance)
 
     if player_hit_chance > 0:
@@ -142,8 +137,7 @@ def hero_cast_spell():
         print(f"\nUdało Ci się zadać obrażenia magiczne.")
         enemy_damage = roll_20_dice() + player.magic - enemy.defense
         player.experience = (
-            player.experience
-            + (player_hit_chance + roll_6_dice()) * 5 * player.level
+            player.experience + (player_hit_chance + roll_6_dice()) * 5 * player.level
         )
 
         # Damage can't be lower than 0
@@ -159,7 +153,7 @@ def hero_cast_spell():
     else:
         print("\nTwoja magia zawiodła, nie zadałeś przeciwnikowi obrażeń.")
         delay_short()
-    
+
     # player stats increased by used item are going back to previous level
     player.attack -= player_temp_stat_boost["Damage"]
     player.defense -= player_temp_stat_boost["Defense"]
@@ -338,7 +332,7 @@ def use_item():
                     destination = list(choosed_item_data.values())[0]
                     # delete teleport scroll after use
                     del choosed_item_data
-                    
+
                     if player.experience > levels[0]:
                         clear_screen()
                         player.level_up()
@@ -416,9 +410,10 @@ def battle():
         clear_screen()
         turn_counter += 1
 
-        print(f"\n{'TRWA WALKA!      Tura nr {turn_counter}':^120}")
-        print(f"{'=======================================':^120}")
-        
+        print()
+        print(f"TRWA WALKA!      Tura nr {turn_counter}".center(120))
+        print(f"===================================".center(120))
+
         player_health_bar = "=" * int(player.health * 60 / player.maxhealth)
 
         if player.health < player.maxhealth * 0.3:
@@ -481,6 +476,7 @@ def battle():
         print(f'{"Zdolność specjalna":19} : {enemy.special.capitalize()}')
 
         player_turn()
+
         if escape_from_battle:
             return
 
@@ -508,7 +504,7 @@ def player_turn():
         hero_attack()
 
     elif battle_action == "2":
-        hero_cast_spell()
+        hero_magic_attack()
 
     elif battle_action == "3":
         use_item()
@@ -541,7 +537,7 @@ def player_turn():
             escape_from_battle = False
     else:
         print("Wybierz opcję z zakresu 1 - 5!")
-    
+
     return
 
 
@@ -552,7 +548,7 @@ def enemy_turn():
     else:
         # To avoid enemy turn after his death
         return
-    
+
 
 def teleport(destination):
     eval(f"{destination.lower()}()")
@@ -638,7 +634,9 @@ def body_search():
 
                     else:
                         player.inventory[item_type][k] = v
-                        print(f"Przedmiot {k.capitalize()} został dodany do ekwipunku.\n")
+                        print(
+                            f"Przedmiot {k.capitalize()} został dodany do ekwipunku.\n"
+                        )
                         delay_medium()
                 else:
                     pass
@@ -648,7 +646,6 @@ def body_search():
 
 
 def shop():
-    
     def buy_item(item_type):
         clear_screen()
 
@@ -682,9 +679,9 @@ def shop():
                 cost_of_item_to_buy = all_items[item_type][item_to_buy]["Price"]
 
                 if item_to_buy in player.inventory[item_type]:
-                    print('Posiadasz już ten przedmiot, nie możesz go kupić.')
+                    print("Posiadasz już ten przedmiot, nie możesz go kupić.")
                     delay_medium()
-                    
+
                 else:
                     if cost_of_item_to_buy > player.money:
 
@@ -765,7 +762,7 @@ def shop():
 
             else:
                 pass
-            
+
             print(f"\nUdało się sprzedać przedmiot {item_to_sell}.")
             inventory_list.remove(item_to_sell)
             delay_medium()
@@ -876,13 +873,13 @@ def temple():
     elif choice == "2":
         clear_screen()
         spells_not_available = []
-        print(f'\n\nSpells available to learn at your level:\n')
+        print(f"\n\nSpells available to learn at your level:\n")
         for spell, parameters in all_offensive_spells.items():
-            if parameters['level'] <= player.level:
+            if parameters["level"] <= player.level:
                 print(f"Lvl {parameters['level']} - ".ljust(1) + spell.rjust(15))
             else:
                 spells_not_available.append(spell)
-        print(f'\n\nYour experience level is too low to be able to buy spells:\n')
+        print(f"\n\nYour experience level is too low to be able to buy spells:\n")
         for spell in spells_not_available:
             print(spell)
 
@@ -906,29 +903,40 @@ def treasure():
         if treasure_chest.opened == True:
             pass
         else:
-            print(f'Niestety skrzynia jest zamknięta.')
-            print(f'Czy chcesz użyć wytrychu do jej otwarcia?')
-            choice = input('\nT/N   >')
-            if choice == 'n':
-                print('\nSkrzynia pozostaje zamknięta.')
+            print(f"Unfortunately, the chest is closed.")
+            print(f"Would you like to open it using lockpick?")
+            choice = input("\nY/N   >").lower()
+
+            if choice == "n":
+                print("\nThe chest stays closed.")
                 return
-            elif choice == 't':
-                del player.inventory["other"]["Lockpick"]
-                treasure_chest.opened = True
-                player.money += treasure_chest.gold
-                player.inventory["consumables"][treasure_chest.item] = (all_items["consumables"][treasure_chest.item])
-                player.experience += treasure_chest.exp
-                treasure_chest.searched = True
-                print(f'\nCzy skrzynia otwarta? - {treasure_chest.opened}\n')
-                print(f'Czy była pułapka? - {treasure_chest.trap}')
-                print(f'Czy była zagadka? - {treasure_chest.puzzle}')
-                print(f'Znalezione złoto - {treasure_chest.gold}')
-                print(f'Znalezione przedmioty - {treasure_chest.item}')
-                print(f'Zdobyte doświadczenie - {treasure_chest.exp}')
-                print(f'Czy skrzynia przeszukana? - {treasure_chest.searched}')
-                input()
+
+            elif choice == "y":
+                if "Lockpick" in player.inventory["other"]:
+                    del player.inventory["other"]["Lockpick"]
+                    treasure_chest.opened = True
+                    player.money += treasure_chest.gold
+                    player.inventory["consumables"][treasure_chest.item] = all_items[
+                        "consumables"
+                    ][treasure_chest.item]
+                    player.experience += treasure_chest.exp
+                    treasure_chest.searched = True
+                    print(f"\nIs chest opened? - {treasure_chest.opened}\n")
+                    print(f"Whas there a trap? - {treasure_chest.trap}")
+                    print(f"Whas there a puzzle? - {treasure_chest.puzzle}")
+                    print(f"Gold found - {treasure_chest.gold}")
+                    print(f"Items found - {treasure_chest.item}")
+                    print(f"Experience gained - {treasure_chest.exp}")
+                    print(f"Is chest searched? - {treasure_chest.searched}")
+                    input()
+                else:
+                    print(
+                        "\nYou don't have a lockpick to open the chest, so it stays closed.\n"
+                    )
+                    delay_medium()
             else:
-                print("\nBłędny wybór!")
+                print("\nWrong choice!")
                 input()
                 open_chest()
+
     open_chest()

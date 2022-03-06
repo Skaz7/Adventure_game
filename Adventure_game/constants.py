@@ -31,7 +31,12 @@ all_offensive_spells = {"Sparks": {"element":"fire", "power": 10, "weakness": "f
                         "Green Rain": {"element":"poison", "power": 70, "weakness": "none", "mana cost": 30, "level": 7}
                         }
 
-# all_defensive_spells = 
+all_defensive_spells = {"Minor Regeneration": {"HP": 20, "mana cost": 5, "level": 1},
+                        "Greater Regeneration": {"HP": 80, "mana cost": 15, "level": 3},
+                        "Cure Desease": {"Cure state": 1, "mana cost": 15, "level": 5}
+                        }
 
 
 levels = [450, 1300, 3000, 5000]
+
+escape_from_battle = False
