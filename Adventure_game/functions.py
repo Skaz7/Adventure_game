@@ -847,7 +847,7 @@ def temple():
     print("\tHere you can heal you wounds and buy spells.")
     print("\tWhat would you like to do?\n")
     print(f"\n\t1 - Heal (costs {heal_cost} coins)")
-    print("\t2 - Buy spells")
+    print("\t2 - Learn spells")
     print("\n\t0 - Leave Temple.")
 
     choice = input("\n\t> ")
@@ -874,12 +874,12 @@ def temple():
         clear_screen()
         spells_not_available = []
         print(f"\n\nSpells available to learn at your level:\n")
-        for spell, parameters in all_offensive_spells.items():
+        for i, (spell, parameters) in enumerate(all_offensive_spells.items()):
             if parameters["level"] <= player.level:
-                print(f"Lvl {parameters['level']} - ".ljust(1) + spell.rjust(15))
+                print(i+1, f"Lvl {parameters['level']} - ".ljust(1) + spell.rjust(15))
             else:
                 spells_not_available.append(spell)
-        print(f"\n\nYour experience level is too low to be able to buy spells:\n")
+        print(f"\n\nYour experience level is too low to be able to learn spells:\n")
         for spell in spells_not_available:
             print(spell)
 
