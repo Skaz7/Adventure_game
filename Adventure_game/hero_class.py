@@ -69,6 +69,9 @@ Którą parametr chcesz rozwinąć?
 4. Szczęście : {self.luck}
         """
             )
+            functions.playsound(
+                "D:\\Users\\sebas\\OneDrive\\Repositories\\Adventure_game\\Sound\\mixkit-game-level-completed-2059.wav"
+            )
             choice = input(f"\nGdzie przyznasz punkt?  > ")
             if choice == "1":
                 self.attack += 1

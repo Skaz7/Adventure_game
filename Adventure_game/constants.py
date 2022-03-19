@@ -1,4 +1,5 @@
 import json
+from other_classes import *
 
 
 with open(
@@ -40,3 +41,7 @@ all_defensive_spells = {"Minor Regeneration": {"HP": 20, "mana cost": 5, "level"
 levels = [450, 1300, 3000, 5000]
 
 escape_from_battle = False
+
+dungeon_entrance_chest = Chest(False, False, 40, "Life Potion", 50, False)
+
+searched_rooms = []

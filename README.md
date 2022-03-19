@@ -1,5 +1,14 @@
+### v0.4.6
+- learn spells in temple works
+- starteg to use **logging**
+
+>TODO: lot of bugs during returning from functions (battle, explore etc.)
+
+
+
 ### v0.4.5
--
+- working learn spells in temple option
+- fixed bug when player doesn't get experience points for magic attack.
 
 > TODO: 
 

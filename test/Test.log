@@ -1,0 +1,15 @@
+DEBUG 2022-03-19 00:56:44,049 - Hero name : Jimi
+DEBUG 2022-03-19 00:56:44,050 - Health    : 200
+DEBUG 2022-03-19 00:56:44,050 - Attack    : 15
+DEBUG 2022-03-19 00:56:44,050 - Defense   : 15
+DEBUG 2022-03-19 00:56:44,051 - Magic     : 17
+DEBUG 2022-03-19 00:56:44,051 - Luck      : 15
+DEBUG 2022-03-19 00:56:44,051 - Money     : 99
+DEBUG 2022-03-19 00:56:44,051 - Inventory : {'weapons': {}, 'consumables': {}, 'other': {}}
+DEBUG 2022-03-19 00:56:44,051 - Spellbook : {'Sparks': {'element': 'fire', 'power': 10, 'weakness': 'freeze', 'mana cost': 5, 'level': 1}, 'Cold': {'element': 'freeze', 'power': 10, 'weakness': 'burn', 'mana cost': 5, 'level': 1}}
+
+DEBUG 2022-03-19 00:56:49,138 - difficulty: 60 / luck: 15
+DEBUG 2022-03-19 00:56:52,476 - Used spell: Cold
+DEBUG 2022-03-19 00:57:04,027 - Used spell: Cold
+DEBUG 2022-03-19 00:57:11,327 - Used spell: Sparks
+DEBUG 2022-03-19 00:57:18,826 - Used spell: Cold

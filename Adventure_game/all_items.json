@@ -111,6 +111,10 @@
         "Lockpick": {
             "Durability": 1,
             "Price": 15
+        },
+        "Torch": {
+            "Durability": 1,
+            "Price": 15
         }
     }
 }

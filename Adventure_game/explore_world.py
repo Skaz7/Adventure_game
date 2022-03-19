@@ -10,6 +10,7 @@ List of regions ["woods","town","ruins","north crossroads","south crossroads","w
 import os
 import time
 import functions
+import logging
 
 
 def clear_screen():
@@ -35,7 +36,7 @@ def abandoned_mansion():
     and perhaps with a little effort you will be able to get into the house.
     If you decide to leave, you can go to The Old Farm or Plains.
     """,
-        ["old farm", "plains"],
+        ["old farm", "plains", "dungeon"],
     )
 
     explore("Abandoned Mansion")
@@ -336,7 +337,7 @@ def dungeon():
         "dungeon",
         """NO DESCRIPTION
     """,
-        ["abandoned mansion"],
+        ["abandoned mansion", "dungeon_entrance"],
     )
 
     explore("Dungeon")
@@ -607,6 +608,7 @@ def examine_area(where_are_you):
     input()
 
     difficulty = functions.random.randint(10, 80)
+    logging.debug(f"difficulty: {difficulty} / luck: {functions.player.luck}")
 
     if functions.player.luck >= difficulty:
         print("You managed to remain silent during your search.")
@@ -622,4 +624,116 @@ def examine_area(where_are_you):
         functions.battle()
 
 
+def dungeon_entrance():
+    clear_screen()
+    
+    def burn_pile():
+        clear_screen()
+        print("You used a fire spell of wooden pile.")
+        print(
+            "The fire was enormous, and after it expired, you saw a metal box in the remaining ashes"
+        )
+        print("\nWhat would you do?")
+        print("1 - Examine the box")
+        print("2 - Leave it alone")
+        choice = input("\n> ")
+        if choice == "1":
+            functions.dungeon_entrance_chest.open()
+        elif choice == "2":
+            return
+        else:
+            print("\nWrong option!")
+            delay_medium()
+            burn_pile()
+
+
+
+    while True:
+        if not dungeon_entrance in functions.searched_rooms:
+            print(
+                """\nYou entered the dungeon area.
+    You barely see anything in the dark, perhaps using a torch will help you find your way around.
+    The only thing you can indentify is a pile of wooden door scraps.
+    Maybe it better to go back and prepare yourself to examine the dungeon...
+    What would you do?
+            """
+            )
+            print("1 - Use a torch to light your way.")
+            print("2 - Use fire spell on wooden pile.")
+            print("3 - Take one wooden pole and use it as a torch.")
+            print("\n0 - Go back.\n")
+
+            choice = input("> ")
+
+            if choice == "1":
+                if any("Torch" in d.keys() for d in functions.player.inventory.values()):
+                    print("\nYou use a torch. Now you can see much better.")
+                    input()
+                    explore_dungeon()
+                else:
+                    print("\nYou don't have a torch. You must try something else.")
+                    input()
+                    dungeon_entrance()
+
+            elif choice == "2":
+                if any("fire" in d.values() for d in functions.player.spellbook.values()):
+                    print("\nYou have spell that can start a fire")
+                    input()
+                    burn_pile()
+                else:
+                    print("You dont't have spell that can start a fire")
+                    input()
+                    dungeon_entrance()
+
+            elif choice == "3":
+                if any("fire" in d.values() for d in functions.player.spellbook.values()):
+                    print("\nYou have spell that can start a fire")
+                    input()
+                else:
+                    print("You dont't have spell that can start a fire")
+                    input()
+                    dungeon_entrance()
+            elif choice == "0":
+                return
+            else:
+                print("\n\nWrong option!\n\n")
+                time.sleep(1)
+                dungeon_entrance()
+
+        elif dungeon_entrance in functions.searched_rooms:
+            print(
+                """\nYou're standing the dungeon entrance.
+        
+        What would you do?
+            """
+            )
+            print("1 - Go to corridor on the north side of the entrance.")
+            print("2 - Go to west corridor.")
+            print("3 - Leave dungeon.\n")
+
+            choice = input("> ")
+
+            if choice == "1":
+                north_corridor_1()
+            elif choice == "2":
+                west_corridor_1()
+            
+            else:
+                print("\n\nWrong option!\n\n")
+                time.sleep(1)
+                dungeon_entrance()
+
+
+def explore_dungeon():
+    pass
+
+
+def north_corridor_1():
+    pass
+
+
+def west_corridor_1():
+    pass
+
 clear_screen()
+

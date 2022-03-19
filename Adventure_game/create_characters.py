@@ -10,35 +10,37 @@ def create_player_character():
 
     points_to_spend = 10
 
-    Hname = input("\n\n\t\t\t\t\t\tPodaj swoje imię: ").title() 
+    Hname = input("\n\n\t\t\t\t\t\tWhat's your name: ").title()
 
     attributes_dict = {"Attack": 13, "Defense": 13, "Magic": 13, "Luck": 13}
 
     while points_to_spend > 0:
         clear_screen()
-        print(f'\nWitaj w nowej przygodzie {Hname}!')
-        print(f'''\nPoniżej wyświetlone są Twoje początkowe statystyki.
+        print(f"\nWelcome to the new adventure, {Hname}!")
+        print(
+            f"""\nPoniżej wyświetlone są Twoje początkowe statystyki.
 Możesz je zmodyfikować przydzielając dodatkowe punkty do poszczególnych pozycji.
 Zdecyduj którą ze swoich cech chcesz wzmocnić.
 Pozostałe do dyspozycji punkty: {points_to_spend}\n
-        ''')
+        """
+        )
         i = 1
         for attribute, value in attributes_dict.items():
-            print(f'{i}. {attribute:12}: {value}')
+            print(f"{i}. {attribute:12}: {value}")
             i += 1
 
         attribute_to_enhance = input("\n> ")
 
-        if attribute_to_enhance == '1':
+        if attribute_to_enhance == "1":
             attributes_dict["Attack"] += 1
-        elif attribute_to_enhance == '2':
+        elif attribute_to_enhance == "2":
             attributes_dict["Defense"] += 1
-        elif attribute_to_enhance == '3':
+        elif attribute_to_enhance == "3":
             attributes_dict["Magic"] += 1
-        elif attribute_to_enhance == '4':
+        elif attribute_to_enhance == "4":
             attributes_dict["Luck"] += 1
         else:
-            input('\nNieprawidłowa opcja!')
+            input("\nNieprawidłowa opcja!")
             continue
         points_to_spend -= 1
 
@@ -49,10 +51,23 @@ Pozostałe do dyspozycji punkty: {points_to_spend}\n
     Hmagic = attributes_dict["Magic"]
     Hluck = attributes_dict["Luck"]
     Hmoney = 99
-    Hitems = {"weapons": {}, "consumables": {}, "other": {}}
-    Hspellbook = {"Sparks": {"element":"fire", "power": 10, "weakness": "freeze", "mana cost": 5, "level": 1},
-                  "Cold": {"element":"freeze", "power": 10, "weakness": "burn", "mana cost": 5, "level": 1}   
-                 }
+    Hinventory = {"weapons": {}, "consumables": {}, "other": {}}
+    Hspellbook = {
+        "Sparks": {
+            "element": "fire",
+            "power": 10,
+            "weakness": "freeze",
+            "mana cost": 5,
+            "level": 1,
+        },
+        "Cold": {
+            "element": "freeze",
+            "power": 10,
+            "weakness": "burn",
+            "mana cost": 5,
+            "level": 1,
+        },
+    }
     Hstate = []
     Hexperience = 0
     Hlevel = 1
@@ -66,7 +81,7 @@ Pozostałe do dyspozycji punkty: {points_to_spend}\n
         Hmagic,
         Hluck,
         Hmoney,
-        Hitems,
+        Hinventory,
         Hspellbook,
         Hstate,
         Hexperience,
@@ -94,6 +109,4 @@ def create_enemy():
     special = data[7]
     # regions = data[8]
 
-    return Enemy(
-        level, name, health, attack, defense, magicdefense, chance, special
-    )
+    return Enemy(level, name, health, attack, defense, magicdefense, chance, special)

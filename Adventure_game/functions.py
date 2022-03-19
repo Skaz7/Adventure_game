@@ -1,6 +1,7 @@
 import os
 import random
 import time
+import logging
 
 from images import *
 from constants import *
@@ -8,6 +9,17 @@ from create_characters import *
 from explore_world import *
 from other_classes import *
 from hero_magic_attack import hero_magic_attack
+from playsound import playsound
+
+
+LOG_FORMAT = "%(levelname)s %(asctime)s - %(message)s"
+logging.basicConfig(
+    filename="D:\\Users\\sebas\\OneDrive\\Repositories\\Adventure_game\\test\\Test.log",
+    level=logging.DEBUG,
+    format=LOG_FORMAT,
+    filemode='w'
+)
+logger = logging.getLogger()
 
 
 def clear_screen():
@@ -45,22 +57,35 @@ def start_game():
     print(f'{"|" + " " * (len(game_title) + 4) + "|":^120}')
     print(f'{"=" * (len(game_title) + 4):^120}\n\n\n')
 
-    print(f'{"Wybierz opcję:          ":^120}\n')
-    print(f'{"1 - Nowa gra            ":^120}')
-    print(f'{"2 - Wczytaj zapisaną grę":^120}\n')
-    print(f'{"Twój wybór:             ":^120}\n')
+    print(f'{"Choose option:          ":^120}\n')
+    print(f'{"1 - New game        ":^120}')
+    print(f'{"2 - Load saved game":^120}\n')
+    print(f'{"Your choice:             ":^120}\n')
+
+    # playsound(
+    #     "D:\\Users\\sebas\\OneDrive\\Repositories\\Adventure_game\\Sound\\mixkit-game-experience-level-increased-2062.wav"
+    # )
     choice = input(f"\t\t\t\t\t\t> ")
 
     if choice == "1":
         global player
         player = create_player_character()
+        logging.debug(f"Hero name : {player.name}")
+        logging.debug(f"Health    : {player.health}")
+        logging.debug(f"Attack    : {player.attack}")
+        logging.debug(f"Defense   : {player.defense}")
+        logging.debug(f"Magic     : {player.magic}")
+        logging.debug(f"Luck      : {player.luck}")
+        logging.debug(f"Money     : {player.money}")
+        logging.debug(f"Inventory : {player.inventory}")
+        logging.debug(f"Spellbook : {player.spellbook}\n")
         town()
     elif choice == "2":
-        print(f'\n{"FUNKCJA JESZCZE NIE DZIAŁA":^120}')
+        print(f'\n{"FUNCTION NOT WOKING YET":^120}')
         delay_medium()
         start_game()
     else:
-        print(f'\n{"WYBRAŁEŚ NIEPRAWIDŁOWĄ OPCJĘ!":^120}')
+        print(f'\n{"YOU CHOSE THE WRONG OPTION!":^120}')
         delay_medium()
         start_game()
 
@@ -91,67 +116,22 @@ def hero_attack():
                 print(
                     f"\nUdało Ci się zadać krytyczny cios. Przeciwnik odniósł {int(player.attack * 1.5)} obrażeń."
                 )
+                # playsound(
+                #     "D:\\Users\\sebas\\OneDrive\\Repositories\\Adventure_game\\Sound\\mixkit-boxer-getting-hit-2055.wav"
+                # )
                 enemy.health = int(enemy.health - int(player.attack * 1.5))
                 delay_short()
 
             else:
                 print(f"\nPrzeciwnik odniósł {enemy_damage} obrażeń.")
                 enemy.health = int(enemy.health - enemy_damage)
+                # playsound(
+                #     "D:\\Users\\sebas\\OneDrive\\Repositories\\Adventure_game\\Sound\\mixkit-boxer-getting-hit-2055.wav"
+                # )
                 delay_short()
 
     else:
         print("\nNie udało Ci się zadać ciosu, przeciwnik był sprytniejszy.")
-        delay_short()
-
-    # player stats increased by used item are going back to previous level
-    player.attack -= player_temp_stat_boost["Damage"]
-    player.defense -= player_temp_stat_boost["Defense"]
-    player.luck -= player_temp_stat_boost["Luck"]
-    player.magic -= player_temp_stat_boost["Magic"]
-
-    # stats boost reset
-    player_temp_stat_boost["Damage"] = 0
-    player_temp_stat_boost["Defense"] = 0
-    player_temp_stat_boost["Luck"] = 0
-    player_temp_stat_boost["Magic"] = 0
-
-    if enemy.health <= 0:
-        # hero gets 10% extra experience for defeating an enemy
-        player.experience = int(player.experience * 1.1)
-
-        if player.experience > levels[0]:
-            clear_screen()
-            player.level_up()
-            del levels[0]
-
-        delay_short()
-        victory()
-
-    else:
-        pass
-
-    player_hit_chance = (roll_20_dice() + player.luck) - (roll_20_dice() + enemy.chance)
-
-    if player_hit_chance > 0:
-
-        print(f"\nUdało Ci się zadać obrażenia magiczne.")
-        enemy_damage = roll_20_dice() + player.magic - enemy.defense
-        player.experience = (
-            player.experience + (player_hit_chance + roll_6_dice()) * 5 * player.level
-        )
-
-        # Damage can't be lower than 0
-        if enemy_damage < 0:
-            enemy_damage == 0
-
-        else:
-            pass
-        print(f"\nPrzeciwnik odniósł {enemy_damage} obrażeń.")
-        enemy.health = int(enemy.health - enemy_damage)
-        delay_short()
-
-    else:
-        print("\nTwoja magia zawiodła, nie zadałeś przeciwnikowi obrażeń.")
         delay_short()
 
     # player stats increased by used item are going back to previous level
@@ -248,18 +228,18 @@ def use_item():
     """
     clear_screen()
 
-    print("\nZ jakiego typu przedmiotu chcesz skorzystać?\n")
-    print("1 - Broń / Zbroja.")
-    print("2 - Mikstura, jedzenie.")
-    print("3 - Inny.\n")
-    print("0 - Powrót")
+    print("\nItem of which type you want to use?\n")
+    print("1 - Weapon / Armor.")
+    print("2 - Consumables.")
+    print("3 - Other.\n")
+    print("0 - Back")
 
     choice = input("\n> ")
 
     def choose_item_type(item_type):
         clear_screen()
 
-        print(f"\n\nPosiadane przez Ciebie przedmioty typu {item_type.capitalize()}:")
+        print(f"\n\nItems of type {item_type.capitalize()} that you own:")
 
         # list of every item in Hero's inventory
         for k, v in player.inventory[item_type].items():
@@ -271,7 +251,7 @@ def use_item():
 
         # create item list from dictionary keys
         item_list = list(player.inventory.get(item_type))
-        print(f"\nCzego chcesz użyć w tej turze?\n")
+        print(f"\nWhat do you want to use this turn?\n")
 
         for i in enumerate(item_list, start=1):
             print(*i)
@@ -280,7 +260,7 @@ def use_item():
             choice = int(input("\n> "))
 
             if choice < 0 or choice > len(item_list):
-                print("\nWybrałeś nieprawidłową opcję, powtórz.")
+                print("\nYou chose the wrong option, please try again.")
                 return
 
             elif choice == 0:
@@ -344,9 +324,7 @@ def use_item():
                 else:
                     pass
 
-            use_item_text = (
-                f"Użyłeś przedmiotu {choosed_item_name}, Twoje statystyki wzrastają."
-            )
+            use_item_text = f"You use {choosed_item_name}, your statistics increases."
             print(f"\n\n\t\t\t", "-" * (len(use_item_text) + 6))
             print(f"\t\t\t |  {use_item_text}  |")
             print(f"\t\t\t", "-" * (len(use_item_text) + 6))
@@ -358,7 +336,7 @@ def use_item():
 
             # if item durability reaches 0, item is destroyed and removed from inventory
             if choosed_item_data["Durability"] < 1:
-                print(f"\n\t\t\t\t  Przedmiot {choosed_item_name} został zniszczony!\n")
+                print(f"\n\t\t\t\t  Item {choosed_item_name} was destroyed!\n")
                 del player.inventory[item_type][f"{choosed_item_name}"]
             delay_medium()
 
@@ -411,7 +389,7 @@ def battle():
         turn_counter += 1
 
         print()
-        print(f"TRWA WALKA!      Tura nr {turn_counter}".center(120))
+        print(f"BATTLE!      TURN no {turn_counter}".center(120))
         print(f"===================================".center(120))
 
         player_health_bar = "=" * int(player.health * 60 / player.maxhealth)
@@ -425,29 +403,29 @@ def battle():
         elif player.health >= player.maxhealth * 0.7:
             player_health_bar_color = "\033[0;32m"
 
-        print(f"\nBohater - {player.name}")
+        print(f"\nHero - {player.name}")
         print("-" * (10 + len(player.name)))
-        print(f'{"Poziom":19} : {player.level}')
-        print(f'{"Doświadczenie":19} : {player.experience:<4} /  {levels[0]:<4}')
+        print(f'{"Level":19} : {player.level}')
+        print(f'{"Experience":19} : {player.experience:<4} /  {levels[0]:<4}')
         print(
-            f'{"Zdrowie":19} : {player.health:<4} /  {player.maxhealth:<4} {player_health_bar_color} [{player_health_bar}',
+            f'{"Health":19} : {player.health:<4} /  {player.maxhealth:<4} {player_health_bar_color} [{player_health_bar}',
             " " * (60 - len(player_health_bar)),
             "]",
             "\033[0m",
             sep="",
         )
-        print(f'{"Atak":19} : {player.attack}')
-        print(f'{"Obrona":19} : {player.defense}')
-        print(f'{"Magia":19} : {player.magic}')
-        print(f'{"Szczęście":19} : {player.luck}')
-        print(f'{"Pieniądze":19} : {player.money}')
+        print(f'{"Attack":19} : {player.attack}')
+        print(f'{"Defense":19} : {player.defense}')
+        print(f'{"Mana":19} : {player.magic}')
+        print(f'{"Luck":19} : {player.luck}')
+        print(f'{"Money":19} : {player.money}')
         if len(player.state) == 0:
-            print(f'{"Twój stan":19} : Wszystko w porządku, brak dodatkowych obrażeń.')
+            print(f'{"Your state":19} : ok, no additional negative conditions.')
         else:
             print(
-                f'{"Twój stan":19} : {player.state[0].capitalize()}  -   otrzymujesz dodatkowe obrażenia po każdej turze.'
+                f'{"Your state":19} : {player.state[0].capitalize()}  -   you take extra damage every turn.'
             )
-        print(f"\nPrzeciwnik - {enemy.name}")
+        print(f"\nEnemy - {enemy.name}")
         print("-" * (13 + len(enemy.name)))
 
         enemy_health_bar = "=" * int(enemy.health * 60 / enemy_max_health)
@@ -461,19 +439,19 @@ def battle():
         elif enemy.health >= enemy_max_health * 0.7:
             enemy_health_bar_color = "\033[0;32m"
 
-        print(f'{"Poziom":19} : {enemy.level}')
+        print(f'{"Level":19} : {enemy.level}')
         print(
-            f'{"Zdrowie":19} : {enemy.health:<4} /  {enemy_max_health:<4} {enemy_health_bar_color} [{enemy_health_bar}',
+            f'{"Health":19} : {enemy.health:<4} /  {enemy_max_health:<4} {enemy_health_bar_color} [{enemy_health_bar}',
             " " * (60 - len(enemy_health_bar)),
             "]",
             "\033[0m",
             sep="",
         )
-        print(f'{"Atak":19} : {enemy.attack}')
-        print(f'{"Obrona":19} : {enemy.defense}')
-        print(f'{"Obrona magiczna:":19} : {enemy.magicdefense}')
-        print(f'{"Szansa trafienia:":19} : {enemy.chance}')
-        print(f'{"Zdolność specjalna":19} : {enemy.special.capitalize()}')
+        print(f'{"Attack":19} : {enemy.attack}')
+        print(f'{"Defense":19} : {enemy.defense}')
+        print(f'{"Magic Defense:":19} : {enemy.magicdefense}')
+        print(f'{"Luck:":19} : {enemy.chance}')
+        print(f'{"Special":19} : {enemy.special.capitalize()}')
 
         player_turn()
 
@@ -487,16 +465,16 @@ def battle():
 
 def player_turn():
 
-    print(f"\nTura {player.name}")
+    print(f"\n{player.name}'s Turn")
     print(f" ------------------------------")
-    print(f"| Możliwe akcje:\t       |")
-    print(f"|\t 1 - atak fizyczny     |")
-    print(f"|\t 2 - atak magiczny     |")
-    print(f"|\t 3 - użycie przedmiotu |")
-    print(f"|\t 4 - obrona            |")
-    print(f"|\t 5 - ucieczka          |")
+    print(f"| Available actions:\t       |")
+    print(f"|\t 1 - physical attack   |")
+    print(f"|\t 2 - magic attack      |")
+    print(f"|\t 3 - use item          |")
+    print(f"|\t 4 - defense           |")
+    print(f"|\t 5 - run               |")
     print(f" ------------------------------")
-    print(f"\nCo robisz?")
+    print(f"\nWhat do you do?")
 
     battle_action = input("> ")
 
@@ -872,21 +850,41 @@ def temple():
 
     elif choice == "2":
         clear_screen()
-        spells_not_available = []
-        print(f"\n\nSpells available to learn at your level:\n")
-        for i, (spell, parameters) in enumerate(all_offensive_spells.items()):
-            if parameters["level"] <= player.level:
-                print(i+1, f"Lvl {parameters['level']} - ".ljust(1) + spell.rjust(15))
-            else:
-                spells_not_available.append(spell)
-        print(f"\n\nYour experience level is too low to be able to learn spells:\n")
-        for spell in spells_not_available:
-            print(spell)
 
-        input()
-        temple()
-    else:
-        print("\n\t\tWrong option!")
+        print(f"\n\nHere you can learn spells for 50 gold coin each.\n")
+
+        spells_list = list(spell for spell in all_offensive_spells.keys())
+        for i, spell in enumerate(spells_list):
+            print(f"{i + 1}. {spell}")
+
+        print(f"\nChoose spell number for more information, or 0 - Back")
+        choosed_spell = spells_list[int(input("\n> ")) - 1]
+
+        if choosed_spell in all_offensive_spells.keys():
+            print(f"\n\t{choosed_spell}:")
+            for parameter, value in all_offensive_spells[choosed_spell].items():
+                print(f"\t\t{parameter:10}-  {value}".title())
+            print("\nDo you want to leave this spell?")
+            print("1 - Learn")
+            print("2 - Back")
+            if_learn_spell = input("\n> ")
+            if if_learn_spell == "1":
+                if player.money < 50:
+                    print("\nYou don't have enough money to learn this spell.")
+                    input()
+                    return
+                else:
+                    player.money -= 50
+                    player.spellbook[choosed_spell] = all_offensive_spells[
+                        choosed_spell
+                    ]
+            elif if_learn_spell == "2":
+                return
+            else:
+                print("\nWrong option!")
+
+        else:
+            print("Wrong number!")
         delay_medium()
         temple()
 
@@ -940,3 +938,27 @@ def treasure():
                 open_chest()
 
     open_chest()
+
+
+def poison_spikes_trap():
+    clear_screen()
+    print("You were not perceptive enough and you set up a trap!")
+    print("Poisoned needle strikes from barely visible hole in the wall.")
+    print("The needle hits you in no time, you immediately feel nauseous and dizzy")
+    health_lost = player.maxhealth * 0.2
+    if health_lost >= player.health:
+        print(f"You lost {health_lost} HP and you DIED...")
+        print("\n\n\t\t\t\t========= GAME OVER =========")
+        quit()
+    else:
+        print(f"You lost {health_lost} HP")
+        print("You should use healing spell or item to recover, otherwise you can die.")
+        time.sleep(1)
+        for key, value in player.inventory["consumables"].items():
+            if not "Cure Poison" in key and not "Cure Poison" in value:
+                print("\nYou don't have any items that could heal you.")
+                print(key, value)
+                input()
+            else:
+                print("You have some items that can heal you.")
+                input()

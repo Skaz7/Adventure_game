@@ -1,10 +1,9 @@
 import functions
 
 class Chest:
-    def __init__(self, opened, trap, puzzle, gold, item, exp, searched):
+    def __init__(self, opened, trap, gold, item, exp, searched):
         self.opened = opened
         self.trap = trap
-        self.puzzle = puzzle
         self.gold = gold
         self.item = item
         self.exp = exp
@@ -12,29 +11,54 @@ class Chest:
     
     def open(self):
         if self.opened == True:
-            pass
+            print("This chest was already searched. You found nothing")
+            input()
         else:
-            print(f'Niestety skrzynia jest zamknięta.')
-            print(f'Czy chcesz użyć wytrychu do jej otwarcia?')
-            choice = input('\nT/N   >')
-            if choice == 'n':
-                print('\nSkrzynia pozostaje zamknięta.')
-                return
-            elif choice == 't':
-                functions.player.inventory.remove("Lockpick")
-                self.opened = True
-                functions.player.money += self.gold
-                functions.player.inventory.append(self.item)
-                functions.player.experience += self.exp
-                self.searched = True
-                print(f'\nCzy skrzynia otwarta? - {self.opened}\n')
-                print(f'Czy była pułapka? - {self.trap}')
-                print(f'Czy była zagadka? - {self.puzzle}')
-                print(f'Znalezione złoto - {self.gold}')
-                print(f'Znalezione przedmioty - {self.item}')
-                print(f'Zdobyte doświadczenie - {self.exp}')
-                print(f'Czy skrzynia przeszukana? - {self.searched}')
+            print("\nWhat would you do?")
+            print("1 - Try to smash the chest")
+            print("2 - Use lockpick to open it")
+            print("0 - Leave it alone")
+
+            while True:
+                action = input("\n> ")
+                if action == "1":
+                    print("\nYou take a huge swing and hit the box with all your might.")
+                    print(
+                        "\nUnfortunately, the box was so delicate that it got damaged with all its contents."
+                    )
+                    print("\nToo bad...")
+                    self.searched = True
+                    input()
+                    return
+
+                elif action == "2":
+                    if not any("Lockpick" in d.keys() for d in functions.player.inventory.values()):
+                        print("\nYou don't have a lockpick.")
+                        input()
+                        return
+                    else:
+                        print("You opened the chest, and find some goods.")
+                        del functions.player.inventory["Lockpick"]
+                        self.opened = True
+                        functions.player.money += self.gold
+                        functions.player.inventory[self.item] = self.item.values()
+                        functions.player.experience += self.exp
+                        self.searched = True
+                        input()
+                        return
+
+                elif action == "3":
+                    return
+                else:
+                    print("Wrong option!")
+                    input()
+
+
+                
+
             else:
                 print("\nBłędny wybór!")
                 input()
                 open(self)
+
+
