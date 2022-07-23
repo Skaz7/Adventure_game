@@ -1,7 +1,6 @@
 venv
 .vscode
 __pycache__
-test.robot
 log.html
 output.xml
 report.html

@@ -47,33 +47,43 @@ def hero_magic_attack():
     for i, spell in enumerate(spellbook_list, start=1):
         print(f"{i}. {spell}")
     print("\nWhich spell do you want to cast?")
+    
+    while True:
+        try:
+            choice = int(input("> ")) - 1
+            if choice < 0 or choice > len(spellbook_list):
+                print("Wrong option!")
+                functions.delay_medium()
+                continue
+            else:
+                picked_spell = spellbook_list[choice]
+                spell = functions.player.spellbook[picked_spell]
 
-    picked_spell = spellbook_list[int(input("> ")) - 1]
-    spell = functions.player.spellbook[picked_spell]
-    logging.debug(f"Used spell: {picked_spell}")
+                print(f"\nYou choosed:")
+                print(f"\n\t{picked_spell}:")
 
-    print(f"\nYou choosed:")
-    print(f"\n\t{picked_spell}:")
+                for parameter, value in spell.items():
+                    print("\t", parameter.title().ljust(10, ".") + str(value).title())
+                print("\n1 - Cast this Spell")
+                print("2 - Go Back")
 
-    for parameter, value in spell.items():
-        print("\t", parameter.title().ljust(10, ".") + str(value).title())
-    print("\n1 - Cast this Spell")
-    print("2 - Go Back")
+                choice = input("> ")
 
-    choice = input("> ")
+                if choice == "1":
+                    if functions.player.magic < spell["mana cost"]:
+                        print("\nYou don't have enough mana to cast this spell.")
+                        functions.delay_medium()
+                        hero_magic_attack()
+                    else:
+                        logging.debug(f"Used spell: {picked_spell}")
+                        cast_spell(picked_spell)
+                        
+                    return
 
-    if choice == "1":
-        if functions.player.magic < spell["mana cost"]:
-            print("\nYou don't have enough mana to cast this spell.")
+                elif choice == "2":
+                    pass
+
+        except ValueError:
+            print("Wrong option!")
             functions.delay_medium()
-            hero_magic_attack()
-        else:
-            cast_spell(picked_spell)
-        return
-
-    elif choice == "2":
-        pass
-
-    input()
-
-    return
+            continue

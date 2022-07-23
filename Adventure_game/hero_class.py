@@ -58,21 +58,21 @@ class Hero:
 
         while additional_points > 0:
             print(
-                f"""{self.name}, awansowałeś na nowy poziom. Poziom Twojego zdrowia zwiększył się automatycznie.
-Dodatkowo otrzymujesz 2 punkty, dzięki którym możesz zwiększych swoje statystyki.
+                f"""{self.name}, you have advanced to a new level. Your health increased automatically.
+Additionally, you get 2 points, thanks to which you can increase your statistics.
 
-Którą parametr chcesz rozwinąć?
+Which parameter should be strengthened??
 
-1. Atak      : {self.attack}
-2. Obrona    : {self.defense}
-3. Magia     : {self.magic}
-4. Szczęście : {self.luck}
+1. Attack  : {self.attack}
+2. Defence : {self.defense}
+3. Magic   : {self.magic}
+4. Luck    : {self.luck}
         """
             )
             functions.playsound(
                 "D:\\Users\\sebas\\OneDrive\\Repositories\\Adventure_game\\Sound\\mixkit-game-level-completed-2059.wav"
             )
-            choice = input(f"\nGdzie przyznasz punkt?  > ")
+            choice = input(f"\nWhich parameter should be strengthened??  > ")
             if choice == "1":
                 self.attack += 1
             elif choice == "2":
@@ -85,41 +85,44 @@ Którą parametr chcesz rozwinąć?
             additional_points -= 1
 
     def show_player_screen(self):
-        print(f'\n\n{"Ekran gracza":^120}')
+        print(f'\n\n{"Player screen":^120}')
         print(f'{"-"*14:^120}\n')
         print(f'\t{"="*50}\n')
-        print(f"\tIMIĘ: {self.name}   |   POZIOM -> {self.level}\n")
-        print(f"\tDoświadczenie: {self.experience} / {functions.levels[0]}\n")
+        print(f"\tNAME: {self.name}   |   LEVEL -> {self.level}\n")
+        print(f"\tExperience: {self.experience} / {functions.levels[0]}\n")
         print(f'\t{"="*50}\n\n')
-        print(f"\tSzczegółowe statystyki:\n")
-        print(f'\t\t{"1. ZDROWIE":12} : {self.health}')
-        print(f'\t\t{"2. ATAK":12} : {self.attack}')
-        print(f'\t\t{"3. OBRONA":12} : {self.defense}')
+        print(f"\tDetailed statistics:\n")
+        print(f'\t\t{"1. HEALTH":12} : {self.health}')
+        print(f'\t\t{"2. ATTACK":12} : {self.attack}')
+        print(f'\t\t{"3. DEFENCE":12} : {self.defense}')
         print(f'\t\t{"4. MANA":12} : {self.magic}')
-        print(f'\t\t{"5. SZCZĘŚCIE":12} : {self.luck}')
-        print(f'\t\t{"6. PIENIĄDZE":12} : {self.money}szt złota')
+        print(f'\t\t{"5. LUCK":12} : {self.luck}')
+        print(f'\t\t{"6. MONEY":12} : {self.money} gold coins')
 
         if len(self.state) == 0:
             print(
-                f'\t\t{"7. STAN":12} : Wszystko w porządku, brak dodatkowych efektów\n'
+                f'\t\t{"7. STATE":12} : OK, no side effects\n'
             )
 
         else:
-            print(f'\t\t{"7. STAN":12} : {self.state[0].capitalize()}\n')
+            print(f'\t\t{"7. STATE":12} : {self.state[0].capitalize()}')
 
         items_list = []
         for k, v in self.inventory.items():
             for i, j in v.items():
                 items_list.append(i)
 
-        print(f'\t\t{"8. PRZEDMIOTY":12} : {"  |  ".join(items_list)}')
-        print(f'\n\t\t{"9. UŻYJ PRZEDMIOTU"}')
-        print("\n\n\nENTER - Powrót")
+        print(f'\t\t{"8. ITEMS":12} : {"  |  ".join(items_list)}')
+        print(f'\n\t\t{"9. USE ITEM"}')
+        print(f'\n\t\t{"0. SAVE GAME"}')
+        print("\n\n\nENTER - Back")
 
         choice = input("\n\n> ")
 
         if choice == "9":
             functions.use_item()
+        elif choice == "0":
+            functions.save_game()
 
         else:
             return

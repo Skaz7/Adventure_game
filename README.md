@@ -1,8 +1,11 @@
+
 ### v0.4.6
 - learn spells in temple works
 - starteg to use **logging**
 
->TODO: lot of bugs during returning from functions (battle, explore etc.)
+> TODO: lot of bugs during returning from functions (battle, explore etc.)
+> TODO: bug with exit from battle after attack - only after successful run from battle. There's no bug at first battle.
+> TODO: program crashes when player searches area and remains silent. Instead of finding an item, program crashes.
 
 
 

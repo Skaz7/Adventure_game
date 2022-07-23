@@ -2,6 +2,8 @@ import os
 import random
 import time
 import logging
+import pytest
+import pickle
 
 from images import *
 from constants import *
@@ -17,7 +19,7 @@ logging.basicConfig(
     filename="D:\\Users\\sebas\\OneDrive\\Repositories\\Adventure_game\\test\\Test.log",
     level=logging.DEBUG,
     format=LOG_FORMAT,
-    filemode='w'
+    filemode="w",
 )
 logger = logging.getLogger()
 
@@ -70,24 +72,35 @@ def start_game():
     if choice == "1":
         global player
         player = create_player_character()
-        logging.debug(f"Hero name : {player.name}")
-        logging.debug(f"Health    : {player.health}")
-        logging.debug(f"Attack    : {player.attack}")
-        logging.debug(f"Defense   : {player.defense}")
-        logging.debug(f"Magic     : {player.magic}")
-        logging.debug(f"Luck      : {player.luck}")
-        logging.debug(f"Money     : {player.money}")
-        logging.debug(f"Inventory : {player.inventory}")
-        logging.debug(f"Spellbook : {player.spellbook}\n")
         town()
     elif choice == "2":
-        print(f'\n{"FUNCTION NOT WOKING YET":^120}')
+        print(f'\n{"FUNCTION DOES NOT WORK YET":^120}')
         delay_medium()
         start_game()
     else:
         print(f'\n{"YOU CHOSE THE WRONG OPTION!":^120}')
         delay_medium()
         start_game()
+
+
+def save_game():
+    data = {"saved_name": player.name, 
+            "saved_health": player.health, 
+            "saved_maxhealth": player.maxhealth, 
+            "saved_attack":player.attack,
+            "saved_defense": player.defense,
+            "saved_magic": player.magic,
+            "saved_luck": player.luck,
+            "saved_money": player.money,
+            "saved_inventory": player.inventory,
+            "saved_spellbook": player.spellbook,
+            "saved_state": player.state,
+            "saved_experience": player.experience,
+            "saved_level": player.level}
+    
+    savefile = "D:\\Users\\sebas\\OneDrive\\Repositories\\Adventure_game\\Adventure_game\\savefile.txt"
+    with open(savefile, 'wb') as file:
+        pickle.dump(data, file)
 
 
 def hero_attack():
@@ -100,7 +113,7 @@ def hero_attack():
 
     if player_hit_chance > 0:
 
-        print(f"\nTwój atak się powiódł.")
+        print(f"\nYour attack was successful.")
         enemy_damage = roll_20_dice() + player.attack - enemy.defense
         player.experience = player.experience + int(
             (player_hit_chance + roll_6_dice()) * 5 * player.level * 0.5
@@ -114,7 +127,7 @@ def hero_attack():
 
             if critical_chance > 90:
                 print(
-                    f"\nUdało Ci się zadać krytyczny cios. Przeciwnik odniósł {int(player.attack * 1.5)} obrażeń."
+                    f"\nYou dealt critical damage. The Enemy has lost {int(player.attack * 1.5)} health."
                 )
                 # playsound(
                 #     "D:\\Users\\sebas\\OneDrive\\Repositories\\Adventure_game\\Sound\\mixkit-boxer-getting-hit-2055.wav"
@@ -123,7 +136,7 @@ def hero_attack():
                 delay_short()
 
             else:
-                print(f"\nPrzeciwnik odniósł {enemy_damage} obrażeń.")
+                print(f"\nThe Enemy has lost {enemy_damage} health.")
                 enemy.health = int(enemy.health - enemy_damage)
                 # playsound(
                 #     "D:\\Users\\sebas\\OneDrive\\Repositories\\Adventure_game\\Sound\\mixkit-boxer-getting-hit-2055.wav"
@@ -131,7 +144,7 @@ def hero_attack():
                 delay_short()
 
     else:
-        print("\nNie udało Ci się zadać ciosu, przeciwnik był sprytniejszy.")
+        print("\nThe enemy was faster, you failed to attack.")
         delay_short()
 
     # player stats increased by used item are going back to previous level
@@ -163,16 +176,16 @@ def hero_attack():
 
 
 def enemy_attack():
-    print(f"\nCzas na ruch przeciwnika.")
+    print(f"\nEnemy Turn.")
     delay_short()
 
-    print(f"{enemy.name} atakuje!")
+    print(f"{enemy.name} attacks!")
     delay_short()
 
     enemy_hit_chance = (roll_20_dice() + enemy.chance) - (roll_20_dice() + player.luck)
 
     if enemy_hit_chance > 0:
-        print("Jego cios Cię dosięgnął.")
+        print("Enemy hits you.")
         player_damage = roll_20_dice() + enemy.attack - player.defense
 
         if player_damage < 0:
@@ -210,12 +223,14 @@ def enemy_attack():
 
 
 def check_player_state():
-
-    if len(player.state) == 0:
-        pass
+    if player.health <= 0:
+        defeat()
     else:
-        condition = f"player.{player.state[0].lower()}()"
-        eval(condition)
+        if len(player.state) == 0:
+            pass
+        else:
+            condition = f"player.{player.state[0].lower()}()"
+            eval(condition)
 
 
 def use_item():
@@ -376,7 +391,7 @@ def battle():
     global enemy
     enemy = create_enemy()
 
-    while enemy.level > player.level + 1 or enemy.level < player.level - 1:
+    while enemy.level > player.level + 1 or enemy.level < player.level - 4:
         enemy = create_enemy()
 
     enemy_max_health = enemy.health
@@ -465,6 +480,9 @@ def battle():
 
 def player_turn():
 
+    global escape_from_battle
+    escape_from_battle = False
+
     print(f"\n{player.name}'s Turn")
     print(f" ------------------------------")
     print(f"| Available actions:\t       |")
@@ -496,25 +514,25 @@ def player_turn():
 
         if run_chance > stop_chance:
             print(
-                "\nUdało Ci się uciec z miejsca potyczki, przeciwnik nie może Cię dogonić."
+                "\nYou managed to escape from battle, your enemy can't reach you."
             )
             delay_medium()
             if player.experience > levels[0]:
                 clear_screen()
                 player.level_up()
                 del levels[0]
-            global escape_from_battle
+            # global escape_from_battle
             escape_from_battle = True
             return
 
         else:
             print(
-                "\nNie udało Ci się uciec, przeciwnik był sprytniejszy i walka trwa dalej."
+                "\nYou failed to escape, the battle continues."
             )
             delay_medium()
             escape_from_battle = False
     else:
-        print("Wybierz opcję z zakresu 1 - 5!")
+        print("Choose option 1 - 5!")
 
     return
 
@@ -535,13 +553,12 @@ def teleport(destination):
 def victory():
     clear_screen()
 
-    print("\n\nOdniosłeś wspaniałe zwycięstwo!")
-    print("\nStoisz nad zwłokami swojego przeciwnika i zastanawiasz się co dalej...")
-    print("\nPostanawiasz:")
-    print(
-        "\n\t1 - Przeszukać zwłoki przeciwnika, chociaż nie wiesz czego się spodziewać."
-    )
-    print("\t2 - Zostawić go w spokoju i ruszyć dalej.")
+    print("\n\nVictory!")
+
+    print("\nYou stand over enemy's corpse, and wonder what to do next... ")
+    print("\nYou decide to:")
+    print("\n\t1 - Search the corpse, not knowing what to expect.")
+    print("\t2 - Leave it alone, and continue you journey.")
 
     choice = input("\n> ")
 
@@ -552,7 +569,7 @@ def victory():
         return
 
     else:
-        print("\nWybierz jedną z opcji 1-2 !")
+        print("\nChoose option 1-2 !")
         delay_medium()
         victory()
 
@@ -560,9 +577,9 @@ def victory():
 def defeat():
     clear_screen()
     delay_short()
-    print(f"\n\n{player.name}, poniosłeś porażkę w walce i umierasz...")
+    print(f"\n\n{player.name}, you lost the battle and you die...")
     delay_short()
-    print("Twoje zwłoki zostają na pożarce sępom.\n\n\n\n")
+    print("Your corpse is left to be eaten by the vultures.\n\n\n\n")
     delay_short()
     quit()
 
@@ -573,11 +590,11 @@ def body_search():
 
     # when risk dice roll fails, player looses some HP
     if risk < 3:
-        print("Uruchomiłeś pułapkę!")
+        print("You set off a trap!")
         delay_short()
-        print("Odniosłeś poważne obrażenia.")
+        print("You are badly wounded.")
         delay_short()
-        print(f"\nTwoje zdrowie trwale obniża się o {20 - risk} punktów życia.")
+        print(f"\nYour health is lowered permanently by {20 - risk} HP.")
         player.health = player.health - (20 - risk)
         if player.health < 1:
             defeat()
@@ -587,8 +604,8 @@ def body_search():
         # player gets loot from enemy body
         money = roll_20_dice()
         player.money = player.money + money
-        print(f"\nZnalazłeś {money} sztuk złota.")
-        print("\nCiekawe, czy znajdzesz jeszcze jakieś przedmioty...")
+        print(f"\nYou found {money} gold coins.")
+        print("\nWonder if you can find any more items...")
         delay_short()
 
         for item_type, item in all_items.items():
@@ -601,20 +618,18 @@ def body_search():
 
                 if loot_chance > 0:
 
-                    print(f"Świetnie! Udało Ci się coś znaleźć!")
+                    print(f"Great! You found something!")
                     delay_short()
                     if k in player.inventory[item_type]:
                         print(
-                            f"\nNiestety, ale {k} posiadasz już w ekwipunku, nie możesz nieść kolejnego.\n"
+                            f"\nUnfortunately, you have {k} in you inventory. You can't have another.\n"
                         )
-                        print("Łup zostaje na swoim miejscu.\n")
+                        print("The loot stays in its place.\n")
                         delay_medium()
 
                     else:
                         player.inventory[item_type][k] = v
-                        print(
-                            f"Przedmiot {k.capitalize()} został dodany do ekwipunku.\n"
-                        )
+                        print(f"{k.capitalize()} was added to you inventory.\n")
                         delay_medium()
                 else:
                     pass
@@ -629,27 +644,27 @@ def shop():
 
         items_list = []
 
-        print(f"\nTwoja gotówka to {player.money}szt złota")
+        print(f"\nYour have {player.money} gold coins")
         print(
-            f"\nWybrałeś {item_type}, oto przedmioty z tej kategorii dostępne w sprzedaży:\n"
+            f"\nYou chosed {item_type}, here are the items for sale in this category:\n"
         )
 
         for number, (item, stats) in enumerate(all_items[item_type].items(), start=1):
-            print(f"\n{number}. Przedmiot: {item}")
-            print("-" * (len(f"Przedmiot: {item}") + 3))
+            print(f"\n{number}. Item: {item}")
+            print("-" * (len(f"Item: {item}") + 3))
             items_list.append(item)
 
             for i, j in stats.items():
                 print(f"\t\t\t{i:11}: {j}")
 
         try:
-            choice = int(input("\nJaki przedmiot chcesz kupić?   > ")) - 1
+            choice = int(input("\nWhich item do you want to buy?   > ")) - 1
 
             if choice == "":
                 return
 
             elif choice < 0 or choice > len(items_list) - 1:
-                print("\nWybrałeś nieprawidłową opcję, powtórz.")
+                print("\nWrong option, choose again.")
                 delay_medium()
 
             else:
@@ -657,14 +672,14 @@ def shop():
                 cost_of_item_to_buy = all_items[item_type][item_to_buy]["Price"]
 
                 if item_to_buy in player.inventory[item_type]:
-                    print("Posiadasz już ten przedmiot, nie możesz go kupić.")
+                    print("You own this item, you can't buy another.")
                     delay_medium()
 
                 else:
                     if cost_of_item_to_buy > player.money:
 
                         print(
-                            f"\nMasz za mało pieniedzy, brakuje Ci {cost_of_item_to_buy - player.money} sztuk złota!"
+                            f"\nYou don't have enough money, you need additional {cost_of_item_to_buy - player.money} gold coins!"
                         )
                         delay_medium()
 
@@ -675,7 +690,7 @@ def shop():
                                 if k == item_to_buy:
                                     new_item_dict = {k: v}
 
-                                    bought_message = f"\nKupiłeś przedmiot {item_to_buy}. Pozostało Ci {player.money - cost_of_item_to_buy} sztuk złota."
+                                    bought_message = f"\nYou bought {item_to_buy}. You have {player.money - cost_of_item_to_buy} gols coins left."
 
                                     print("-" * len(bought_message))
                                     print(bought_message)
@@ -687,7 +702,7 @@ def shop():
                                 else:
                                     pass
         except ValueError:
-            print("\nWybrałeś nieprawidłową opcję, powtórz.")
+            print("\nWrong option, choose again.")
             delay_medium()
 
         shop()
@@ -697,7 +712,7 @@ def shop():
 
         inventory_list = []
 
-        print("Posiadasz następujące przedmioty:")
+        print("You own the following items:")
 
         for item_type, item in player.inventory.items():
             for name, parameters in item.items():
@@ -706,15 +721,15 @@ def shop():
         for i, item in enumerate(inventory_list, start=1):
             print(i, item)
 
-        print(f"\nTwoja gotówka to {player.money} sztuk złota.\n\n")
+        print(f"\nYou have {player.money} gold coins.\n\n")
 
-        choice = int(input("\nKtóry przedmiot chcesz sprzedać?   > ")) - 1
+        choice = int(input("\nWhich item do you wan't to sell?   > ")) - 1
 
         if choice == "":
             return
 
         elif choice < 0 or choice > len(inventory_list) - 1:
-            print("\nWybrałeś nieprawidłową opcję, powtórz.")
+            print("\nWrong option, choose again.")
             delay_medium()
 
         else:
@@ -741,13 +756,13 @@ def shop():
             else:
                 pass
 
-            print(f"\nUdało się sprzedać przedmiot {item_to_sell}.")
+            print(f"\nYou sold {item_to_sell}.")
             inventory_list.remove(item_to_sell)
             delay_medium()
 
     def buy():
         clear_screen()
-        print("\n\n\nLista przedmiotów na sprzedaż:")
+        print("\n\n\nItems for sale:")
 
         for i, item_type in enumerate(all_items, start=1):
             print(f"\n{i}. {item_type.capitalize()} :")
@@ -758,7 +773,7 @@ def shop():
 
         print("\n\n")
 
-        print("\nWybierz kategorię przedmiotu, który chcesz kupić (1/2/3)")
+        print("\nChoose category of items to buy (1/2/3)")
         print("\n0 - Powrót\n")
 
         choice = input("\n> ")
@@ -779,7 +794,7 @@ def shop():
             pass
 
         else:
-            print("\n\n\t\t\t\tWybrałeś nieprawidłową opcję!")
+            print("\n\n\t\t\t\tWrong option, choose again.")
             delay_medium()
             return
 
@@ -788,18 +803,18 @@ def shop():
     print("\n\n\t\t\t\t\t\t", "-" * 20)
     print("\t\t\t\t\t\t|  Witaj w sklepie!  |")
     print("\t\t\t\t\t\t", "-" * 20, "\n")
-    print("Posiadasz następujące przedmioty:")
+    print("Items in you inventory:")
 
     for item_type, item in player.inventory.items():
 
         for name, parameters in item.items():
             print(name)
 
-    print(f"\nTwoja gotówka to {player.money} sztuk złota.")
-    print("\nCo chcesz zrobić?")
-    print("\n1 - Kupić przedmiot")
-    print("2 - Sprzedać przedmiot")
-    print("\n0 - Powrót")
+    print(f"\nYou have {player.money} gold coins.")
+    print("\nWhat do you want to do?")
+    print("\n1 - Buy item")
+    print("2 - Sell item")
+    print("\n0 - Go back")
 
     choice = input("> ")
 
@@ -810,7 +825,7 @@ def shop():
     elif choice == "0":
         return
     else:
-        print("\nWybrałeś nieprawidłową opcję!")
+        print("\nWrong option, choose again.")
         delay_medium()
         shop()
 
@@ -895,7 +910,7 @@ def inn():
 
 def treasure():
     # (opened, trap, puzzle, gold, item, exp, searched)
-    treasure_chest = Chest(False, False, False, 25, "Mana Potion", 15, False)
+    treasure_chest = Chest(False, False, 25, "Mana Potion", 15, False)
 
     def open_chest():
         if treasure_chest.opened == True:

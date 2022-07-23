@@ -18,10 +18,10 @@ def create_player_character():
         clear_screen()
         print(f"\nWelcome to the new adventure, {Hname}!")
         print(
-            f"""\nPoniżej wyświetlone są Twoje początkowe statystyki.
-Możesz je zmodyfikować przydzielając dodatkowe punkty do poszczególnych pozycji.
-Zdecyduj którą ze swoich cech chcesz wzmocnić.
-Pozostałe do dyspozycji punkty: {points_to_spend}\n
+            f"""\nYour initial stats are displayed below.
+You can modify them by assigning additional points to individual stat.
+Decide which of your traits you want to strengthen.
+Remaining points available: {points_to_spend}\n
         """
         )
         i = 1
@@ -40,7 +40,7 @@ Pozostałe do dyspozycji punkty: {points_to_spend}\n
         elif attribute_to_enhance == "4":
             attributes_dict["Luck"] += 1
         else:
-            input("\nNieprawidłowa opcja!")
+            input("\nWrong option!")
             continue
         points_to_spend -= 1
 
